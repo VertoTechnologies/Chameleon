@@ -2,7 +2,7 @@
 
 Welcome to **Chameleon**, the ultimate language exchange platform designed to transform the way you connect, communicate, and learn new languages. Named after the adaptable and colorful chameleon, our app helps users seamlessly integrate into diverse linguistic communities, offering personalized and engaging experiences to foster effective language learning.
 
-![Chameleon Logo](public\assets\images\logo.png) 
+![Chameleon Logo](public/assets/images/logo.png) 
 
 ## 🌟 Features
 
