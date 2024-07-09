@@ -49,7 +49,7 @@ To start contributing to Chameleon, you'll need to set up your development envir
 3. Run the following command to clone the repository:
 
 ```bash
-git clone https://github.com/your-organization/chameleon.git
+git clone https://github.com/VertoTechnologies/chameleon.git
 cd chameleon
 ```
 This command makes a local copy of the repository on your machine, allowing you to begin working on the project.
