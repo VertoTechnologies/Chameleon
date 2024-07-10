@@ -17,6 +17,9 @@ export default async function login(req, res) {
   if (!email || !password) {
     return res.status(400).json({ message: 'Missing required fields' });
   }
+  if (!/^\S+@\S+\.\S+$/.test(email)) {
+    return res.status(400).json({ message: 'Invalid email format' });
+  }
 
   try {
     // Check if the user exists
