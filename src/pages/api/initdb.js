@@ -15,18 +15,19 @@ export default async function handler(req, res) {
   console.log('API Route Hit'); // Debugging line to ensure the route is hit
   await dbConnect();
 
-  const userID = generateUniqueKey();
+  const uniqueId = generateUniqueKey();
 
   const users = [{
-    userId: userID,
+    userId: uniqueId,
     name: "John Doe",
-    email: "john.doe4@example.com",
+    email: "john.doe5@example.com",
     password: "password123",
     dateOfBirth: "1990-01-01",
     userDescription: "Avid music enthusiast and coffee lover.",
     profilePic: "https://example.com/path/to/johns-profile-pic.jpg",
     userInterests: [interests[14], interests[15]],
   }];
+
 
   try {
     await User.create(users);

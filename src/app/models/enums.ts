@@ -1,7 +1,13 @@
 // models/enums.js
-const friendshipStatuses = ['pending', 'accepted', 'blocked'];
-const interests =['sports', 'music', 'films', 'literature', 'food', 'travel', 'games', 'fashion', 'art', 'technology', 'politics', 'science', 'history', 'nature', 'health', 'fitness', 'education', 'business', 'finance', 'religion', 'philosophy', 'psychology', 'sociology', 'languages', 'other']
-const languages = [
+
+export type FriendshipStatus = 'pending' | 'accepted' | 'blocked';
+export type Interest = 'sports' | 'music' | 'films' | 'literature' | 'food' | 'travel' | 'games' | 'fashion' | 'art' | 'technology' | 'politics' | 'science' | 'history' | 'nature' | 'health' | 'fitness' | 'education' | 'business' | 'finance' | 'religion' | 'philosophy' | 'psychology' | 'sociology' | 'languages' | 'other';
+export type Language = "Mandarin Chinese" | "Spanish" | "English" | "Hindi" | "Arabic" | "Bengali" | "Portuguese" | "Russian" | "Japanese" | "Western Punjabi" | "Marathi" | "Telugu" | "Wu Chinese" | "Turkish" | "Korean" | "French" | "German" | "Vietnamese" | "Tamil" | "Yue Chinese (Cantonese)" | "Urdu" | "Javanese" | "Italian" | "Egyptian Arabic" | "Gujarati" | "Iranian Persian" | "Bhojpuri" | "Southern Min" | "Hakka Chinese" | "Jin Chinese" | "Hausa" | "Kannada" | "Indonesian" | "Polish" | "Yoruba" | "Xiang Chinese" | "Malayalam" | "Odia" | "Maithili" | "Burmese" | "Eastern Punjabi" | "Sunda" | "Sudanese Arabic" | "Algerian Arabic" | "Moroccan Arabic" | "Ukrainian" | "Igbo" | "Northern Uzbek" | "Sindhi" | "North Levantine Arabic" | "Romanian" | "Tagalog" | "Dutch" | "Saʽidi Arabic" | "Gan Chinese" | "Amharic" | "Northern Pashto" | "Magahi" | "Thai" | "Saraiki" | "Khmer" | "Chhattisgarhi" | "Somali" | "Malay" | "Cebuano" | "Nepali" | "Mesopotamian Arabic" | "Assamese" | "Sinhala" | "Northern Kurdish" | "Hejazi Arabic" | "Nigerian Fulfulde" | "Bavarian" | "South Azerbaijani" | "Greek" | "Chittagonian" | "Kazakh" | "Deccan" | "Hungarian" | "Kinyarwanda" | "Zulu" | "Czech" | "Dhundhari" | "Haitian Creole" | "Eastern Min" | "Ilocano" | "Quechua" | "Kirundi" | "Swedish" | "Hmong" | "Shona" | "Uyghur" | "Hiligaynon" | "Mossi" | "Central Kurdish" | "Akan" | "Ojibwe" | "Belarusian" | "Tatar" | "Tswana" | "Sotho" | "Balochi";
+export type Icebreaker = string;
+
+export const friendshipStatuses: FriendshipStatus[] = ['pending', 'accepted', 'blocked'];
+export const interests: Interest[]  =['sports', 'music', 'films', 'literature', 'food', 'travel', 'games', 'fashion', 'art', 'technology', 'politics', 'science', 'history', 'nature', 'health', 'fitness', 'education', 'business', 'finance', 'religion', 'philosophy', 'psychology', 'sociology', 'languages', 'other']
+export const languages: Language[] = [
     "Mandarin Chinese",
     "Spanish",
     "English",
@@ -110,7 +116,7 @@ const languages = [
 ];
 
 
-const icebreakers = [
+export const icebreakersv: Icebreaker[] = [
     "What's the best book you've read recently?",
     "If you could travel anywhere in the world, where would you go?",
     "What's your favorite movie of all time?",
@@ -214,4 +220,3 @@ const icebreakers = [
 ];
 
 
-export { friendshipStatuses, interests, languages, icebreakers};
