@@ -1,6 +1,6 @@
 // /app/models/user.ts
 import mongoose, { Document, Schema } from 'mongoose';
-import { interests, Interest } from './enums';
+import { interests, Interest } from '../constants/enums';
 
 // Define an interface for the User document that extends mongoose.Document
 export interface IUser extends Document {

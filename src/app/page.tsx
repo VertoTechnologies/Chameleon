@@ -3,6 +3,13 @@ import React, { useState, useEffect } from 'react';
 import { IUser } from '../models/user'; // Import IUser interface
 import "../styles/globals.css";
 
+
+// export const metadata: Metadata ={
+//   title: "User Profile",
+//   description: "View user profile",
+// }
+
+
 const UserProfileComponent = () => {
   const [profile, setProfile] = useState<IUser | null>(null); // Use IUser for typing the profile state
   const [loading, setLoading] = useState(true);

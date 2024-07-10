@@ -1,7 +1,7 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import { IUser } from '../models/user'; // Import IUser interface
-import { interests as interestOptions } from '../models/enums'; // Import interests enum
+import { interests as interestOptions } from '../constants/enums'; // Import interests enum
 import "../styles/globals.css";
 
 const UpdateProfileForm = () => {
