@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-import { IUser } from './models/user'; // Import IUser interface
+import { IUser } from '../models/user'; // Import IUser interface
 import "../styles/globals.css";
 
 const UserProfileComponent = () => {

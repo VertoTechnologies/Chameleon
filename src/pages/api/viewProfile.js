@@ -1,5 +1,5 @@
-import dbConnect from '../../app/middleware/mongodb';
-import User from '../../app/models/user';
+import dbConnect from '../../middleware/mongodb';
+import User from '../../models/user';
 // Optional: Import authentication middleware
 
 export default async function userProfile(req, res) {

@@ -1,6 +1,6 @@
 "use client"
 import React, { useState } from 'react';
-import { interests } from '../app/models/enums'; // Adjust the import path as necessary
+import { interests } from '../models/enums'; // Adjust the import path as necessary
 import "../styles/globals.css";
 const Page = () => {
   const [formData, setFormData] = useState({
