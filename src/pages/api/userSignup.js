@@ -1,5 +1,5 @@
-import dbConnect from '../../app/middleware/mongodb';
-import User from '../../app/models/user';
+import dbConnect from '../../middleware/mongodb';
+import User from '../../models/user';
 import bcrypt from 'bcryptjs';
 
 // Function to generate a unique user ID

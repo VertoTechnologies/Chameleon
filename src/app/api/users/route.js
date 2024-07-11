@@ -1,5 +1,5 @@
 // app/api/users/route.js
-import dbConnect from '../../../utils/mongodb';
+import dbConnect from '../../../middleware/mongodb';
 import User from '../../../models/user';
 
 export async function GET(request) {
