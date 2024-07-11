@@ -1,6 +1,6 @@
 // updateProfile.js
-import dbConnect from "../../app/middleware/mongodb";
-import User from "../../app/models/user";
+import dbConnect from "../../middleware/mongodb";
+import User from "../../models/user";
 
 
 function _calculateAge(birthday) { // birthday is a date
