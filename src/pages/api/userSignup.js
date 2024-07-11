@@ -18,14 +18,14 @@ function _calculateAge(birthday) { // birthday is a date
 }
 
 
-function validateUpdateFields(updateData) {
+function validateFields(updateData) {
   const errors = {};
   if (updateData.email && !/^\S+@\S+\.\S+$/.test(updateData.email)) {
     errors.email = "Invalid email format";
   }
   // Add more validation rules as needed
-  if (updateData.username && updateData.username.length < 3) {
-    errors.username = "Username must be at least 3 characters long";
+  if (updateData.name && updateData.name.length < 3) {
+    errors.name = "Username must be at least 3 characters long";
   }
   if (updateData.password && updateData.password.length < 6) {
     errors.password = "Password must be at least 6 characters long";
@@ -92,7 +92,7 @@ export default async function signUp(req, res) {
       profilePic,
       userInterests,
     };
-    const validationErrors = validateUpdateFields(userCheck);
+    const validationErrors = validateFields(userCheck);
     if (Object.keys(validationErrors).length > 0) {
       return res.status(400).json({ message: "Validation failed", errors: validationErrors });
     }

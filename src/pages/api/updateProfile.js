@@ -16,8 +16,8 @@ function validateUpdateFields(updateData) {
         errors.email = "Invalid email format";
     }
     // Add more validation rules as needed
-    if (updateData.username && updateData.username.length < 3) {
-        errors.username = "Username must be at least 3 characters long";
+    if (updateData.name && updateData.name.length < 3) {
+        errors.name = "Username must be at least 3 characters long";
     }
     if (updateData.password && updateData.password.length < 6) {
         errors.password = "Password must be at least 6 characters long";
@@ -38,7 +38,6 @@ function validateUpdateFields(updateData) {
         errors.userInterests = "User must have at least one interest";
     }
 
-    // Add more validation rules for other fields as needed
 
     return errors;
 }
