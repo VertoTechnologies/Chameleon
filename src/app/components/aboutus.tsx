@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 
 const Aboutus = () => {
   return (
@@ -9,6 +10,7 @@ const Aboutus = () => {
         <p className="text-base md:text-lg text-black mb-4 max-w-lg ml-2"> {/* Added ml-4 for margin-left */}
           We believe that language is the bridge that connects people across cultures and continents. Our app, Chameleon, embodies this vision by creating a straightforward, reliable platform for language learners to connect, practice, and grow together.
         </p>
+        <Link href="/SignUp">
         <button
           className="bg-green-400 text-white px-8 py-3 rounded-full shadow-lg hover:bg-gray-200 transition duration-300"
           style={{
@@ -18,6 +20,7 @@ const Aboutus = () => {
         >
           Let's get Started!
         </button>
+        </Link>
       </div>
 
       {/* Right side */}
