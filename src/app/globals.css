@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;700&display=swap');
+@font-face {
+  font-family: 'MT Extra';
+  src: url('/MTEXTRA.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: 'MT Extra', Arial, sans-serif;
+}
+
+
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+.custom-class
+{
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  margin: 0;
+}
+
+.sign-up-layout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #A7CDB9;
+}
+
+.form{
+  font-family: 'MT EXTRA';
+}
+
+.form-container {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.sign-up-form input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.sign-up-form p {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.sign-up-form a {
+  color: #4CAF50;
+}
+
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-left: 2rem;
+  background-color: #F6EDE4;
+}
+
+.logo-container img {
+  width: 200px;
+  height: auto;
+}
+
+.logo-container h2 {
+  margin-top: 1rem;
+  font-size: 2rem;
+  color: #333;
+}
