@@ -22,10 +22,10 @@ const Header = () => {
         <Link href="/" className="text-lg font-mt-extra text-black hover:text-gray-700">
           Home
         </Link>
-        <Link href="/about" className="text-lg font-mt-extra text-black hover:text-gray-700">
+        <Link href="/" className="text-lg font-mt-extra text-black hover:text-gray-700">
           About Us {/* Adjusted ml to match 92px spacing */}
         </Link>
-        <Link href="/offer" className="text-lg font-mt-extra text-black hover:text-gray-700">
+        <Link href="/" className="text-lg font-mt-extra text-black hover:text-gray-700">
           What We Offer
         </Link>
       </div>

@@ -22,11 +22,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Header />
+      
         <main className='relative overflow-hidden'>
         {children}
         </main>
-        <Footer />
+       
       </body>
     </html>
   );
