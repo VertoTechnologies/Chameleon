@@ -86,8 +86,8 @@ const SignUpFile: React.FC = () => {
           const data = await response.json();
           console.log('Sign Up Success:', data.message);
           // Handle success (e.g., redirect to a login page or show a success message)
-          router.push('/ProfileCreate');
-          
+          // router.push('/ProfileCreate');
+          router.push('/ProfileCreate?userId=' + data.userId);
         } catch (error) {
           console.error('Sign Up Error:', error);
           // Handle error (e.g., show an error message)
