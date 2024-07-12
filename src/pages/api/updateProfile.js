@@ -15,27 +15,45 @@ function validateUpdateFields(updateData) {
     if (updateData.email && !/^\S+@\S+\.\S+$/.test(updateData.email)) {
         errors.email = "Invalid email format";
     }
+
     // Add more validation rules as needed
     if (updateData.name && updateData.name.length < 3) {
         errors.name = "Username must be at least 3 characters long";
     }
+
     if (updateData.password && updateData.password.length < 6) {
         errors.password = "Password must be at least 6 characters long";
     }
+
     if (updateData.dateOfBirth) {
         const age = _calculateAge(new Date(updateData.dateOfBirth));
         if (age < 18) {
             errors.dateOfBirth = "User must be at least 18 years old";
         }
     }
+
     if (updateData.userDescription) {
         const wordCount = updateData.userDescription.split(/\s+/).length;
         if (wordCount > 200) {
             errors.userDescription = "Description must not exceed 200 words";
         }
     }
+
     if (updateData.userInterests && updateData.userInterests.length < 1) {
         errors.userInterests = "User must have at least one interest";
+    }
+
+    if(updateData.nativeLanguages && updateData.nativeLanguages.length !== 1) {
+        errors.nativeLanguages = "User must have one native language";
+    }
+
+    if(updateData.fluentLanguages && updateData.fluentLanguages.length < 1) {
+
+        errors.fluentLanguages = "User must have at least one fluent language";
+    }
+
+    if(updateData.learningLanguages && updateData.learningLanguages.length < 1) {
+        errors.learningLanguages = "User must have at least one learning language";
     }
 
 
@@ -50,7 +68,7 @@ export default async function updateProfile(req, res) {
     const { userId } = req.query; // Assuming the user ID is passed as a query parameter
 
     // Destructure and exclude password from the request body to ensure it's not updated
-    const { password, ...updateData } = req.body;
+    const updateData = req.body.updateData;
 
     // Validate the input
     if (!userId || Object.keys(updateData).length === 0) {
@@ -62,6 +80,10 @@ export default async function updateProfile(req, res) {
         return res.status(400).json({ message: "Validation failed", errors: validationErrors });
     }
 
+
+    // print the updateData
+    console.log(updateData);
+
     try {
         await dbConnect();
 
@@ -71,6 +93,9 @@ export default async function updateProfile(req, res) {
             runValidators: true, // Run model validators on update
             select: "-password", // Exclude the password field from the result
         });
+
+        // check if data is updated
+        console.log(updatedUser);
 
         if (!updatedUser) {
             return res.status(404).json({ message: "User not found" });
