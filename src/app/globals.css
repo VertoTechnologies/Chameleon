@@ -88,3 +88,35 @@ body {
   font-size: 2rem;
   color: #333;
 }
+/* globals.css */
+/* globals.css */
+/* globals.css */
+.scrollView {
+  color: #8956ff; /* Example text color */
+}
+
+/* Custom Scrollbar Styles */
+.scrollbar-thumb-custom-green::-webkit-scrollbar-thumb {
+  background-color: #65AD87; /* Custom green */
+}
+
+.scrollbar-track-gray-100::-webkit-scrollbar-track {
+  background-color: #f7fafc; /* Light gray */
+}
+
+.scrollbar::-webkit-scrollbar {
+  width: 10px;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 9950px;
+}
+
+
+.scrollbar-thumb-custom::-webkit-scrollbar-thumb {
+  background-color: #528cbcd9; /* Blue */
+  background-image: url('/public/assets/icons/logo.png'); /* Replace with your icon path */
+  background-size: 80%; /* Adjust icon size */
+  background-repeat: no-repeat;
+  background-position: center;
+}

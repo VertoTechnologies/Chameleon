@@ -37,7 +37,7 @@ const TermsOfUsePopup: React.FC<TermsOfUsePopupProps> = ({ isOpen, onClose, onAg
         <button onClick={onClose} className="absolute top-2 right-2 text-2xl text-gray-600 z-10">
           <FaTimes />
         </button>
-        <h2 className="text-xl font-bold mb-4 text-center text-green-600">Terms of Service</h2>
+        <h2 className="text-xl font-bold mb-4 text-center text-green-600">Terms of Use</h2>
         <div className="mb-4 text-gray-700">
           <div className="mb-4">
             <p className="font-bold">1. Acceptance of Terms</p>

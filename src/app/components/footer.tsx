@@ -63,11 +63,11 @@ const Footer = () => {
         {/* Navigation Links */}
         <div className="flex space-x-20 ml-8 mr-8"> {/* Adjusted margins */}
           {/* Use onClick to trigger openPopup */}
-          <span className="text-lg font-medium hover:text-gray-700 ml-[-0.5rem]" onClick={openContactPopup} style={{ cursor: 'pointer' }}>Contact</span>
-          <span className="text-lg font-medium hover:text-gray-700 ml-[-0.5rem]" onClick={openTermsPopup} style={{ cursor: 'pointer' }}>Terms Of Use</span>
+          <span className="text-lg font-mt-extra hover:text-gray-700 ml-[-0.5rem]" onClick={openContactPopup} style={{ cursor: 'pointer' }}>Contact</span>
+          <span className="text-lg font-mt-extra hover:text-gray-700 ml-[-0.5rem]" onClick={openTermsPopup} style={{ cursor: 'pointer' }}>Terms Of Use</span>
           {/* Replace placeholder href with actual URLs */}
-          <span className="text-lg font-medium hover:text-gray-700 ml-[-0.5rem]" onClick={openPrivacyPopup} style={{ cursor: 'pointer' }}>Privacy Policy</span>
-          <span className="text-lg font-medium hover:text-gray-700 ml-[-0.5rem]" onClick={openFAQPopup} style={{ cursor: 'pointer' }}>FAQ</span>
+          <span className="text-lg font-mt-extra hover:text-gray-700 ml-[-0.5rem]" onClick={openPrivacyPopup} style={{ cursor: 'pointer' }}>Privacy Policy</span>
+          <span className="text-lg font-mt-extra hover:text-gray-700 ml-[-0.5rem]" onClick={openFAQPopup} style={{ cursor: 'pointer' }}>FAQ</span>
         </div>
 
         {/* Social Media Icons */}
