@@ -13,9 +13,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { interests, languages } from "../../constants/enums"; // Import the interests array and languages
+import { interests, languages } from "../../constants/enums";
 
 const CreateFile: React.FC = () => {
+  const router = useRouter()
 
   interface FormData {
     nativeLanguage: string;
@@ -25,48 +26,56 @@ const CreateFile: React.FC = () => {
     description: string;
   }
 
-  const [formData, setFormData] = useState<FormData>({
-    nativeLanguage: '',
-    fluentLanguages: [],
-    learningLanguages: [],
-    interests: [],
-    description: '',
+  const [formData, setFormData] = useState<{ updateData: FormData }>({
+    updateData: {
+      nativeLanguage: '',
+      fluentLanguages: [],
+      learningLanguages: [],
+      interests: [],
+      description: '',
+    },
   });
-
-  const router = useRouter();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
     setFormData(prevState => ({
-      ...prevState,
-      [name]: value
+      updateData: {
+        ...prevState.updateData,
+        [name]: value,
+      }
     }));
   };
 
   const handleSelectChange = (name: string, value: string) => {
     setFormData(prevState => ({
-      ...prevState,
-      [name]: value
+      updateData: {
+        ...prevState.updateData,
+        [name]: value,
+      }
     }));
   };
 
   const handleMultiSelectChange = (name: string, value: string) => {
     setFormData(prevState => {
-      const valuesArray = prevState[name as keyof FormData] as string[];
+      const valuesArray = prevState.updateData[name as keyof FormData] as string[];
       return {
-        ...prevState,
-        [name]: valuesArray.includes(value) ? valuesArray.filter(v => v !== value) : [...valuesArray, value]
+        updateData: {
+          ...prevState.updateData,
+          [name]: valuesArray.includes(value) ? valuesArray.filter(v => v !== value) : [...valuesArray, value],
+        }
       };
     });
   };
 
   const handleCancel = () => {
     setFormData({
-      nativeLanguage: '',
-      fluentLanguages: [],
-      learningLanguages: [],
-      interests: [],
-      description: '',
+      updateData: {
+        nativeLanguage: '',
+        fluentLanguages: [],
+        learningLanguages: [],
+        interests: [],
+        description: '',
+      }
     });
   };
 
@@ -74,7 +83,7 @@ const CreateFile: React.FC = () => {
     e.preventDefault(); // Prevent default form submission behavior
 
     try {
-      const response = await fetch('/api/updateProfile', {
+      const response = await fetch(`/api/updateProfile?userId=${localStorage.getItem("userId")}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -176,7 +185,7 @@ const CreateFile: React.FC = () => {
           <textarea
             name="description"
             className="w-full border rounded-md p-2"
-            value={formData.description}
+            value={formData.updateData.description}
             onChange={handleChange}
           ></textarea>
         </div>
