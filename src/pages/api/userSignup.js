@@ -1,7 +1,5 @@
-import dbConnect from '../../middleware/mongodb';
-import User from '../../models/user';
-import jwt from 'jsonwebtoken';
-
+import dbConnect from '../../app/middleware/mongodb';
+import User from '../../app/models/user';
 import bcrypt from 'bcryptjs';
 
 // Function to generate a unique user ID
@@ -38,6 +36,15 @@ function validateFields(updateData) {
       errors.dateOfBirth = "User must be at least 18 years old";
     }
   }
+  if (updateData.userDescription) {
+    const wordCount = updateData.userDescription.split(/\s+/).length;
+    if (wordCount > 200) {
+      errors.userDescription = "Description must not exceed 200 words";
+    }
+  }
+  if (updateData.userInterests && updateData.userInterests.length < 1) {
+    errors.userInterests = "User must have at least one interest";
+  }
 
   // Add more validation rules for other fields as needed
 
@@ -53,7 +60,7 @@ export default async function signUp(req, res) {
   console.log('Sign Up API Route Hit'); // Debugging line to ensure the route is hit
   await dbConnect();
 
-  const { name, email, password, dateOfBirth} = req.body;
+  const { name, email, password, dateOfBirth, userDescription, profilePic, userInterests } = req.body;
 
   // Validate the input
   if (!email || !password || !name || !dateOfBirth) {
@@ -81,6 +88,9 @@ export default async function signUp(req, res) {
       email,
       password: hashedPassword,
       dateOfBirth,
+      userDescription,
+      profilePic,
+      userInterests,
     };
     const validationErrors = validateFields(userCheck);
     if (Object.keys(validationErrors).length > 0) {
@@ -93,23 +103,18 @@ export default async function signUp(req, res) {
       email,
       password: hashedPassword,
       dateOfBirth,
+      userDescription,
+      profilePic,
+      userInterests,
     });
 
     if (Object.keys(validationErrors).length > 0) {
       return res.status(400).json({ message: "Validation failed", errors: validationErrors });
     }
 
-    const token = jwt.sign(
-      { userId: user._id },
-      process.env.JWT_SECRET, // Ensure you have a JWT_SECRET in your .env
-      { expiresIn: '1h' }
 
-    );
-
-    res.status(201).json({ message: 'User created successfully', userId: user.userId, jwtToken: token});
+    res.status(201).json({ message: 'User created successfully', userId: user.userId });
     console.log("User created");
-
-   
   } catch (error) {
     console.error("Error creating user", error);
     res.status(500).json({ message: 'Error creating user' });

@@ -1,7 +1,6 @@
-import dbConnect from '../../middleware/mongodb';
-import User from '../../models/user';
+import dbConnect from '../../app/middleware/mongodb';
+import User from '../../app/models/user';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
 
 // User Login API handler
 export default async function login(req, res) {
@@ -11,15 +10,8 @@ export default async function login(req, res) {
 
   console.log('Login API Route Hit'); // Debugging line to ensure the route is hit
   await dbConnect();
-  
-  
-  console.log(req.body)
+
   const { email, password } = req.body;
-
-
-  console.log(email,password)
-  
-  
 
   // Validate the input
   if (!email || !password) {
@@ -32,7 +24,6 @@ export default async function login(req, res) {
   try {
     // Check if the user exists
     const user = await User.findOne({ email });
-
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
@@ -43,15 +34,8 @@ export default async function login(req, res) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    const token = jwt.sign(
-      { userId: user._id },
-      process.env.JWT_SECRET, // Ensure you have a JWT_SECRET in your .env
-      { expiresIn: '1h' }
-
-    );
-    console.log(token)
-    // Respond with success message
-    res.status(200).json({ message: 'Login successful', userId: user.userId, sessionToken: token });
+    // Respond with success message (In real scenario, generate a token here)
+    res.status(200).json({ message: 'Login successful', userId: user.userId });
     console.log("User logged in");
   } catch (error) {
     console.error("Error logging in user", error);
