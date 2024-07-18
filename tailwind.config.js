@@ -4,17 +4,8 @@ module.exports = {
     './src/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    extend: {
-      scrollbar: ['rounded'],
-      colors: {
-        'blue-500': '#',
-        'gray-100': '#f7fafc',
-      },
-    },
+    extend: {},
   },
-  plugins: [
-    require('tailwind-scrollbar'),
-  ],
-
+  plugins: [],
 };
 
