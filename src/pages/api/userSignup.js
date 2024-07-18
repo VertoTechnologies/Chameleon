@@ -106,7 +106,7 @@ export default async function signUp(req, res) {
       process.env.JWT_SECRET, // Ensure you have a JWT_SECRET in your .env
       { expiresIn: '1h' }
 
-    );
+    ); 
 
     res.status(201).json({ message: 'User created successfully', userId: user.userId, jwtToken: token});
     console.log("User created");
