@@ -101,7 +101,7 @@ body {
 }
 
 .scrollbar-track-gray-100::-webkit-scrollbar-track {
-  background-color: #f7fafc; /* Light gray */
+  background: transparent;
 }
 
 .scrollbar::-webkit-scrollbar {
@@ -110,13 +110,35 @@ body {
 
 .scrollbar::-webkit-scrollbar-thumb {
   border-radius: 9950px;
+  
 }
 
 
 .scrollbar-thumb-custom::-webkit-scrollbar-thumb {
-  background-color: #528cbcd9; /* Blue */
-  background-image: url('/public/assets/icons/logo.png'); /* Replace with your icon path */
-  background-size: 80%; /* Adjust icon size */
-  background-repeat: no-repeat;
-  background-position: center;
+  background-color: #9A9B9D;
+  border-radius: 10px;
+  border: 2px solid transparent;
+}
+
+/* customScrollbar.css */
+.custom-scrollbar {
+  scrollbar-width: 8px;
+  scrollbar-color: #9A9B9D transparent;
+
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+ 
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #9A9B9D;
+  border-radius: 10px;
+  border: 2px solid transparent;
 }
