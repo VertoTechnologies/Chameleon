@@ -3,6 +3,7 @@ import User from '../../models/user';
 // Optional: Import authentication middleware
 
 export default async function userProfile(req, res) {
+  console.log(req.method)
   if (req.method !== 'GET') {
     return res.status(405).json({ message: 'Method not allowed' });
   }
@@ -15,11 +16,11 @@ export default async function userProfile(req, res) {
   try {
     await dbConnect();
 
-    const user = await User.findById(userId).select('-password'); // Exclude the password field
+    const user = await User.findOne( { userId: userId }).select('-password'); // Exclude the password field
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-
+    console.log(json(user))
     res.status(200).json(user); // Send the user profile information
   } catch (error) {
     console.error("Error fetching user profile", error);

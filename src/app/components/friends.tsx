@@ -7,9 +7,9 @@ interface LeftBoxProps {
 
 const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
   const friendsList = [
-    { name: 'John Doe', image: "/assets/extras/profilepicture.png" },
-    { name: 'Jane Smith', image: "/assets/extras/profilepicture.png" },
-    { name: 'Alice Johnson', image: "/assets/extras/profilepicture.png" }
+    { name: 'John Doe', image: "/assets/extras/logo.png" },
+    { name: 'Jane Smith', image: "/assets/extras/logo.png" },
+    { name: 'Alice Johnson', image: "/assets/extras/logo.png" }
   ];
 
   return (

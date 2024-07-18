@@ -28,6 +28,12 @@ const DropdownMenuComponent: React.FC<DropdownMenuProps> = ({ userName }) => {
     router.push('/Login'); // Redirect to the login page
   };
 
+  const handleProfileClick = () => {
+    console.log("Profile clicked");
+    // Perform logout logic (e.g., clear session, etc.)
+    router.push('/ProfileView'); // Redirect to the login page
+  };
+
   const dropdownButtonStyle = {
     backgroundColor: "#65AD87",
     color: "white",
@@ -65,7 +71,7 @@ const DropdownMenuComponent: React.FC<DropdownMenuProps> = ({ userName }) => {
       </DropdownTrigger>
       <DropdownMenu variant="faded" aria-label="Dropdown menu">
         
-        <DropdownItem onClick={handleLogoutClick} className={cn("cursor-pointer")} style={menuItemStyle}>
+        <DropdownItem onClick={handleProfileClick} className={cn("cursor-pointer")} style={menuItemStyle}>
           <CgProfile style={{ marginRight: "8px" }} />
           <span>Profile</span>
         </DropdownItem>
