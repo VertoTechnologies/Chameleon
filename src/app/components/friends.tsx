@@ -7,9 +7,16 @@ interface LeftBoxProps {
 
 const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
   const friendsList = [
-    { name: 'John Doe', image: "/assets/extras/profilepicture.png" },
+    { name: 'John Doe', image:'/assets/extras/French.png'},
+    { name: 'Jane Smith', image: "/assets/extras/profilepicture.png" },
+    { name: 'Alice Johnson', image: "/assets/extras/profilepicture.png" },
+    { name: 'John Doe', image:'/assets/extras/French.png'},
+    { name: 'Jane Smith', image: "/assets/extras/profilepicture.png" },
+    { name: 'Alice Johnson', image: "/assets/extras/profilepicture.png" },
+    { name: 'John Doe', image:'/assets/extras/French.png'},
     { name: 'Jane Smith', image: "/assets/extras/profilepicture.png" },
     { name: 'Alice Johnson', image: "/assets/extras/profilepicture.png" }
+
   ];
 
   return (
@@ -39,16 +46,18 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
           }}
           onClick={() => toggleButton('community')}
         >
-          Community
+          Communities
         </button>
       </div>
 
       {/* Friends List */}
       <div className="mt-4 ml-7">
         {friendsList.map((friend, index) => (
-          <div key={index} className="flex items-center justify-between p-4 border-b-2 border-custom-green">
-            <img src={friend.image} alt={friend.name} className="w-12 h-12 rounded-full mr-4" />
-            <span className="text-lg font-medium">{friend.name}</span>
+         <div key={index} className="flex items-center p-4 border-b-2" style={{ borderBottomColor: '#65AD87' }}>
+         
+       
+         <img src={friend.image} alt={friend.name} className="w-12 h-12 rounded-full mr-3 " />
+         <span className="text-lg font-medium">{friend.name}</span>
           </div>
         ))}
       </div>
@@ -57,3 +66,4 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
 };
 
 export default LeftBox;
+
