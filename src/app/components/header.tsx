@@ -16,23 +16,23 @@ const Header = () => {
           <span className="ml-2 font-source-code-pro text-2xl font-medium tracking-wider">CHAMELEON</span> {/* Increased size and letter-spacing */}
         </div>
       </div>
-      
+
       {/* Navigation Links */}
       <div className="flex space-x-20 ml-8 mr-8"> {/* Increased space between navigation links */}
         <Link href="/" className="text-lg font-mt-extra text-black hover:text-gray-700">
           Home
         </Link>
-        <Link href="/" className="text-lg font-mt-extra text-black hover:text-gray-700">
+        <Link href="/about" className="text-lg font-mt-extra text-black hover:text-gray-700">
           About Us {/* Adjusted ml to match 92px spacing */}
         </Link>
-        <Link href="/" className="text-lg font-mt-extra text-black hover:text-gray-700">
+        <Link href="/offer" className="text-lg font-mt-extra text-black hover:text-gray-700">
           What We Offer
         </Link>
       </div>
 
       {/* Sign Up and Sign In Buttons */}
       <div className="flex space-x-4">
-        <Link href="/Dashboard">
+        <Link href="/Login">
           <button className="px-5 py-2 border border-black text-black font-normal rounded-full hover:bg-gray-200">
             Sign In
           </button>

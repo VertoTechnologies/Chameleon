@@ -1,108 +1,49 @@
-// components/Footer.tsx
-'use client'
-import React, { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaFacebookF, FaInstagram, FaTwitter } from 'react-icons/fa';
-import ContactPopup from './component'; // Import the ContactPopup component
-import TermsOfUsePopup from './termsofuse';
-import PrivacyPolicyPopup from './privacy';
-import FAQPopup from './FAQ'; // Import the FAQPopup component
 
 const Footer = () => {
-  const [isContactPopupOpen, setIsContactPopupOpen] = useState(false); // State for ContactPopup visibility
-  const [isTermsPopupOpen, setIsTermsPopupOpen] = useState(false); // State for TermsOfUsePopup visibility
-  const [isPrivacyPopupOpen, setIsPrivacyPopupOpen] = useState(false); // State for PrivacyPolicyPopup visibility
-  const [isFAQPopupOpen, setIsFAQPopupOpen] = useState(false); // State for FAQPopup visibility
-
-  const openContactPopup = () => {
-    setIsContactPopupOpen(true);
-  };
-
-  const closeContactPopup = () => {
-    setIsContactPopupOpen(false);
-  };
-
-  const openTermsPopup = () => {
-    setIsTermsPopupOpen(true);
-  };
-
-  const closeTermsPopup = () => {
-    setIsTermsPopupOpen(false);
-  };
-
-  const openPrivacyPopup = () => {
-    setIsPrivacyPopupOpen(true);
-  };
-
-  const closePrivacyPopup = () => {
-    setIsPrivacyPopupOpen(false);
-  };
-
-  const openFAQPopup = () => {
-    setIsFAQPopupOpen(true);
-  };
-
-  const closeFAQPopup = () => {
-    setIsFAQPopupOpen(false);
-  };
-
-  const handleAgree = () => {
-    console.log("User agreed to the terms of service");
-    // Additional actions on agreement can be handled here
-  };
-
   return (
     <footer className="bg-white text-[#2D2E2E] py-8 px-4">
       <div className="max-w-container mx-auto flex items-center justify-between">
         {/* Logo */}
         <Link href="/" >
-          <Image src="/assets/extras/Logo Mark.png" alt="logo" width={100} height={50} /> {/* Increased width and height */}
+
+            <Image src="/assets/extras/Logo Mark.png" alt="logo" width={100} height={50} /> {/* Increased width and height */}
+        
         </Link>
 
         {/* Navigation Links */}
         <div className="flex space-x-20 ml-8 mr-8"> {/* Adjusted margins */}
-          {/* Use onClick to trigger openPopup */}
-          <span className="text-lg font-mt-extra hover:text-gray-700 ml-[-0.5rem]" onClick={openContactPopup} style={{ cursor: 'pointer' }}>Contact</span>
-          <span className="text-lg font-mt-extra hover:text-gray-700 ml-[-0.5rem]" onClick={openTermsPopup} style={{ cursor: 'pointer' }}>Terms Of Use</span>
-          {/* Replace placeholder href with actual URLs */}
-          <span className="text-lg font-mt-extra hover:text-gray-700 ml-[-0.5rem]" onClick={openPrivacyPopup} style={{ cursor: 'pointer' }}>Privacy Policy</span>
-          <span className="text-lg font-mt-extra hover:text-gray-700 ml-[-0.5rem]" onClick={openFAQPopup} style={{ cursor: 'pointer' }}>FAQ</span>
+          <Link href="/" passHref>
+            <span className="text-lg font-medium hover:text-gray-700 ml-[-0.5rem]">Contact</span>
+          </Link>
+          <Link href="/about" passHref>
+            <span className="text-lg font-medium hover:text-gray-700">Terms Of Use</span>
+          </Link>
+          <Link href="/offer" passHref>
+            <span className="text-lg font-medium hover:text-gray-700">Privacy Policy</span>
+          </Link>
+          <Link href="/" passHref>
+            <span className="text-lg font-medium hover:text-gray-700 ml-[-0.5rem]">FAQ</span>
+          </Link>
         </div>
 
         {/* Social Media Icons */}
-        <div className="flex space-x-4">
-          <Link href="https://facebook.com">
-            <FaFacebookF className="text-gray-600 hover:text-gray-800" />
-          </Link>
-          <Link href="https://instagram.com">
-            <FaInstagram className="text-gray-600 hover:text-gray-800" />
-          </Link>
-          <Link href="https://twitter.com">
-            <FaTwitter className="text-gray-600 hover:text-gray-800" />
-          </Link>
+        <div className="flex space-x-6 mr-6"> {/* Increased space on the right */}
+          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            <FaFacebookF className="text-[#3A4F39] text-2xl hover:text-gray-200" />
+          </a>
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <FaInstagram className="text-[#3A4F39] text-2xl hover:text-gray-200" />
+          </a>
+          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+            <FaTwitter className="text-[#3A4F39] text-2xl hover:text-gray-200" />
+          </a>
         </div>
       </div>
-
-      {/* ContactPopup */}
-      {isContactPopupOpen && (
-        <ContactPopup isOpen={isContactPopupOpen} onClose={closeContactPopup} />
-      )}
-
-      {/* TermsOfUsePopup */}
-      {isTermsPopupOpen && (
-        <TermsOfUsePopup isOpen={isTermsPopupOpen} onClose={closeTermsPopup} onAgree={handleAgree} />
-      )}
-
-      {/* PrivacyPolicyPopup */}
-      {isPrivacyPopupOpen && (
-        <PrivacyPolicyPopup isOpen={isPrivacyPopupOpen} onClose={closePrivacyPopup} />
-      )}
-
-      {/* FAQPopup */}
-      {isFAQPopupOpen && (
-        <FAQPopup isOpen={isFAQPopupOpen} onClose={closeFAQPopup} />
-      )}
+      <div className="ml-16"></div>
     </footer>
   );
 };
