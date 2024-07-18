@@ -1,10 +1,18 @@
 // components/Header.tsx
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import DropdownMenuComponent from './dropdown';
 
 const Header = () => {
+  const [userName, setUserName] = useState('');
+
+  useEffect(() => {
+    const storedUserName = localStorage.getItem('userName');
+    if (storedUserName) {
+      setUserName(storedUserName);
+    }
+  }, []);
   return (
     <nav className="flex items-center justify-between max-w-container px-4 py-5 relative z-30">
       {/* Logo and Brand Name */}
@@ -38,7 +46,7 @@ const Header = () => {
         <div className="relative w-10 h-10 rounded-full overflow-hidden mr-2">
           <Image src="/assets/extras/profilepicture.png" alt="User Avatar" layout="fill" objectFit="cover" />
         </div>
-        <DropdownMenuComponent userName="John Doe" />
+        <DropdownMenuComponent userName={userName} />
       </div>
 
        

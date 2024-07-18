@@ -23,7 +23,8 @@ const Page = () => {
 
 
   return (
-    <section className="overflow-y-auto h-screen scroll-px-14 scrollbar scrollbar-thumb-custom-green">
+    
+    <section className="overflow-y-auto h-screen scroll-px-14 scrollbar scrollbar-thumb-custom-green scrollbar-track-gray">
       {/* Header Component */}
       <Header />
 
@@ -49,7 +50,7 @@ const Page = () => {
   {onlineUsers.map((user, index) => (
     <div key={index} className="flex items-center px-4 py-2" style={{ borderTopColor: '#65AD87', borderTopWidth: '2px', borderTopStyle: 'solid' }}>
       <img src={user.image} alt={user.name} className="w-12 h-12 rounded-full mr-4" />
-      <span className="text-lg font-medium">{user.name}</span>
+      <span className="text-lg  text-mtextra">{user.name}</span>
       <span className="ml-auto">
         {/* Chat icon using IoChatbubbleSharp */}
         <IoChatbubbleSharp style={{ color: '#65AD87' }} className="h-6 w-6" />

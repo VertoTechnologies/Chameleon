@@ -4,24 +4,20 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 // User Login API handler
+// User Login API handler
 export default async function login(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' });
   }
 
-  console.log('Login API Route Hit'); // Debugging line to ensure the route is hit
+  console.log('Login API Route Hit');
   await dbConnect();
-  
-  
-  console.log(req.body)
+
+  console.log(req.body);
   const { email, password } = req.body;
 
+  console.log(email, password);
 
-  console.log(email,password)
-  
-  
-
-  // Validate the input
   if (!email || !password) {
     return res.status(400).json({ message: 'Missing required fields' });
   }
@@ -30,14 +26,12 @@ export default async function login(req, res) {
   }
 
   try {
-    // Check if the user exists
     const user = await User.findOne({ email });
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    // Compare the hashed password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(401).json({ message: 'Invalid credentials' });
@@ -45,13 +39,11 @@ export default async function login(req, res) {
 
     const token = jwt.sign(
       { userId: user._id },
-      process.env.JWT_SECRET, // Ensure you have a JWT_SECRET in your .env
+      process.env.JWT_SECRET,
       { expiresIn: '1h' }
-
     );
-    console.log(token)
-    // Respond with success message
-    res.status(200).json({ message: 'Login successful', userId: user.userId, sessionToken: token });
+
+    res.status(200).json({ message: 'Login successful', userId: user._id, sessionToken: token, userName: user.name });
     console.log("User logged in");
   } catch (error) {
     console.error("Error logging in user", error);
