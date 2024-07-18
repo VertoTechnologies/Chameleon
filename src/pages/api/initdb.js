@@ -1,6 +1,6 @@
-import dbConnect from '../../app/middleware/mongodb';
-import User from '../../app/models/user';
-import { interests } from '../../app/models/enums';
+import dbConnect from '../../middleware/mongodb';
+import User from '../../models/user';
+import { interests } from '../../constants/enums';
 
 
 function generateUniqueKey() {

@@ -1,6 +1,6 @@
 // /app/models/user.ts
 import mongoose, { Document, Schema } from 'mongoose';
-import { interests, Interest } from '../constants/enums';
+import { interests, Interest, Language } from '../constants/enums';
 
 // Define an interface for the User document that extends mongoose.Document
 export interface IUser extends Document {
@@ -12,6 +12,9 @@ export interface IUser extends Document {
   userDescription: string;
   profilePic: string;
   userInterests: Interest[];
+  nativeLanguage: Language;
+  fluentLanguages: Language[];
+  learningLanguages: Language[];
 }
 
 // Define the User schema using the interface
@@ -40,17 +43,31 @@ const userSchema: Schema<IUser> = new mongoose.Schema({
   },
   userDescription: {
     type: String,
-    required: true,
+    required: false,
   },
   profilePic: {
     type: String,
-    required: true,
+    required: false,
   },
   userInterests: {
     type: [String],
     enum: interests, 
-    required: true,
+    required: false,
   },
+  nativeLanguage: {
+    type: String,
+    required: false,
+  },
+  fluentLanguages:{
+    type: [String],
+    required: false,
+  },
+  learningLanguages: {
+    type: [String],
+    required: false,
+  },
+
+
 });
 
 // Export the model, checking if it already exists to avoid recompilation errors
