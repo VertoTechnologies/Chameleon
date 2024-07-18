@@ -1,3 +1,4 @@
+import { color } from "framer-motion"
 import type { Config } from "tailwindcss"
 
 const config = {
@@ -20,7 +21,7 @@ const config = {
     extend: {
       colors: {
         
-          'custom-green': '#65AD87',
+       color: '#65AD87',
     
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

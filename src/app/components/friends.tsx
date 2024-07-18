@@ -51,7 +51,7 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
       </div>
 
       {/* Friends List */}
-      <div className="mt-4 ml-7">
+      <div className="mt-4 ml-6 mr-3">
         {friendsList.map((friend, index) => (
          <div key={index} className="flex items-center p-4 border-b-2" style={{ borderBottomColor: '#65AD87' }}>
          
