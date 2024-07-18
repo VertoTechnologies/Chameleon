@@ -1,8 +1,8 @@
 // components/Header.tsx
-
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import DropdownMenuComponent from './dropdown';
 
 const Header = () => {
   return (
@@ -18,32 +18,31 @@ const Header = () => {
       </div>
       
       {/* Navigation Links */}
-      <div className="flex space-x-20 ml-8 mr-8"> {/* Increased space between navigation links */}
+      <div className="flex space-x-24 ml-10 mr-10"> {/* Increased space between navigation links */}
         <Link href="/" className="text-lg font-mt-extra text-black hover:text-gray-700">
           Home
         </Link>
         <Link href="/" className="text-lg font-mt-extra text-black hover:text-gray-700">
-          About Us {/* Adjusted ml to match 92px spacing */}
+          Find Friends {/* Adjusted ml to match 92px spacing */}
         </Link>
         <Link href="/" className="text-lg font-mt-extra text-black hover:text-gray-700">
-          What We Offer
+          Communities
         </Link>
       </div>
 
-      {/* Sign Up and Sign In Buttons */}
-      <div className="flex space-x-4">
-        <Link href="/Dashboard">
-          <button className="px-5 py-2 border border-black text-black font-normal rounded-full hover:bg-gray-200">
-            Sign In
-          </button>
-        </Link>
-        <Link href="/SignUp">
-          <button className="px-5 py-2 bg-[#65AD87] text-white font-normal rounded-full hover:bg-[#569A74]">
-            Sign Up
-          </button>
-        </Link>
-        <div className="ml-8"></div> {/* Increased space at the end */}
+      {/* Dropdown */}
+      
+     
+      {/* User Avatar Placeholder and Dropdown */}
+      <div className="flex items-center ml-8"> {/* Adjusted margin to position avatar and dropdown */}
+        <div className="relative w-10 h-10 rounded-full overflow-hidden mr-2">
+          <Image src="/assets/extras/profilepicture.png" alt="User Avatar" layout="fill" objectFit="cover" />
+        </div>
+        <DropdownMenuComponent userName="John Doe" />
       </div>
+
+       
+      
     </nav>
   );
 }
