@@ -26,7 +26,7 @@ const Page = () => {
         {/* Main Content Area */}
         <div className="flex-grow p-4">
           <h1>Main Content Area</h1>
-          <p>This is where your main content would go.</p>
+          <p>This is where your main content would nkhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhgo.</p>
         </div>
 
         {/* Right Box */}
