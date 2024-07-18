@@ -99,7 +99,9 @@ export default async function signUp(req, res) {
       return res.status(400).json({ message: "Validation failed", errors: validationErrors });
     }
 
+
     const token = jwt.sign(
+
       { userId: user._id },
       process.env.JWT_SECRET, // Ensure you have a JWT_SECRET in your .env
       { expiresIn: '1h' }
