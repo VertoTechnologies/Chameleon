@@ -66,6 +66,7 @@ export default async function updateProfile(req, res) {
 
   // Destructure and exclude password from the request body to ensure it's not updated
   const updateData = req.body.updateData;
+  console.log(updateData);
 
   // Validate the input
   if (!userId || Object.keys(updateData).length === 0) {

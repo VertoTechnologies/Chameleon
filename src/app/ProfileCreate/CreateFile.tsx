@@ -24,6 +24,7 @@ const CreateFile: React.FC = () => {
     learningLanguages: string[];
     interests: string[];
     description: string;
+    profilePic: string;
   }
 
   const [formData, setFormData] = useState<{ updateData: FormData }>({
@@ -33,6 +34,7 @@ const CreateFile: React.FC = () => {
       learningLanguages: [],
       interests: [],
       description: '',
+      profilePic: '',
     },
   });
 
@@ -75,15 +77,19 @@ const CreateFile: React.FC = () => {
         learningLanguages: [],
         interests: [],
         description: '',
+        profilePic: '',
       }
     });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); // Prevent default form submission behavior
-
+    const url = window.location.href.toString();
+    const userId = url.split('=').pop();
     try {
-      const response = await fetch(`/api/updateProfile?userId=${localStorage.getItem("userId")}`, {
+      // const response = await fetch(`/api/updateProfile?userId=${localStorage.getItem("userId")}`, 
+      const response = await fetch(`/api/updateProfile?userId=${userId}`, 
+        {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -106,10 +112,23 @@ const CreateFile: React.FC = () => {
     }
   };
 
+
+  const onImageChange = (base64String: string) => {
+    setFormData(prevState => ({
+      updateData: {
+        ...prevState.updateData,
+        profilePic: base64String,
+      }
+    }));
+    console.log(base64String);
+  };
+
+
+
   return (
     <div className="sign-up-form bg-white rounded-4xl p-10">
       <div className="flex flex-col items-center mb-6">
-        <AddPic />
+        <AddPic onImageChange={onImageChange}/>
       </div>
       <form className="flex flex-wrap justify-between" onSubmit={handleSubmit}>
         <div className="w-full sm:w-1/2 px-2 mb-4">

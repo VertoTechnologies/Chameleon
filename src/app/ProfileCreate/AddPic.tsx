@@ -2,20 +2,29 @@
 
 import React, { useState } from 'react';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-
-const AddPic: React.FC = () => {
+interface AddPicProps {
+  onImageChange: (imageBase64: string) => void;
+}
+const AddPic: React.FC<AddPicProps> = ({ onImageChange }) => {
   const [image, setImage] = useState<string | null>(null);
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImage(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+  const handleImageChange = (event: any) => {
+    if (event.target.files && event.target.files.length > 0) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const base64String = reader.result as string;
+          if (reader.result) {
+            setImage(reader.result.toString());
+            onImageChange(base64String);
+          }
+        };
+        reader.readAsDataURL(file);
+      }
     }
   };
+  
 
   return (
     <div className="flex flex-col items-center mb-6">
@@ -27,7 +36,7 @@ const AddPic: React.FC = () => {
             <input 
               type="file" 
               className="absolute inset-0 opacity-0 w-full h-full cursor-pointer" 
-              onChange={handleImageUpload} 
+              onChange={handleImageChange} 
             />
             <i className="bi bi-upload text-2xl"></i>
           </>
