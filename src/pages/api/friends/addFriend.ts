@@ -37,6 +37,7 @@ export default async function addFriend(req:any, res:any) {
 
     if (existingFriendship) {
       res.status(400).json({ message: 'Friendship already exists' });
+      return;
     }
 
     // Create a new friendship
