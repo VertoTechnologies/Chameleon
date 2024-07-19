@@ -1,7 +1,7 @@
 
 import dbConnect from '@/middleware/mongodb';
 import User from '@/models/user';
-import Friendship from '@/models/Friendship';
+import Friendship from '@/models/friendship';
 import { friendshipStatuses } from '@/constants/enums';
 
 // API handler to add a friend

@@ -1,6 +1,6 @@
 
 import dbConnect from "@/middleware/mongodb";
-import Friendship from "@/models/Friendship";
+import Friendship from "@/models/friendship";
 
 // API handler to update the status of a friend request
 export default async function handleFriendRequest(req: any, res: any) {

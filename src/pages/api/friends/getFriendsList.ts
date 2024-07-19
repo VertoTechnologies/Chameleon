@@ -1,6 +1,6 @@
 import dbConnect from "@/middleware/mongodb";
 import User from "@/models/user";
-import Friendship from "@/models/Friendship";
+import Friendship from "@/models/friendship";
 
 export default async function getFriendsList(req: any, res: any) {
   if (req.method !== 'GET') {
