@@ -3,8 +3,8 @@ import mongoose from 'mongoose';
 import { friendshipStatuses } from '../constants/enums';
 
 const FriendshipSchema = new mongoose.Schema({
-  requester: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  recipient: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  requester: { type: String, required: true },
+  recipient: { type: String, required: true },
   status: {
     type: String,
     enum: friendshipStatuses,
