@@ -13,7 +13,7 @@ import React, { useEffect, useState } from 'react';
 
 
 const Page = () => {
-  const store: any = useUserProfileStore;
+  // const store: any = useUserProfileStore;
 
   // const setName = useUserProfileStore((state) => state.setName);
   // const setUserDescription = useUserProfileStore((state) => state.setUserDescription);
@@ -23,10 +23,10 @@ const Page = () => {
   // const setUserInterests = useUserProfileStore((state) => state.setUserInterests);
 
   
+  // const { profile } = useUserProfile(window?.localStorage.getItem("userId"));
+  const { profile } = useUserProfile(typeof window !== "undefined" ? window.localStorage.getItem("userId") : null);
   useEffect(() => {
-    if(typeof window !== "undefined") {
-      const { profile } = useUserProfile(window?.localStorage.getItem("userId"));
-      
+    if(!profile) return;
     //store(profile)
   //const useUserProfileStore = create<any>((set) => ({ profile: null, setProfile: (profile: any) => set({ profile }) }));
   console.log(profile)  
@@ -38,8 +38,7 @@ const Page = () => {
     // setfluentLanguagess(profile.fluentLanguagess)
     // setlearningLanguagess(profile.learningLanguagess)
     // setUserInterests(profile.userInterests)
-    }
-  }, []);
+  }, [profile]);
 
 
 
