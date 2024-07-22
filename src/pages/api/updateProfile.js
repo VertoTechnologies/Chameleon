@@ -46,12 +46,12 @@ function validateUpdateFields(updateData) {
     errors.nativeLanguages = "User must have one native language";
   }
 
-  if (updateData.fluentLanguages && updateData.fluentLanguages.length < 1) {
-    errors.fluentLanguages = "User must have at least one fluent language";
+  if (updateData.fluentLanguagess && updateData.fluentLanguagess.length < 1) {
+    errors.fluentLanguagess = "User must have at least one fluent language";
   }
 
-  if (updateData.learningLanguages && updateData.learningLanguages.length < 1) {
-    errors.learningLanguages = "User must have at least one learning language";
+  if (updateData.learningLanguagess && updateData.learningLanguagess.length < 1) {
+    errors.learningLanguagess = "User must have at least one learning language";
   }
 
   return errors;

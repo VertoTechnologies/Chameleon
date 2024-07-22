@@ -13,8 +13,8 @@ export interface IUser extends Document {
   profilePic: string;
   userInterests: Interest[];
   nativeLanguage: Language;
-  fluentLanguages: Language[];
-  learningLanguages: Language[];
+  fluentLanguagess: Language[];
+  learningLanguagess: Language[];
 }
 
 // Define the User schema using the interface
@@ -58,11 +58,11 @@ const userSchema: Schema<IUser> = new mongoose.Schema({
     type: String,
     required: false,
   },
-  fluentLanguages:{
+  fluentLanguagess:{
     type: [String],
     required: false,
   },
-  learningLanguages: {
+  learningLanguagess: {
     type: [String],
     required: false,
   },

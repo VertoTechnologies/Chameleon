@@ -37,6 +37,7 @@ const LoginFile: React.FC = () => {
           const data = await response.json();
           if (response.ok) {
             console.log('Login Success:', data.message);
+            window?.localStorage?.setItem("userId",data.userId)
             router.push('/Dashboard'); // Redirect to dashboard or desired page
 
             // Handle success (e.g., redirect to a dashboard page or show a success message)

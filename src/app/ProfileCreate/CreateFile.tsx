@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { interests, languages } from "../../constants/enums";
+import useUserProfileStore from '../components/slaystore.js'
 
 const CreateFile: React.FC = () => {
   const router = useRouter()
@@ -22,18 +23,21 @@ const CreateFile: React.FC = () => {
     nativeLanguage: string;
     fluentLanguages: string[];
     learningLanguages: string[];
-    interests: string[];
-    description: string;
+    userInterests: string[];
+    userDescription: string;
     profilePic: string;
   }
+
+
+
 
   const [formData, setFormData] = useState<{ updateData: FormData }>({
     updateData: {
       nativeLanguage: '',
       fluentLanguages: [],
       learningLanguages: [],
-      interests: [],
-      description: '',
+      userInterests: [],
+      userDescription: '',
       profilePic: '',
     },
   });
@@ -75,20 +79,21 @@ const CreateFile: React.FC = () => {
         nativeLanguage: '',
         fluentLanguages: [],
         learningLanguages: [],
-        interests: [],
-        description: '',
+        userInterests: [],
+        userDescription: '',
         profilePic: '',
       }
     });
   };
-
+//  window?.localStorage.setItem("userId",userId)
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); // Prevent default form submission behavior
-    const url = window.location.href.toString();
-    const userId = url.split('=').pop();
+    //const url = window.location.href.toString()
+    //const userId = url.split('=').slice(-1)[0]
+
     try {
-      // const response = await fetch(`/api/updateProfile?userId=${localStorage.getItem("userId")}`, 
-      const response = await fetch(`/api/updateProfile?userId=${userId}`, 
+      // const response = await fetch(`/api/updateProfile?userId=${window?.localStorage.getItem("userId")}`, 
+      const response = await fetch(`/api/updateProfile?userId=${window?.localStorage.getItem("userId")}`, 
         {
         method: 'PATCH',
         headers: {
@@ -139,8 +144,8 @@ const CreateFile: React.FC = () => {
                 <SelectValue placeholder="Select your native language" />
               </SelectTrigger>
               <SelectContent>
-                {languages.map((language) => (
-                  <SelectItem key={language} value={language}>{language}</SelectItem>
+                {languages.map((language, index) => (
+                  <SelectItem key={index} value={language}>{language}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -154,8 +159,8 @@ const CreateFile: React.FC = () => {
                 <SelectValue placeholder="Select your fluent languages" />
               </SelectTrigger>
               <SelectContent>
-                {languages.map((language) => (
-                  <SelectItem key={language} value={language}>
+                {languages.map((language, index) => (
+                  <SelectItem key={index} value={language}>
                     {language}
                   </SelectItem>
                 ))}
@@ -171,8 +176,8 @@ const CreateFile: React.FC = () => {
                 <SelectValue placeholder="Select your learning languages" />
               </SelectTrigger>
               <SelectContent>
-                {languages.map((language) => (
-                  <SelectItem key={language} value={language}>
+                {languages.map((language, index) => (
+                  <SelectItem key={index} value={language}>
                     {language}
                   </SelectItem>
                 ))}
@@ -183,13 +188,13 @@ const CreateFile: React.FC = () => {
         <div className="w-full sm:w-1/2 px-2 mb-4">
           <label className='block mb-2 font-light text-gray-400 text-sm'>
             Interests
-            <Select onValueChange={(value) => handleMultiSelectChange('interests', value)}>
+            <Select onValueChange={(value) => handleMultiSelectChange('userInterests', value)}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select your interests" />
               </SelectTrigger>
               <SelectContent>
-                {interests.map((interest) => (
-                  <SelectItem key={interest} value={interest}>
+                {interests.map((interest, index) => (
+                  <SelectItem key={index} value={interest}>
                     {interest}
                   </SelectItem>
                 ))}
@@ -202,9 +207,9 @@ const CreateFile: React.FC = () => {
             Description
           </label>
           <textarea
-            name="description"
+            name="userDescription"
             className="w-full border rounded-md p-2"
-            value={formData.updateData.description}
+            value={formData.updateData.userDescription}
             onChange={handleChange}
           ></textarea>
         </div>

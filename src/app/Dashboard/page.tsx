@@ -7,9 +7,37 @@ import Footer from '../components/footer';
 import LeftBox from '../components/friends';
 import RightBox from '../components/suggestions';
 import Communities from '../components/communities';
-import React, { useState } from 'react';
+import useUserProfile from '../components/useUserProfile';
+import useUserProfileStore from '../components/slaystore.js'
+import React, { useEffect, useState } from 'react';
 
 const Page = () => {
+
+  const setName = useUserProfileStore((state) => state.setName);
+  const setUserDescription = useUserProfileStore((state) => state.setUserDescription);
+  const setNativeLanguage = useUserProfileStore((state) => state.setNativeLanguage);
+  const setFluentLanguages = useUserProfileStore((state) => state.setFluentLanguages);
+  const setLearningLanguages = useUserProfileStore((state) => state.setLearningLanguages);
+  const setUserInterests = useUserProfileStore((state) => state.setUserInterests);
+
+  const { profile } = useUserProfile(window?.localStorage.getItem("userId"));
+
+  useEffect(() => {
+    if (!profile) {
+        return
+    }
+    
+    setName(profile.name)
+    setUserDescription(profile.userDescription)
+    setNativeLanguage(profile.nativeLanguage)
+    setFluentLanguages(profile.fluentLanguages)
+    setLearningLanguages(profile.learningLanguages)
+    setUserInterests(profile.userInterests)
+
+  }, [profile]);
+
+
+
   const [activeButton, setActiveButton] = useState('friends');
 
   const toggleButton = (button: string) => {

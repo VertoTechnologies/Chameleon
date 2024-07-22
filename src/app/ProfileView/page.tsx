@@ -1,5 +1,5 @@
 import React from 'react';
-import LoginFile from './CreateFile';
+import LoginFile from './ViewFile';
 import Border from '../components/Border';
 import Background from '../components/Background';
 
