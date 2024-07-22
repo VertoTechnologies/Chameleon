@@ -12,6 +12,7 @@ const UpdateProfileForm = () => {
     userDescription: '',
     profilePic: '',
     userInterests: [],
+    
   });
 
   useEffect(() => {

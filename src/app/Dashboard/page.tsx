@@ -7,9 +7,42 @@ import Footer from '../components/footer';
 import LeftBox from '../components/friends';
 import RightBox from '../components/suggestions';
 import Communities from '../components/communities';
-import React, { useState } from 'react';
+import useUserProfile from '../components/useUserProfile';
+import useUserProfileStore, { useProfile } from '../components/slaystore.js'
+import React, { useEffect, useState } from 'react';
+
 
 const Page = () => {
+  const store: any = useUserProfileStore;
+
+  // const setName = useUserProfileStore((state) => state.setName);
+  // const setUserDescription = useUserProfileStore((state) => state.setUserDescription);
+  // const setNativeLanguage = useUserProfileStore((state) => state.setNativeLanguage);
+  // const setfluentLanguagess = useUserProfileStore((state) => state.setfluentLanguagess);
+  // const setlearningLanguagess = useUserProfileStore((state) => state.setlearningLanguagess);
+  // const setUserInterests = useUserProfileStore((state) => state.setUserInterests);
+
+  
+  useEffect(() => {
+    if(typeof window !== "undefined") {
+      const { profile } = useUserProfile(window?.localStorage.getItem("userId"));
+      
+    //store(profile)
+  //const useUserProfileStore = create<any>((set) => ({ profile: null, setProfile: (profile: any) => set({ profile }) }));
+  console.log(profile)  
+  useUserProfileStore.setState(profile)
+    console.log(profile)
+    // setName(profile.name)
+    // setUserDescription(profile.userDescription)
+    // setNativeLanguage(profile.nativeLanguage)
+    // setfluentLanguagess(profile.fluentLanguagess)
+    // setlearningLanguagess(profile.learningLanguagess)
+    // setUserInterests(profile.userInterests)
+    }
+  }, []);
+
+
+
   const [activeButton, setActiveButton] = useState('friends');
 
   const toggleButton = (button: string) => {

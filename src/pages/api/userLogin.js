@@ -43,12 +43,19 @@ export default async function login(req, res) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
+    // set user status to online
+    await User.findOneAndUpdate({ email }, { $set: { isOnline: true } });
+
+
     const token = jwt.sign(
       { userId: user._id },
       process.env.JWT_SECRET, // Ensure you have a JWT_SECRET in your .env
       { expiresIn: '1h' }
 
     );
+
+    
+
     console.log(token)
     // Respond with success message
     res.status(200).json({ message: 'Login successful', userId: user.userId, sessionToken: token });
