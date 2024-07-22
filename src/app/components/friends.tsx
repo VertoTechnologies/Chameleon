@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from 'next/navigation';
 
 interface LeftBoxProps {
   activeButton: string;
@@ -6,6 +7,7 @@ interface LeftBoxProps {
 }
 
 const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
+  const router = useRouter();
   const friendsList = [
     { name: 'John Doe', image:'/assets/extras/French.png'},
     { name: 'Jane Smith', image: "/assets/extras/profilepicture.png" },
@@ -16,8 +18,11 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
     { name: 'John Doe', image:'/assets/extras/French.png'},
     { name: 'Jane Smith', image: "/assets/extras/profilepicture.png" },
     { name: 'Alice Johnson', image: "/assets/extras/profilepicture.png" }
-
   ];
+
+  const handleFriendClick = (friendName: string) => {
+    router.push(`/Chat?friend=${encodeURIComponent(friendName)}`);
+  };
 
   return (
     <div className="w-1/4 h-screen overflow-y-auto custom-scrollbar" style={{ backgroundColor: 'rgba(101, 173, 135, 0.2)' }}>
@@ -53,11 +58,14 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
       {/* Friends List */}
       <div className="mt-4 ml-6 mr-3">
         {friendsList.map((friend, index) => (
-         <div key={index} className="flex items-center p-4 border-b-2" style={{ borderBottomColor: '#65AD87' }}>
-         
-       
-         <img src={friend.image} alt={friend.name} className="w-12 h-12 rounded-full mr-3 " />
-         <span className="text-lg font-medium">{friend.name}</span>
+          <div 
+            key={index} 
+            className="flex items-center p-4 border-b-2 cursor-pointer" 
+            style={{ borderBottomColor: '#65AD87' }} 
+            onClick={() => handleFriendClick(friend.name)}
+          >
+            <img src={friend.image} alt={friend.name} className="w-12 h-12 rounded-full mr-3 " />
+            <span className="text-lg font-medium">{friend.name}</span>
           </div>
         ))}
       </div>
@@ -66,4 +74,3 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
 };
 
 export default LeftBox;
-
