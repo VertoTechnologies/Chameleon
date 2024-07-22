@@ -24,6 +24,7 @@ const DropdownMenuComponent: React.FC<DropdownMenuProps> = ({ userName }) => {
 
   const handleLogoutClick = () => {
     console.log("Logout clicked");
+    
     // Perform logout logic (e.g., clear session, etc.)
     router.push('/Login'); // Redirect to the login page
   };
