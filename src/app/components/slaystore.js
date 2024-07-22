@@ -1,36 +1,43 @@
 import {create} from 'zustand'
-import { persist } from 'zustand/middleware'
+import { createJSONStorage, persist } from 'zustand/middleware'
 
 const useUserProfileStore = create(
   persist(
     (set) => ({
+      userId: '',
       name: '',
       userDescription: '',
       nativeLanguage: [],
-      fluentLanguages: [],
-      learningLanguages: [],
+      fluentLanguagess: [],
+      learningLanguagess: [],
       userInterests: [],
+      isOnline: Boolean,
+      setUserId: (userId) => set({userId}),
       setName: (name) => set({ name }),
       setUserDescription: (userDescription) => set({ userDescription }),
       setNativeLanguage: (nativeLanguage) => set({ nativeLanguage }),
-      setFluentLanguages: (fluentLanguages) => set({ fluentLanguages }),
-      setLearningLanguages: (learningLanguages) => set({ learningLanguages }),
+      setfluentLanguagess: (fluentLanguagess) => set({ fluentLanguagess }),
+      setlearningLanguagess: (learningLanguagess) => set({ learningLanguagess }),
       setUserInterests: (userInterests) => set({ userInterests }),
+      setIsOnline: (isOnline) => set({isOnline})
     }),
     {
       name: 'user-profile-storage', // Unique name for the storage
+      storage: createJSONStorage(()=>localStorage)
     }
   )
 )
 
 export const useProfile = () => {
   return useUserProfileStore((state) => ({
+    userId: state.userId,
     name: state.name,
     userDescription: state.userDescription,
     nativeLanguage: state.nativeLanguage,
-    fluentLanguages: state.fluentLanguages,
-    learningLanguages: state.learningLanguages,
+    fluentLanguagess: state.fluentLanguagess,
+    learningLanguagess: state.learningLanguagess,
     userInterests: state.userInterests,
+    isOnline: state.isOnline,
   }));
 };
 

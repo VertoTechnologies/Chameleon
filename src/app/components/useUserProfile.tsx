@@ -4,12 +4,14 @@ import { useEffect, useState } from 'react';
 import { useUserStore } from './store';
 
 interface UserProfile {
+    userId: string;
     name: string;
     userDescription: string;
     nativeLanguage: string[],
-    fluentLanguages: string[],
-    learningLanguages: string[],
-    userInterests: string[]
+    fluentLanguagess: string[],
+    learningLanguagess: string[],
+    userInterests: string[],
+    isOnline: boolean,
 }
 
 const useUserProfile = (userId: string | null) => {

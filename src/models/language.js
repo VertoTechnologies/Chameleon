@@ -5,9 +5,9 @@ const LanguageSchema = new mongoose.Schema({
     languageId: {type: String, required: true, unique: true},
     userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
     languageName: {type: String, required: true, enum: languages},
-    fluentLanguages: {type: Boolean, required: true},
+    fluentLanguagess: {type: Boolean, required: true},
     nativeLanguage: {type: Boolean, required: true},
-    learningLanguages: {type: Boolean, required: true},
+    learningLanguagess: {type: Boolean, required: true},
 });
 
 export default mongoose.models.Language || mongoose.model('Language', LanguageSchema);

@@ -8,17 +8,19 @@ import LeftBox from '../components/friends';
 import RightBox from '../components/suggestions';
 import Communities from '../components/communities';
 import useUserProfile from '../components/useUserProfile';
-import useUserProfileStore from '../components/slaystore.js'
+import useUserProfileStore, { useProfile } from '../components/slaystore.js'
 import React, { useEffect, useState } from 'react';
 
-const Page = () => {
 
-  const setName = useUserProfileStore((state) => state.setName);
-  const setUserDescription = useUserProfileStore((state) => state.setUserDescription);
-  const setNativeLanguage = useUserProfileStore((state) => state.setNativeLanguage);
-  const setFluentLanguages = useUserProfileStore((state) => state.setFluentLanguages);
-  const setLearningLanguages = useUserProfileStore((state) => state.setLearningLanguages);
-  const setUserInterests = useUserProfileStore((state) => state.setUserInterests);
+const Page = () => {
+  const store: any = useUserProfileStore;
+
+  // const setName = useUserProfileStore((state) => state.setName);
+  // const setUserDescription = useUserProfileStore((state) => state.setUserDescription);
+  // const setNativeLanguage = useUserProfileStore((state) => state.setNativeLanguage);
+  // const setfluentLanguagess = useUserProfileStore((state) => state.setfluentLanguagess);
+  // const setlearningLanguagess = useUserProfileStore((state) => state.setlearningLanguagess);
+  // const setUserInterests = useUserProfileStore((state) => state.setUserInterests);
 
   const { profile } = useUserProfile(window?.localStorage.getItem("userId"));
 
@@ -26,13 +28,17 @@ const Page = () => {
     if (!profile) {
         return
     }
-    
-    setName(profile.name)
-    setUserDescription(profile.userDescription)
-    setNativeLanguage(profile.nativeLanguage)
-    setFluentLanguages(profile.fluentLanguages)
-    setLearningLanguages(profile.learningLanguages)
-    setUserInterests(profile.userInterests)
+    //store(profile)
+  //const useUserProfileStore = create<any>((set) => ({ profile: null, setProfile: (profile: any) => set({ profile }) }));
+  console.log(profile)  
+  useUserProfileStore.setState(profile)
+    console.log(profile)
+    // setName(profile.name)
+    // setUserDescription(profile.userDescription)
+    // setNativeLanguage(profile.nativeLanguage)
+    // setfluentLanguagess(profile.fluentLanguagess)
+    // setlearningLanguagess(profile.learningLanguagess)
+    // setUserInterests(profile.userInterests)
 
   }, [profile]);
 

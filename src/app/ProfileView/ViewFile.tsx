@@ -26,14 +26,15 @@ const ViewFile: React.FC = () => {
             return
         }
 
+
         console.log("profile", { profile })
 
-        const fetchedfluentLanguagess = profile.fluentLanguages.map((language: string) => ({
+        const fetchedfluentLanguagess = profile.fluentLanguagess.map((language: string) => ({
             language,
             level: 1
         }));
 
-        const fetchedlearningLanguagess = profile.learningLanguages.map((language: string) => ({
+        const fetchedlearningLanguagess = profile.learningLanguagess.map((language: string) => ({
             language,
             level: 1
         }));
@@ -45,7 +46,7 @@ const ViewFile: React.FC = () => {
         console.log('end')
 
 
-    }, []);
+    }, [profile.fluentLanguagess]);
 
 
     const handleLevelChange = (languages: Language[], setLanguages: React.Dispatch<React.SetStateAction<Language[]>>, languageIndex: number, level: number) => {

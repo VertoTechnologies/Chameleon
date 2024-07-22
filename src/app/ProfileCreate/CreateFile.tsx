@@ -21,8 +21,8 @@ const CreateFile: React.FC = () => {
 
   interface FormData {
     nativeLanguage: string;
-    fluentLanguages: string[];
-    learningLanguages: string[];
+    fluentLanguagess: string[];
+    learningLanguagess: string[];
     userInterests: string[];
     userDescription: string;
     profilePic: string;
@@ -34,8 +34,8 @@ const CreateFile: React.FC = () => {
   const [formData, setFormData] = useState<{ updateData: FormData }>({
     updateData: {
       nativeLanguage: '',
-      fluentLanguages: [],
-      learningLanguages: [],
+      fluentLanguagess: [],
+      learningLanguagess: [],
       userInterests: [],
       userDescription: '',
       profilePic: '',
@@ -77,8 +77,8 @@ const CreateFile: React.FC = () => {
     setFormData({
       updateData: {
         nativeLanguage: '',
-        fluentLanguages: [],
-        learningLanguages: [],
+        fluentLanguagess: [],
+        learningLanguagess: [],
         userInterests: [],
         userDescription: '',
         profilePic: '',
@@ -154,7 +154,7 @@ const CreateFile: React.FC = () => {
         <div className="w-full sm:w-1/2 px-2 mb-4">
           <label className='block mb-2 font-light text-gray-400 text-sm'>
             Fluent Languages
-            <Select onValueChange={(value) => handleMultiSelectChange('fluentLanguages', value)}>
+            <Select onValueChange={(value) => handleMultiSelectChange('fluentLanguagess', value)}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select your fluent languages" />
               </SelectTrigger>
@@ -171,7 +171,7 @@ const CreateFile: React.FC = () => {
         <div className="w-full sm:w-1/2 px-2 mb-4">
           <label className='block mb-2 font-light text-gray-400 text-sm'>
             Learning Languages
-            <Select onValueChange={(value) => handleMultiSelectChange('learningLanguages', value)}>
+            <Select onValueChange={(value) => handleMultiSelectChange('learningLanguagess', value)}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select your learning languages" />
               </SelectTrigger>

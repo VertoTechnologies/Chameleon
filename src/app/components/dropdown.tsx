@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation'; // Import useRouter from next/navig
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button, cn } from "@nextui-org/react";
 import { IoIosSettings, IoIosLogOut, IoIosArrowDown } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
+import { useProfile } from "./slaystore";
 
 interface DropdownMenuProps {
   userName: string;
@@ -16,14 +17,37 @@ interface DropdownMenuProps {
 
 const DropdownMenuComponent: React.FC<DropdownMenuProps> = ({ userName }) => {
   const router = useRouter();
-
+  const profile = useProfile()
   const handleSettingsClick = () => {
     console.log("Settings clicked");
     // Add your settings logic here
   };
 
+  async function logoutUser(userId: string) {
+    try {
+      const response = await fetch('/api/logout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId }),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      console.log(data.message);
+    } catch (error) {
+      console.error('Error logging out user:', error);
+    }
+  }
+  
+
   const handleLogoutClick = () => {
     console.log("Logout clicked");
+    logoutUser(profile.userId)
     
     // Perform logout logic (e.g., clear session, etc.)
     router.push('/Login'); // Redirect to the login page
@@ -34,6 +58,7 @@ const DropdownMenuComponent: React.FC<DropdownMenuProps> = ({ userName }) => {
     // Perform logout logic (e.g., clear session, etc.)
     router.push('/ProfileView'); // Redirect to the login page
   };
+
 
   const dropdownButtonStyle = {
     backgroundColor: "#65AD87",
