@@ -1,6 +1,6 @@
 // models/Friendship.js
 import mongoose from 'mongoose';
-import { friendshipStatuses } from './enums';
+import { friendshipStatuses } from '../constants/enums';
 
 const FriendshipSchema = new mongoose.Schema({
   requester: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
