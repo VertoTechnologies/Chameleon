@@ -1,4 +1,8 @@
 // User Logout API handler
+import dbConnect from '../../middleware/mongodb';
+import User from '../../models/user';
+
+
 export default async function logout(req, res) {
     if (req.method !== 'POST') {
       return res.status(405).json({ message: 'Method not allowed' });
