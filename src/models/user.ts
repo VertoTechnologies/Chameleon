@@ -15,6 +15,7 @@ export interface IUser extends Document {
   nativeLanguage: Language;
   fluentLanguagess: Language[];
   learningLanguagess: Language[];
+  isOnline : boolean;
 }
 
 // Define the User schema using the interface
@@ -66,7 +67,11 @@ const userSchema: Schema<IUser> = new mongoose.Schema({
     type: [String],
     required: false,
   },
-
+  isOnline: {
+    type: Boolean,
+    required: true,
+    default: false,
+  }
 
 });
 
