@@ -4,7 +4,6 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 // User Login API handler
-// User Login API handler
 export default async function login(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' });
@@ -37,13 +36,19 @@ export default async function login(req, res) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
+    // Set user status to online
+    await User.findOneAndUpdate({ email }, { $set: { isOnline: true } });
+
     const token = jwt.sign(
       { userId: user._id },
       process.env.JWT_SECRET,
       { expiresIn: '1h' }
     );
 
+    console.log(token);
+    // Respond with success message
     res.status(200).json({ message: 'Login successful', userId: user._id, sessionToken: token, userName: user.name });
+    
     console.log("User logged in");
   } catch (error) {
     console.error("Error logging in user", error);

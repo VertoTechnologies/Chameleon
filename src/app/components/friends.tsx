@@ -9,13 +9,13 @@ interface LeftBoxProps {
 const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
   const router = useRouter();
   const friendsList = [
-    { name: 'John Doe', image:'/assets/extras/French.png'},
+    { name: 'John Doe', image: '/assets/extras/French.png' },
     { name: 'Jane Smith', image: "/assets/extras/profilepicture.png" },
     { name: 'Alice Johnson', image: "/assets/extras/profilepicture.png" },
-    { name: 'John Doe', image:'/assets/extras/French.png'},
+    { name: 'John Doe', image: '/assets/extras/French.png' },
     { name: 'Jane Smith', image: "/assets/extras/profilepicture.png" },
     { name: 'Alice Johnson', image: "/assets/extras/profilepicture.png" },
-    { name: 'John Doe', image:'/assets/extras/French.png'},
+    { name: 'John Doe', image: '/assets/extras/French.png' },
     { name: 'Jane Smith', image: "/assets/extras/profilepicture.png" },
     { name: 'Alice Johnson', image: "/assets/extras/profilepicture.png" }
   ];
