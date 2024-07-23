@@ -13,12 +13,12 @@ const Header = () => {
           <Image src="/assets/extras/Logo Mark.png" alt="logo" width={100} height={50} /> {/* Increased width and height */}
         </Link>
         <div className="cursor-pointer ml-4">
-          <span className="ml-2 font-source-code-pro text-2xl font-medium tracking-wider">CHAMELEON</span> {/* Increased size and letter-spacing */}
+          <span className="ml-2 font-source-code-pro text-2xl font-medium tracking-wider mr-10">CHAMELEON</span> {/* Increased size and letter-spacing */}
         </div>
       </div>
 
       {/* Navigation Links */}
-      <div className="flex space-x-20 ml-8 mr-8"> {/* Increased space between navigation links */}
+      <div className="flex space-x-16 ml-8 mr-8"> {/* Increased space between navigation links */}
         <Link href="/" className="text-lg font-mt-extra text-black hover:text-gray-700">
           Home
         </Link>

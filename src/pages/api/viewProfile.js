@@ -1,5 +1,6 @@
 import dbConnect from '../../middleware/mongodb';
 import User from '../../models/user';
+import  { NextApiRequest, NextApiResponse } from 'next';
 // Optional: Import authentication middleware
 
 export default async function userProfile(req, res) {

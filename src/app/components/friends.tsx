@@ -1,5 +1,12 @@
-import React from 'react';
+'use client';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+
+interface User {
+  userId: string;
+  name: string;
+  profilePic: string;
+}
 
 interface LeftBoxProps {
   activeButton: string;
@@ -8,20 +15,25 @@ interface LeftBoxProps {
 
 const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
   const router = useRouter();
-  const friendsList = [
-    { name: 'John Doe', image: '/assets/extras/French.png' },
-    { name: 'Jane Smith', image: "/assets/extras/profilepicture.png" },
-    { name: 'Alice Johnson', image: "/assets/extras/profilepicture.png" },
-    { name: 'John Doe', image: '/assets/extras/French.png' },
-    { name: 'Jane Smith', image: "/assets/extras/profilepicture.png" },
-    { name: 'Alice Johnson', image: "/assets/extras/profilepicture.png" },
-    { name: 'John Doe', image: '/assets/extras/French.png' },
-    { name: 'Jane Smith', image: "/assets/extras/profilepicture.png" },
-    { name: 'Alice Johnson', image: "/assets/extras/profilepicture.png" }
-  ];
+  const [users, setUsers] = useState<User[]>([]);
 
-  const handleFriendClick = (friendName: string) => {
-    router.push(`/Chat?friend=${encodeURIComponent(friendName)}`);
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch('/api/getUsers');
+        if (!response.ok) throw new Error('Network response was not ok');
+        const data = await response.json();
+        setUsers(data.users);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
+  const handleFriendClick = (userId: string) => {
+    router.push(`/Chat?friend=${encodeURIComponent(userId)}`);
   };
 
   return (
@@ -57,17 +69,23 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
 
       {/* Friends List */}
       <div className="mt-4 ml-6 mr-3">
-        {friendsList.map((friend, index) => (
-          <div 
-            key={index} 
-            className="flex items-center p-4 border-b-2 cursor-pointer" 
-            style={{ borderBottomColor: '#65AD87' }} 
-            onClick={() => handleFriendClick(friend.name)}
-          >
-            <img src={friend.image} alt={friend.name} className="w-12 h-12 rounded-full mr-3 " />
-            <span className="text-lg font-medium">{friend.name}</span>
+        {users.length > 0 ? (
+          users.map((user) => (
+            <div 
+              key={user.userId} 
+              className="flex items-center p-4 border-b-2 cursor-pointer" 
+              style={{ borderBottomColor: '#65AD87' }} 
+              onClick={() => handleFriendClick(user.userId)}
+            >
+              <img src={user.profilePic} alt={user.name} className="w-12 h-12 rounded-full mr-3" />
+              <span className="text-lg font-medium">{user.name}</span>
+            </div>
+          ))
+        ) : (
+          <div className='p-3 border-2 border-white'>
+            No users found
           </div>
-        ))}
+        )}
       </div>
     </div>
   );

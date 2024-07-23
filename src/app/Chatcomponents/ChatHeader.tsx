@@ -1,15 +1,56 @@
-// src/components/ChatHeader.tsx
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { HiVideoCamera, HiPhone, HiDotsHorizontal } from 'react-icons/hi';
 
 interface ChatHeaderProps {
-  friendName: string | null;
+  friendId: string | null;
 }
 
-const ChatHeader: React.FC<ChatHeaderProps> = ({ friendName }) => {
+
+
+const ChatHeader: React.FC<ChatHeaderProps> = ({ friendId }) => {
+  const [friendName, setFriendName] = useState<string | null>(null);
+  const [profilePic, setProfilePic] = useState<string | null>('/assets/extras/profilepicture.png');
+
+  useEffect(() => {
+    const fetchUser = async (id: string) => {
+      try {
+        const response = await fetch(`/api/viewProfile?userId=${id}`);
+        if (!response.ok) throw new Error('Network response was not ok');
+        const data = await response.json();
+        setFriendName(data.name);
+        setProfilePic(data.profilePic || '/assets/extras/profilepicture.png');
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+        setFriendName('User not found');
+        setProfilePic('/assets/extras/profilepicture.png');
+      }
+    };
+
+    if (friendId) {
+      fetchUser(friendId);
+    }
+  }, [friendId]);
+
   return (
-    <div className="bg-gray-200 p-4 flex items-center border-b">
-      <h1 className="text-xl font-bold">Chat with {friendName}</h1>
+    <div className="bg-[#F4F4F4] p-4 flex items-center justify-between border-b">
+      {/* Left side: Profile picture and friend name */}
+      <div className="flex items-center space-x-3">
+        <img 
+          src='/assets/extras/profilepicture.png'
+          className="w-10 h-10 rounded-full border border-gray-300 ml-2"
+        />
+        <span className="text-mtextra text-lg font-bold align-middle ml-2">
+          {friendName || 'Loading...'}
+        </span>
+      </div>
+
+      {/* Right side: Icons */}
+      <div className="flex space-x-4">
+        <HiPhone className="text-[#65AD87] text-3xl cursor-pointer mr-1" title="Voice Call" />
+        <HiVideoCamera className="text-[#65AD87] text-3xl cursor-pointer mr-1" title="Video Call" />
+        <HiDotsHorizontal className="text-[#65AD87] text-3xl cursor-pointer mr-1" title="More Options" />
+      </div>
     </div>
   );
 };

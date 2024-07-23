@@ -15,7 +15,7 @@ export default async function login(req, res) {
   console.log(req.body);
   const { email, password } = req.body;
 
-  console.log(email, password);
+  console.log('Email:', email, 'Password:', password);
 
   if (!email || !password) {
     return res.status(400).json({ message: 'Missing required fields' });
@@ -45,7 +45,9 @@ export default async function login(req, res) {
       { expiresIn: '1h' }
     );
 
-    console.log(token);
+    console.log('Token:', token);
+    console.log('User ID:', user._id);
+
     // Respond with success message
     res.status(200).json({ message: 'Login successful', userId: user._id, sessionToken: token, userName: user.name });
     
