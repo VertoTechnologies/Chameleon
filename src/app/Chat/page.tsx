@@ -8,6 +8,7 @@ import LeftBox from '../components/friends';
 import Chat from '../Chatcomponents/Chat';
 
 import Communities from '../components/communities';
+
 const ChatPage = () => {
   const [activeButton, setActiveButton] = useState('friends');
   const searchParams = useSearchParams();

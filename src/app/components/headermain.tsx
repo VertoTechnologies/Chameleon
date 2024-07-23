@@ -3,16 +3,9 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import DropdownMenuComponent from './dropdown';
-
+import { useProfile } from "./slaystore";
 const Header = () => {
-  const [userName, setUserName] = useState('');
-
-  useEffect(() => {
-    const storedUserName = localStorage.getItem('userName');
-    if (storedUserName) {
-      setUserName(storedUserName);
-    }
-  }, []);
+ const profile = useProfile()
   return (
     <nav className="flex items-center justify-between max-w-container px-4 py-5 relative z-30">
       {/* Logo and Brand Name */}
@@ -44,9 +37,9 @@ const Header = () => {
       {/* User Avatar Placeholder and Dropdown */}
       <div className="flex items-center ml-8"> {/* Adjusted margin to position avatar and dropdown */}
         <div className="relative w-10 h-10 rounded-full overflow-hidden mr-2">
-          <Image src="/assets/extras/logo.png" alt="User Avatar" layout="fill" objectFit="cover" />
+          <Image src="/assets/extras/profilepicture.png" alt="User Avatar" layout="fill" objectFit="cover" />
         </div>
-        <DropdownMenuComponent userName={userName} />
+        <DropdownMenuComponent userName={profile.name} />
       </div>
 
        
