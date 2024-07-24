@@ -1,24 +1,53 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useProfile } from './slaystore';
+import { getFriendsList } from './FriendRequest';
 
 interface LeftBoxProps {
   activeButton: string;
   toggleButton: (button: string) => void;
 }
 
+interface User {
+  _id: string;
+  userId: string;
+  name: string;
+  email: string;
+  dateOfBirth: Date;
+  userInterests: string[];
+  fluentLanguages?: string[]; 
+  learningLanguages?: string[]; 
+  nativeLanguage: string;
+  profilePic: string;
+  userDescription: string;
+  isOnline: boolean;
+  __v: number;
+  fluentLanguagess?: string[]; 
+  learningLanguagess?: string[]; 
+}
+
 const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
   const router = useRouter();
-  const friendsList = [
-    { name: 'John Doe', image: '/assets/extras/French.png' },
-    { name: 'Jane Smith', image: "/assets/extras/profilepicture.png" },
-    { name: 'Alice Johnson', image: "/assets/extras/profilepicture.png" },
-    { name: 'John Doe', image: '/assets/extras/French.png' },
-    { name: 'Jane Smith', image: "/assets/extras/profilepicture.png" },
-    { name: 'Alice Johnson', image: "/assets/extras/profilepicture.png" },
-    { name: 'John Doe', image: '/assets/extras/French.png' },
-    { name: 'Jane Smith', image: "/assets/extras/profilepicture.png" },
-    { name: 'Alice Johnson', image: "/assets/extras/profilepicture.png" }
-  ];
+  const [friendsList, setFriendsList] = useState<User[]>([]);
+  const profile = useProfile()
+  useEffect(() => {
+    const fetchFriendList = async () => {
+        if (!profile.userId) {
+            console.error('User ID is undefined');
+            return;
+        }
+
+        try {
+            console.log('Fetching friends for user:', profile.userId);
+            const data = await getFriendsList(profile.userId);
+            console.log('Fetched friends data:', data);
+            setFriendsList(data.friends);
+        } catch (error) {
+            console.error('Error fetching friends:', error);
+        }
+    };
+    fetchFriendList();
+},[profile.userId, friendsList.length]);
 
   const handleFriendClick = (friendName: string) => {
     router.push(`/Chat?friend=${encodeURIComponent(friendName)}`);
@@ -57,17 +86,19 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
 
       {/* Friends List */}
       <div className="mt-4 ml-6 mr-3">
-        {friendsList.map((friend, index) => (
-          <div 
-            key={index} 
-            className="flex items-center p-4 border-b-2 cursor-pointer" 
-            style={{ borderBottomColor: '#65AD87' }} 
-            onClick={() => handleFriendClick(friend.name)}
-          >
-            <img src={friend.image} alt={friend.name} className="w-12 h-12 rounded-full mr-3 " />
-            <span className="text-lg font-medium">{friend.name}</span>
-          </div>
-        ))}
+      {friendsList.length > 0 ? (
+                    friendsList.map((user) => (
+                        <div key={user.userId} className="flex items-center p-4 border-b-2 cursor-pointer" 
+                        style={{ borderBottomColor: '#65AD87' }}
+                        onClick={() => handleFriendClick(user.name)}
+                        >
+                          <img src= '/assets/extras/profilepicture.png' alt={user.name} className="w-12 h-12 rounded-full mr-3 " />
+                          <span className="text-lg font-medium">{user.name}</span>
+                        </div>
+                    ))
+                ) : (
+                    <div className="p-3 border-2 border-white">you have no friends</div>
+                )}
       </div>
     </div>
   );

@@ -167,6 +167,14 @@ width: 12px;
 height: 300px;
 }
 
+.alert-message {
+  background-color: #f0f4c3; /* light green background */
+  color: #33691e;           /* dark green text */
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
 .custom-scrollbar::-webkit-scrollbar-thumb {
 background-color: #c5c5c5; /* Gray color */
 border-radius: 10px;

@@ -10,6 +10,7 @@ import useUserProfile from '../components/useUserProfile';
 import useUserProfileStore from '../components/slaystore';
 import React, { useEffect, useState } from 'react';
 import { IoChatbubbleSharp } from "react-icons/io5";
+import PendingRequests from '../components/PendingRequests';
 
 const Page = () => {
   const { profile } = useUserProfile(typeof window !== "undefined" ? window.localStorage.getItem("userId") : null);
@@ -47,13 +48,16 @@ const Page = () => {
 
         {/* Main Content Area */}
         <div className="flex-grow p-4">
+          <div className='flex-col'>
+            
+          </div>
           <h1 className="text-mtextra text-xl font-bold mb-2">Online</h1>
           
           {/* Online Users Section */}
           <div className="mt-6">
             {onlineUsers.map((user, index) => (
               <div key={index} className="flex items-center px-4 py-2" style={{ borderTopColor: '#65AD87', borderTopWidth: '2px', borderTopStyle: 'solid' }}>
-                <img src={user.image} alt={user.name} className="w-12 h-12 rounded-full mr-4" />
+                <img src={'/assets/extras/profilepicture.png'} alt={user.name} className="w-12 h-12 rounded-full mr-4" />
                 <span className="text-lg text-mtextra">{user.name}</span>
                 <span className="ml-auto">
                   {/* Chat icon using IoChatbubbleSharp */}
@@ -61,6 +65,13 @@ const Page = () => {
                 </span>
               </div>
             ))}
+            <h1 className="text-mtextra text-xl font-bold mb-2 mt-10">Pending Requests</h1>
+          
+          {/* Online Users Section */}
+
+          <div className="mt-6">
+            <PendingRequests></PendingRequests>
+          </div>
           </div>
         </div>
 

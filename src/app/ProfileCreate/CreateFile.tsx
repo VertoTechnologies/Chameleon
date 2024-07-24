@@ -15,6 +15,8 @@ import {
 } from "@/components/ui/select";
 import { interests, languages } from "../../constants/enums";
 import useUserProfileStore from '../components/slaystore.js'
+import ReactSelect from 'react-select'
+import MultiSelect from '@/components/ui/MultiSelect';
 
 const CreateFile: React.FC = () => {
   const router = useRouter()
@@ -61,16 +63,14 @@ const CreateFile: React.FC = () => {
     }));
   };
 
-  const handleMultiSelectChange = (name: string, value: string) => {
-    setFormData(prevState => {
-      const valuesArray = prevState.updateData[name as keyof FormData] as string[];
-      return {
-        updateData: {
-          ...prevState.updateData,
-          [name]: valuesArray.includes(value) ? valuesArray.filter(v => v !== value) : [...valuesArray, value],
-        }
-      };
-    });
+  const handleMultiSelectChange = (name: string, selectedOptions: { value: string; label: string }[]) => {
+    const values = selectedOptions.map(option => option.value);
+    setFormData(prevState => ({
+      updateData: {
+        ...prevState.updateData,
+        [name]: values,
+      }
+    }));
   };
 
   const handleCancel = () => {
@@ -84,6 +84,7 @@ const CreateFile: React.FC = () => {
         profilePic: '',
       }
     });
+    router.push('/Dashboard')
   };
 //  window?.localStorage.setItem("userId",userId)
   const handleSubmit = async (e: React.FormEvent) => {
@@ -128,6 +129,8 @@ const CreateFile: React.FC = () => {
     console.log(base64String);
   };
 
+  const languageOptions = languages.map(language => ({value: language, label: language}))
+  const interestOptions = interests.map(interest => ({value: interest, label: interest}))
 
 
   return (
@@ -154,52 +157,40 @@ const CreateFile: React.FC = () => {
         <div className="w-full sm:w-1/2 px-2 mb-4">
           <label className='block mb-2 font-light text-gray-400 text-sm'>
             Fluent Languages
-            <Select onValueChange={(value) => handleMultiSelectChange('fluentLanguagess', value)}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select your fluent languages" />
-              </SelectTrigger>
-              <SelectContent>
-                {languages.map((language, index) => (
-                  <SelectItem key={index} value={language}>
-                    {language}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <ReactSelect 
+            isMulti
+            name = "fluentLanguages"
+            options={languageOptions}
+            className='basic-multi-select text-gray-400'
+            classNamePrefix='select'
+            onChange={(selectedOptions) => handleMultiSelectChange('fluentLanguagess', selectedOptions as { value: string; label: string }[])}
+            />
           </label>
         </div>
         <div className="w-full sm:w-1/2 px-2 mb-4">
           <label className='block mb-2 font-light text-gray-400 text-sm'>
             Learning Languages
-            <Select onValueChange={(value) => handleMultiSelectChange('learningLanguagess', value)}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select your learning languages" />
-              </SelectTrigger>
-              <SelectContent>
-                {languages.map((language, index) => (
-                  <SelectItem key={index} value={language}>
-                    {language}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <ReactSelect
+              isMulti
+              name="learningLanguagess"
+              options={languageOptions}
+              className="basic-multi-select text-gray-400"
+              classNamePrefix="select"
+              onChange={(selectedOptions) => handleMultiSelectChange('learningLanguagess', selectedOptions as { value: string; label: string }[])}
+            />
           </label>
         </div>
         <div className="w-full sm:w-1/2 px-2 mb-4">
           <label className='block mb-2 font-light text-gray-400 text-sm'>
             Interests
-            <Select onValueChange={(value) => handleMultiSelectChange('userInterests', value)}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select your interests" />
-              </SelectTrigger>
-              <SelectContent>
-                {interests.map((interest, index) => (
-                  <SelectItem key={index} value={interest}>
-                    {interest}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <ReactSelect
+              isMulti
+              name="userInterests"
+              options={interestOptions}
+              className="basic-multi-select text-gray-400"
+              classNamePrefix="select"
+              onChange={(selectedOptions) => handleMultiSelectChange('userInterests', selectedOptions as { value: string; label: string }[])}
+            />  
           </label>
         </div>
         <div className="w-full px-2 mb-4">
