@@ -5,7 +5,7 @@ import MessageBubble from './MessageBubble';
 import MessageInput from './MessageInput';
 import '../globals.css';
 import { useProfile } from '../components/slaystore';
-
+import { useRouter } from 'next/navigation';
 interface ChatProps {
   friendId: string | null;
 }
@@ -81,22 +81,31 @@ const Chat: React.FC<ChatProps> = ({ friendId }) => {
   };
 
   return (
-    <div className="flex flex-col h-[750px] bg-white rounded-lg shadow-lg">
-      <ChatHeader friendId={friendId} />
-      <div className="flex-1 p-4 overflow-y-auto">
-        <div className="flex flex-col">
-          {messages.map((msg) => (
-            <MessageBubble
-              key={msg._id}
-              message={msg.message}
-              isOwnMessage={msg.senderId === userId}
-              timestamp={msg.timestamp}
-            />
-          ))}
-        </div>
+    <div
+  className="flex flex-col h-[750px] rounded-lg shadow-lg relative bg-cover bg-center"
+  style={{
+    backgroundImage: "url('/assets/extras/Background.png')",
+  }}
+>
+  <div className="absolute inset-0 bg-[rgba(101,173,135,0.3)]"></div> {/* Overlay */}
+  <div className="relative flex flex-col h-full">
+    <ChatHeader friendId={friendId} />
+    <div className="flex-1 p-4 overflow-y-auto">
+      <div className="flex flex-col">
+        {messages.map((msg) => (
+          <MessageBubble
+            key={msg._id}
+            message={msg.message}
+            isOwnMessage={msg.senderId === userId}
+            timestamp={msg.timestamp}
+          />
+        ))}
       </div>
-      <MessageInput onSend={handleSend} />
     </div>
+    <MessageInput onSend={handleSend} />
+  </div>
+</div>
+
   );
 };
 
