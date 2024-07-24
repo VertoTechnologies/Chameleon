@@ -1,5 +1,4 @@
 // pages/api/streamMessages.ts
-
 import { NextApiRequest, NextApiResponse } from 'next';
 import { MongoClient, ChangeStreamDocument, ConnectOptions } from 'mongodb';
 
@@ -17,7 +16,9 @@ async function initClient() {
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'GET') {
     return res.status(405).end();
-  }
+  } 
+
+  console.log('New connection');
 
   const { friendId, userId } = req.query;
 
@@ -34,6 +35,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   res.setHeader('Connection', 'keep-alive');
   res.flushHeaders();
 
+  console.log('Starting change stream');
+
   const pipeline = [
     {
       $match: {
@@ -49,8 +52,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   changeStream.on('change', (next: ChangeStreamDocument) => {
     if ('fullDocument' in next) {
-      res.write(`data: ${JSON.stringify(next.fullDocument)}\n\n`);
+      const document = {
+        ...next.fullDocument,
+        _id: next.fullDocument?._id.toString(), // Convert ObjectId to string
+      };
+      res.write(`data: ${JSON.stringify(document)}\n\n`);
     }
+    console.log('New message:', next);
   });
 
   req.on('close', () => {
