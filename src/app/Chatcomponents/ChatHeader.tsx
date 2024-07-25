@@ -1,3 +1,5 @@
+// app/chatComponents/ChatHeader.tsx
+
 'use client';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';

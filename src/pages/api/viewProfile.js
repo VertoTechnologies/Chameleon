@@ -1,6 +1,6 @@
 import dbConnect from '../../middleware/mongodb';
 import User from '../../models/user';
-import  { NextApiRequest, NextApiResponse } from 'next';
+// import  { NextApiRequest, NextApiResponse } from 'next';
 // Optional: Import authentication middleware
 
 export default async function userProfile(req, res) {
@@ -12,6 +12,7 @@ export default async function userProfile(req, res) {
 
   // Assuming the user ID is passed as a query parameter
   const { userId } = req.query;
+
   if (!userId) {
     return res.status(400).json({ message: 'User ID is required' });
   }
