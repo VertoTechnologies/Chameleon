@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from 'react';
 import FriendButton from './friendbutton';
 import { IoSearchSharp } from "react-icons/io5";
+import { useProfile } from './slaystore';
 
 // Define the User type
 interface User {
@@ -13,11 +14,11 @@ interface User {
 
 const RightBox: React.FC = () => {
   const [usersData, setUsersData] = useState<User[]>([]);
-
+  const profile = useProfile()
   useEffect(() => {
     const fetchUsersData = async () => {
       try {
-        const response = await fetch(`/api/getUsers`, {
+        const response = await fetch(`/api/getUsers?user=${encodeURIComponent(JSON.stringify(profile))}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -36,14 +37,14 @@ const RightBox: React.FC = () => {
     };
 
     fetchUsersData();
-  }, []);
+  }, [profile.fluentLanguagess]);
 
   return (
     <div className="w-1/4 h-screen overflow-y-auto custom-scrollbar" style={{ backgroundColor: 'rgba(101, 173, 135, 0.2)' }}>
       {/* Suggestions Section */}
       <div className="mt-6">
         <div className="flex justify-between items-center p-4">
-        <h1 className="text-mtextra text-lg font-bold mb-2">Suggestions</h1>
+        <h1 className="text-mtextra text-lg font-bold mb-2">Suggestions</h1> 
           <IoSearchSharp style={{ color: '#7B7D84' }} className="h-7 w-7 mr-3" />
         </div>
         <div className="mt-2 ml-7 mr-5">

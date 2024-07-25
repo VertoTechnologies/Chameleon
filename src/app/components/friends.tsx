@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useProfile } from './slaystore';
 import { getFriendsList } from './FriendRequest';
+import RemoveFriendButton from './removeFriendButton';
 
 interface LeftBoxProps {
   activeButton: string;
@@ -49,9 +50,10 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
     fetchFriendList();
 },[profile.userId]);
 
-  const handleFriendClick = (friendName: string) => {
-    router.push(`/Chat?friend=${encodeURIComponent(friendName)}`);
-  };
+
+  // const handleFriendClick = (friendName: string) => {
+  //   router.push(`/Chat?friend=${encodeURIComponent(friendName)}`);
+  // };
 
   return (
     <div className="w-1/4 h-screen overflow-y-auto custom-scrollbar" style={{ backgroundColor: 'rgba(101, 173, 135, 0.2)' }}>
@@ -90,10 +92,11 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
                     friendsList.map((user) => (
                         <div key={user.userId} className="flex items-center p-4 border-b-2 cursor-pointer" 
                         style={{ borderBottomColor: '#65AD87' }}
-                        onClick={() => handleFriendClick(user.name)}
+                        // 
                         >
                           <img src= '/assets/extras/profilepicture.png' alt={user.name} className="w-12 h-12 rounded-full mr-3 " />
                           <span className="text-lg font-medium">{user.name}</span>
+                          <div className= 'flex justify-end w-full'><RemoveFriendButton id = {user.userId}/></div>
                         </div>
                     ))
                 ) : (
@@ -103,5 +106,5 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
     </div>
   );
 };
-
+// onClick={() => handleFriendClick(user.name)}
 export default LeftBox;

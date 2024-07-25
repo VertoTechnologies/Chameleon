@@ -7,7 +7,7 @@ interface UserProfile {
     userId: string;
     name: string;
     userDescription: string;
-    nativeLanguage: string[],
+    nativeLanguage: string,
     fluentLanguagess: string[],
     learningLanguagess: string[],
     userInterests: string[],

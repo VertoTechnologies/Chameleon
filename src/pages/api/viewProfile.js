@@ -6,7 +6,7 @@ export default async function userProfile(req, res) {
   if (req.method !== 'GET') {
     return res.status(405).json({ message: 'Method not allowed' });
   }
-
+ 
   // Optional: Authenticate the request here
 
   // Assuming the user ID is passed as a query parameter
