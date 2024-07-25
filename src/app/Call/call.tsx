@@ -111,7 +111,7 @@ const Call: React.FC<CallProps> = ({ friendId }) => {
       </div>
 
       {/* Bottom Icons */}
-      <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-4  cursor-pointer">
+      <div className="absolute bottom-2 -left-1/2  transform -translate-x-1/2 flex space-x-4  cursor-pointer mr-4">
         <div onClick={handleMute} className="bg-[rgba(101,173,135)] p-3 rounded-full flex items-center justify-center">
           {isMuted ? (
             <FaMicrophoneSlash size={24} className="text-white" />
