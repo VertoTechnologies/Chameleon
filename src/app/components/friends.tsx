@@ -80,7 +80,7 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
           }}
           onClick={() => toggleButton('community')}
         >
-          Communities
+          Requests
         </button>
       </div>
 

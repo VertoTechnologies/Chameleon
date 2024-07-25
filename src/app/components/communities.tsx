@@ -1,6 +1,7 @@
 // components/Communities.tsx
 
 import React from 'react';
+import PendingRequests from './PendingRequests';
 
 interface CommunitiesProps {
   activeButton: string;
@@ -8,13 +9,6 @@ interface CommunitiesProps {
 }
 
 const Communities: React.FC<CommunitiesProps> = ({ activeButton, toggleButton }) => {
-    const communitiesList = [
-        { name: 'Urdu', image:'/assets/extras/French.png'},
-        { name: 'French', image:'/assets/extras/French.png'},
-        { name: 'English', image:'/assets/extras/French.png'},
-        { name: 'German', image:'/assets/extras/French.png'},
-        { name: 'Hindi', image:'/assets/extras/French.png'}
-      ];
   return (
     <div className="w-1/4 h-screen overflow-y-auto custom-scrollbar" style={{ backgroundColor: 'rgba(101, 173, 135, 0.2)', boxShadow: '5px 4px 10px rgba(5, 5, 0, 0.5)' }}>
       {/* Toggle Buttons */}
@@ -43,20 +37,14 @@ const Communities: React.FC<CommunitiesProps> = ({ activeButton, toggleButton })
           }}
           onClick={() => toggleButton('community')}
         >
-          Communities
+          Requests
         </button>
       </div>
 
-      {/* Friends List */}
+      {/* Pending Friend Requests */}
       <div className="mt-4 ml-6 mr-3">
-  {communitiesList.map((community, index) => (
-    <div key={index} className="flex items-center p-4 border-b-2" style={{ borderBottomColor: '#65AD87' }}>
-      <img src={community.image} alt={community.name} className="w-12 h-12 rounded-md mr-3" />
-      <span className="text-lg font-medium">{community.name}</span>
-    </div>
-  ))}
-</div>
-
+        {activeButton === 'community' && <PendingRequests />}
+      </div>
     </div>
   );
 };
