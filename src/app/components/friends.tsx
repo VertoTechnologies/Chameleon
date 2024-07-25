@@ -50,11 +50,11 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
     fetchFriendList();
 },[profile.userId]);
 
+  const handleFriendClick = (userId: string) => {
+    router.push(`/Chat?friend=${encodeURIComponent(userId)}`);
+  };
 
-  // const handleFriendClick = (friendName: string) => {
-  //   router.push(`/Chat?friend=${encodeURIComponent(friendName)}`);
-  // };
-
+  
   return (
     <div className="w-1/4 h-screen overflow-y-auto custom-scrollbar" style={{ backgroundColor: 'rgba(101, 173, 135, 0.2)' }}>
       <div className="p-4 flex mt-4 ml-7">
@@ -90,10 +90,10 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
       <div className="mt-4 ml-6 mr-3">
       {friendsList.length > 0 ? (
                     friendsList.map((user) => (
-                        <div key={user.userId} className="flex items-center p-4 border-b-2 cursor-pointer" 
-                        style={{ borderBottomColor: '#65AD87' }}
-                        // 
-                        >
+                      <div key={user.userId} className="flex items-center p-4 border-b-2 cursor-pointer" 
+                      style={{ borderBottomColor: '#65AD87' }}
+                      onClick={() => handleFriendClick(user.userId)}
+                      >
                           <img src= '/assets/extras/profilepicture.png' alt={user.name} className="w-12 h-12 rounded-full mr-3 " />
                           <span className="text-lg font-medium">{user.name}</span>
                           <div className= 'flex justify-end w-full'><RemoveFriendButton id = {user.userId}/></div>
