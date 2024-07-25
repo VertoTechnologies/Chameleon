@@ -18,10 +18,10 @@ async function initClient() {
   return client;
 }
 
-export const runTime = "nodejs";
-export const dyamic = "force-dynamic";
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
-export default async function GET(req: NextRequest) {
+export async function GET(req: NextRequest) {
   console.log("New connection");
 
   const friendId = req.nextUrl.searchParams.get("friendId");
@@ -69,7 +69,7 @@ export default async function GET(req: NextRequest) {
     "change",
     async (
       data: ChangeStreamDocument<Document> & {
-        fullDocument?: IMessage;
+        fullDocument?: any;
       }
     ) => {
       if (data.fullDocument) {
