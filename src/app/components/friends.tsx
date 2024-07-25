@@ -90,7 +90,7 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
                     friendsList.map((user) => (
                         <div key={user.userId} className="flex items-center p-4 border-b-2 cursor-pointer" 
                         style={{ borderBottomColor: '#65AD87' }}
-                        onClick={() => handleFriendClick(user.name)}
+                        onClick={() => handleFriendClick(user.userId)}
                         >
                           <img src= '/assets/extras/profilepicture.png' alt={user.name} className="w-12 h-12 rounded-full mr-3 " />
                           <span className="text-lg font-medium">{user.name}</span>
