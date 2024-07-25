@@ -5,7 +5,7 @@ import MessageBubble from './MessageBubble';
 import MessageInput from './MessageInput';
 import '../globals.css';
 import { useProfile } from '../components/slaystore';
-
+import { useRouter } from 'next/navigation';
 interface ChatProps {
   friendId: string | null;
 }
@@ -141,6 +141,7 @@ const Chat: React.FC<ChatProps> = ({ friendId }) => {
     <MessageInput onSend={handleSend} />
   </div>
 </div>
+
   );
 };
 

@@ -1,4 +1,5 @@
 'use client';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { HiVideoCamera, HiPhone, HiDotsHorizontal } from 'react-icons/hi';
 
@@ -9,9 +10,17 @@ interface ChatHeaderProps {
 
 
 const ChatHeader: React.FC<ChatHeaderProps> = ({ friendId }) => {
+  const router = useRouter(); 
   const [friendName, setFriendName] = useState<string | null>(null);
   const [profilePic, setProfilePic] = useState<string | null>('/assets/extras/profilepicture.png');
-
+  const handleCallClick = () => {
+    console.log('Initiating call...');
+    if (friendId) {
+      router.push(`/Call?friend=${friendId}`); // Pass friendId as a query parameter
+    } else {
+      console.error('Friend ID is not available');
+    }
+  };
   useEffect(() => {
     const fetchUser = async (id: string) => {
       try {
@@ -47,7 +56,8 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ friendId }) => {
 
       {/* Right side: Icons */}
       <div className="flex space-x-4">
-        <HiPhone className="text-[#65AD87] text-3xl cursor-pointer mr-1" title="Voice Call" />
+      <HiPhone className="text-[#65AD87] text-3xl cursor-pointer mr-1"  title="Voice Call" onClick={handleCallClick}  // Adding onClick handler
+  />
         <HiVideoCamera className="text-[#65AD87] text-3xl cursor-pointer mr-1" title="Video Call" />
         <HiDotsHorizontal className="text-[#65AD87] text-3xl cursor-pointer mr-1" title="More Options" />
       </div>
