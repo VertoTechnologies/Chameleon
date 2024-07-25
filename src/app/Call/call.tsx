@@ -49,14 +49,12 @@ const Call: React.FC<CallProps> = ({ friendId }) => {
   }, [friendId]);
 
   useEffect(() => {
-    // Start timer if the call is answered
     if (!isRinging && !timer) {
       const newTimer = setInterval(() => {
         setCallDuration(prevDuration => prevDuration + 1);
       }, 1000);
       setTimer(newTimer);
     }
-    // Cleanup timer on component unmount or when the call ends
     return () => {
       if (timer) {
         clearInterval(timer);
@@ -111,7 +109,7 @@ const Call: React.FC<CallProps> = ({ friendId }) => {
       </div>
 
       {/* Bottom Icons */}
-      <div className="absolute bottom-2 -left-1/2  transform -translate-x-1/2 flex space-x-4  cursor-pointer mr-4">
+      <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-4  cursor-pointer mr-4">
         <div onClick={handleMute} className="bg-[rgba(101,173,135)] p-3 rounded-full flex items-center justify-center">
           {isMuted ? (
             <FaMicrophoneSlash size={24} className="text-white" />
@@ -129,10 +127,13 @@ const Call: React.FC<CallProps> = ({ friendId }) => {
 
       {/* Call Duration */}
       {!isRinging && (
-         <div className="absolute top-0 left-1/2 transform -translate-x-1/2 bg-gray-400 text-white text-base px-4 py-2 rounded-full mt-16">
+        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 bg-gray-400 text-white text-base px-4 py-2 rounded-full mt-16">
           {Math.floor(callDuration / 60)}:{('0' + (callDuration % 60)).slice(-2)}
         </div>
       )}
+
+      {/* Button to Simulate Answering the Call */}
+      
     </div>
   );
 };
