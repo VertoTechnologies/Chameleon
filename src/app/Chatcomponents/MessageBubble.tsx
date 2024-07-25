@@ -11,7 +11,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, isOwnMessage, ti
   
   const formattedTimestamp = timestamp ? new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
 
-  console.log('MessageBubble props:', { message, isOwnMessage, timestamp }); // Log props
+  // console.log('MessageBubble props:', { message, isOwnMessage, timestamp }); // Log props
 
   return (
     <div
