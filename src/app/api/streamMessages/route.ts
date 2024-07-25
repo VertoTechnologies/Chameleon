@@ -44,10 +44,10 @@ export async function GET(req: NextRequest) {
     {
     $match: {
       $or: [
-        {
-          "fullDocument.senderId": userId,
-          "fullDocument.receiverId": friendId,
-        },
+        // {
+        //   "fullDocument.senderId": userId,
+        //   "fullDocument.receiverId": friendId,
+        // },
         {
           "fullDocument.senderId": friendId,
           "fullDocument.receiverId": userId,
