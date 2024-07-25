@@ -17,12 +17,12 @@ interface UserProfile {
 const useUserProfile = (userId: string | null) => {
     const [profile, setProfile] = useState<UserProfile | null>(null);
 
-
     useEffect(() => {
         const fetchUserProfile = async () => {
+            if (!userId) return;
+            
             try {
-                console.log(1)
-                //   const response = await fetch(`/api/viewProfile/?userId=${userId}`);
+                console.log(`Fetching profile for userId: ${userId}`); // Log the userId being used
                 const response = await fetch(`/api/viewProfile/?userId=${userId}`, {
                     method: 'GET',
                     headers: {
@@ -30,24 +30,22 @@ const useUserProfile = (userId: string | null) => {
                     },
                 });
 
-                console.log(response.status)
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
 
                 const data = await response.json();
-
+                console.log('Profile data received:', data); // Log the received profile data
                 setProfile(data);
             } catch (error) {
                 console.error('Error fetching user profile:', error);
-            } 
+            }
         };
 
         fetchUserProfile();
-    }, []);
+    }, [userId]);
 
     return { profile };
 };
-
 
 export default useUserProfile;

@@ -15,7 +15,7 @@ export default async function login(req, res) {
   console.log(req.body);
   const { email, password } = req.body;
 
-  console.log(email, password);
+  console.log('Email:', email, 'Password:', password);
 
   if (!email || !password) {
     return res.status(400).json({ message: 'Missing required fields' });
@@ -40,14 +40,16 @@ export default async function login(req, res) {
     await User.findOneAndUpdate({ email }, { $set: { isOnline: true } });
 
     const token = jwt.sign(
-      { userId: user._id },
+      { userId: user.userId },
       process.env.JWT_SECRET,
       { expiresIn: '1h' }
     );
 
-    console.log(token);
+    console.log('Token:', token);
+    console.log('User ID:', user.userId);
+
     // Respond with success message
-    res.status(200).json({ message: 'Login successful', userId: user._id, sessionToken: token, userName: user.name });
+    res.status(200).json({ message: 'Login successful', userId: user.userId, sessionToken: token, userName: user.name });
     
     console.log("User logged in");
   } catch (error) {

@@ -20,7 +20,7 @@ const Header = () => {
       
       {/* Navigation Links */}
       <div className="flex space-x-24 ml-10 mr-10"> {/* Increased space between navigation links */}
-        <Link href="/" className="text-lg font-mt-extra text-black hover:text-gray-700">
+        <Link href="/Dashboard" className="text-lg font-mt-extra text-black hover:text-gray-700">
           Home
         </Link>
         <Link href="/" className="text-lg font-mt-extra text-black hover:text-gray-700">

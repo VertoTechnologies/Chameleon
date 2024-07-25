@@ -177,3 +177,9 @@ border-radius: 10px;
 .custom-scrollbar::-webkit-scrollbar-track {
 background-color: rgba(101, 173, 135, 0.2); /* Greenish background with opacity */
 }
+.chatContainer {
+  background-image: url("/assets/extras/Background.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
