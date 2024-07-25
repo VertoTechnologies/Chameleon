@@ -5,6 +5,7 @@ import { addFriend, handleFriendRequest, getPendingFriendRequests } from './Frie
 import { useProfile } from './slaystore'
 
 const FriendButton = ({ id }: any) => {
+  const [buttonName, setButtonName] = useState('Add')
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const [alertType, setAlertType] = useState<'success' | 'error' | null>(null);
 
@@ -16,6 +17,7 @@ const FriendButton = ({ id }: any) => {
       console.log('Friend request sent:', response);
       setAlertMessage('Friend request sent');
       setAlertType('success');
+      setButtonName('sent')
     } catch (error) {
       console.error('Error sending friend request:', error);
       setAlertMessage('Error sending friend request');
@@ -87,7 +89,7 @@ const FriendButton = ({ id }: any) => {
         style={{ backgroundColor: '#65AD87', borderRadius: '30px' }}
         onClick={handleAddFriend}
       >
-        Add
+        {buttonName}
       </button>
       {/* Uncomment and use these buttons if needed */}
       {/* <button className='w-full p-3 rounded-3xl bg-[#65AD87] hover:bg-[#65AD87] text-white px-1 py-2 text-sm' onClick={acceptFriend}>

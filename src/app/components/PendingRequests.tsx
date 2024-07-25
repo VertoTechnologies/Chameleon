@@ -39,6 +39,23 @@ const PendingRequests: React.FC = () => {
             setAlertMessage('Error handling friend request');
             setAlertType('error');
         }
+        const fetchPendingFriendRequests = async () => {
+            if (!profile.userId) {
+                console.error('User ID is undefined');
+                return;
+            }
+
+            try {
+                console.log('Fetching pending friend requests for user:', profile.userId);
+                const data = await getPendingFriendRequests(profile.userId);
+                console.log('Fetched pending friend requests data:', data);
+                pSetFriendsData(data.pendingRequests);
+            } catch (error) {
+                console.error('Error fetching pending friend requests:', error);
+            }
+        };
+        fetchPendingFriendRequests();
+        
     };
 
     useEffect(() => {
