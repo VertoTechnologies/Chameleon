@@ -3,7 +3,6 @@ import { IMessage } from "@/models/message";
 import {
   MongoClient,
   ChangeStreamDocument,
-  ConnectOptions,
   ObjectId,
 } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
@@ -22,7 +21,7 @@ async function initClient() {
 export const runTime = "nodejs";
 export const dyamic = "force-dynamic";
 
-export async function GET(req: NextRequest) {
+export default async function GET(req: NextRequest) {
   console.log("New connection");
 
   const friendId = req.nextUrl.searchParams.get("friendId");
