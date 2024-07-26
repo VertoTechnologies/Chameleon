@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useProfile } from './slaystore';
 import { getFriendsList } from './FriendRequest';
-import RemoveFriendButton from './removeFriendButton';
+import FriendActionsDropdown from './friendsdropdown'; // Ensure the path is correct
 
 interface LeftBoxProps {
   activeButton: string;
@@ -30,31 +30,41 @@ interface User {
 const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
   const router = useRouter();
   const [friendsList, setFriendsList] = useState<User[]>([]);
-  const profile = useProfile()
+  const profile = useProfile();
+
   useEffect(() => {
     const fetchFriendList = async () => {
-        if (!profile.userId) {
-            console.error('User ID is undefined');
-            return;
-        }
+      if (!profile.userId) {
+        console.error('User ID is undefined');
+        return;
+      }
 
-        try {
-            console.log('Fetching friends for user:', profile.userId);
-            const data = await getFriendsList(profile.userId);
-            console.log('Fetched friends data:', data);
-            setFriendsList(data.friends);
-        } catch (error) {
-            console.error('Error fetching friends:', error);
-        }
+      try {
+        console.log('Fetching friends for user:', profile.userId);
+        const data = await getFriendsList(profile.userId);
+        console.log('Fetched friends data:', data);
+        setFriendsList(data.friends);
+      } catch (error) {
+        console.error('Error fetching friends:', error);
+      }
     };
     fetchFriendList();
-},[profile.userId]);
+  }, [profile.userId]);
 
   const handleFriendClick = (userId: string) => {
     router.push(`/Chat?friend=${encodeURIComponent(userId)}`);
   };
 
-  
+  const handleBlockFriend = (userId: string) => {
+    // Implement block friend logic here
+    console.log(`Block friend with ID: ${userId}`);
+  };
+
+  const handleRemoveFriend = (userId: string) => {
+    // Implement remove friend logic here
+    console.log(`Remove friend with ID: ${userId}`);
+  };
+
   return (
     <div className="w-1/4 h-screen overflow-y-auto custom-scrollbar" style={{ backgroundColor: 'rgba(101, 173, 135, 0.2)' }}>
       <div className="p-4 flex mt-4 ml-7">
@@ -82,26 +92,35 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
           }}
           onClick={() => toggleButton('community')}
         >
-          Communities
+          Requests
         </button>
       </div>
 
       {/* Friends List */}
       <div className="mt-4 ml-6 mr-3">
-      {friendsList.length > 0 ? (
-                    friendsList.map((user) => (
-                      <div key={user.userId} className="flex items-center p-4 border-b-2 cursor-pointer" 
-                      style={{ borderBottomColor: '#65AD87' }}
-                      onClick={() => handleFriendClick(user.userId)}
-                      >
-                          <img src= '/assets/extras/profilepicture.png' alt={user.name} className="w-12 h-12 rounded-full mr-3 " />
-                          <span className="text-lg font-medium">{user.name}</span>
-                          <div className= 'flex justify-end w-full'><RemoveFriendButton id = {user.userId}/></div>
-                        </div>
-                    ))
-                ) : (
-                    <div className="p-3 border-2 border-white">you have no friends</div>
-                )}
+        {friendsList.length > 0 ? (
+          friendsList.map((user) => (
+            <div 
+              key={user.userId} 
+              className="flex items-center p-4 border-b-2 cursor-pointer" 
+              style={{ borderBottomColor: '#65AD87' }}
+              onClick={() => handleFriendClick(user.userId)}
+            >
+              <img 
+                src={user.profilePic || '/assets/extras/profilepicture.png'} 
+                alt={user.name} 
+                className="w-12 h-12 rounded-full mr-3" 
+              />
+              <span className="text-lg font-medium flex-grow">{user.name}</span>
+              <FriendActionsDropdown
+                onBlock={() => handleBlockFriend(user.userId)}
+                onRemove={() => handleRemoveFriend(user.userId)}
+              />
+            </div>
+          ))
+        ) : (
+          <div className="p-3 border-2 border-white">You have no friends</div>
+        )}
       </div>
     </div>
   );

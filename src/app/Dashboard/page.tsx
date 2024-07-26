@@ -65,13 +65,7 @@ const Page = () => {
                 </span>
               </div>
             ))}
-            <h1 className="text-mtextra text-xl font-bold mb-2 mt-10">Pending Requests</h1>
-          
-          {/* Online Users Section */}
-
-          <div className="mt-6">
-            <PendingRequests></PendingRequests>
-          </div>
+           
           </div>
         </div>
 
