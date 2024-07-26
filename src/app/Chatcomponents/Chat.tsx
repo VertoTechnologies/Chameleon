@@ -3,9 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import ChatHeader from "./ChatHeader";
 import MessageBubble from "./MessageBubble";
 import MessageInput from "./MessageInput";
-import "../globals.css";
 import { useProfile } from "../components/slaystore";
-import { useRouter } from "next/navigation";
 interface ChatProps {
   friendId: string | null;
 }
@@ -24,6 +22,7 @@ const Chat: React.FC<ChatProps> = ({ friendId }) => {
   const userId = profile.userId;
   const [eventSource, setEventSource] = useState<EventSource | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null); // Create the ref
+  const [first, setFirst] = useState<Boolean>(true);
 
   useEffect(() => {
     console.log(
@@ -69,6 +68,7 @@ const Chat: React.FC<ChatProps> = ({ friendId }) => {
       newEventSource.onmessage = (event) => {
         console.log("Received event:", event.data);
         try {
+          setFirst(false);
           const newMessage: Message = JSON.parse(event.data);
           console.log("Parsed new message:", newMessage);
           setMessages((prevMessages) => {
@@ -97,7 +97,10 @@ const Chat: React.FC<ChatProps> = ({ friendId }) => {
 
   useEffect(() => {
     console.log("Messages updated:", messages);
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" }); // Scroll to bottom on messages update
+
+    first
+      ? bottomRef.current?.scrollIntoView({ behavior: "auto" })   // Auto Scroll to bottom on first render
+      : bottomRef.current?.scrollIntoView({ behavior: "smooth" }); // Smooth Scroll to bottom on messages update
   }, [messages]);
 
   useEffect(() => {
@@ -107,6 +110,8 @@ const Chat: React.FC<ChatProps> = ({ friendId }) => {
   const handleSend = async (message: string, timestamp: string) => {
     if (friendId && userId) {
       try {
+        setFirst(false);
+
         console.log("Sending message:", {
           senderId: userId,
           receiverId: friendId,
@@ -134,7 +139,6 @@ const Chat: React.FC<ChatProps> = ({ friendId }) => {
       }
     }
   };
-
   return (
     <>
       <div
@@ -147,7 +151,7 @@ const Chat: React.FC<ChatProps> = ({ friendId }) => {
         {/* Overlay */}
         <div className="relative flex flex-col h-full">
           <ChatHeader friendId={friendId} />
-          <div className="flex-1 p-4 overflow-y-auto h-0">
+          <div className="flex-1 p-4 overflow-y-auto chat-messages-container h-0">
             <div className="flex flex-col">
               {messages.map((msg) => (
                 <MessageBubble

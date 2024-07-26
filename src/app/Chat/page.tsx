@@ -18,7 +18,7 @@ const ChatPage = () => {
   };
 
   return (
-    <section className="flex flex-col min-h-screen ">
+    <section className="flex flex-col min-h-screen " >
       {/* Header Component */}
       <Header />
       <div className="flex flex-grow" style={{ maxHeight: 'calc(100vh - 60px - 50px)' }}>
@@ -28,7 +28,7 @@ const ChatPage = () => {
         ) : (
           <Communities activeButton={activeButton} toggleButton={toggleButton} />
         )}
-        <div className="flex-1 px-4 overflow-auto">
+        <div className="flex-1 px-4 overflow-hidden">
           <Chat friendId={friendId} />
         </div>
       </div>
