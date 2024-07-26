@@ -6,26 +6,26 @@ import Link from 'next/link';
 
 const Header = () => {
   return (
-    <nav className="flex items-center justify-between max-w-container px-4 py-5 relative z-30">
+    <nav className="flex items-center justify-between scroll-smooth max-w-container px-4 py-5 relative z-30">
       {/* Logo and Brand Name */}
       <div className="flex items-center">
         <Link href="/">
-          <Image src="/assets/extras/Logo Mark.png" alt="logo" width={100} height={50} /> {/* Increased width and height */}
+          <Image src="/assets/extras/Logo Mark.png" alt="logo" width={100} height={50} />
         </Link>
         <div className="cursor-pointer ml-4">
-          <span className="ml-2 font-source-code-pro text-2xl font-medium tracking-wider mr-10">CHAMELEON</span> {/* Increased size and letter-spacing */}
+          <span className="ml-2 font-source-code-pro text-2xl font-medium tracking-wider mr-10">CHAMELEON</span>
         </div>
       </div>
 
       {/* Navigation Links */}
-      <div className="flex space-x-16 ml-8 mr-8"> {/* Increased space between navigation links */}
+      <div className="flex space-x-16 ml-8 mr-8">
         <Link href="/" className="text-lg font-mt-extra text-black hover:text-gray-700">
           Home
         </Link>
-        <Link href="/about" className="text-lg font-mt-extra text-black hover:text-gray-700">
-          About Us {/* Adjusted ml to match 92px spacing */}
+        <Link href="/#about" className="text-lg font-mt-extra text-black hover:text-gray-700">
+          About Us
         </Link>
-        <Link href="/offer" className="text-lg font-mt-extra text-black hover:text-gray-700">
+        <Link href="/#offer" className="text-lg font-mt-extra text-black hover:text-gray-700">
           What We Offer
         </Link>
       </div>
@@ -42,7 +42,7 @@ const Header = () => {
             Sign Up
           </button>
         </Link>
-        <div className="ml-8"></div> {/* Increased space at the end */}
+        <div className="ml-8"></div>
       </div>
     </nav>
   );

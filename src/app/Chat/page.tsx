@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import '../globals.css'; // Correct path based on the structure above
 import Header from '../components/headermain';
@@ -18,17 +18,17 @@ const ChatPage = () => {
   };
 
   return (
-    <section className="overflow-y-auto h-[calc(80vh-4rem)] min-h-screen scroll-px-14 scrollbar scrollbar-thumb-custom-green scrollbar-track-gray">
+    <section className="flex flex-col min-h-screen " >
       {/* Header Component */}
       <Header />
-      <div className="flex flex-grow">
+      <div className="flex flex-grow" style={{ maxHeight: 'calc(100vh - 60px - 50px)' }}>
         {/* Left Box or Communities */}
         {activeButton === 'friends' ? (
           <LeftBox activeButton={activeButton} toggleButton={toggleButton} />
         ) : (
           <Communities activeButton={activeButton} toggleButton={toggleButton} />
         )}
-        <div className="flex-1 px-4">
+        <div className="flex-1 px-4 overflow-hidden">
           <Chat friendId={friendId} />
         </div>
       </div>

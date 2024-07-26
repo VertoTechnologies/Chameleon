@@ -93,7 +93,6 @@ const Call: React.FC<CallProps> = ({ friendId }) => {
       }, 1000);
       setTimer(newTimer);
     }
-    // Cleanup timer on component unmount or when the call ends
     return () => {
       if (timer) {
         clearInterval(timer);
@@ -176,6 +175,9 @@ const Call: React.FC<CallProps> = ({ friendId }) => {
           {("0" + (callDuration % 60)).slice(-2)}
         </div>
       )}
+
+      {/* Button to Simulate Answering the Call */}
+      
     </div>
   );
 };
