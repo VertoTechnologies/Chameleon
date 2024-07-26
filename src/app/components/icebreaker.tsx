@@ -17,16 +17,18 @@ const Icebreaker: React.FC<IcebreakerProps> = ({ userId, friendId }) => {
   const [timerDuration, setTimerDuration] = useState<number | null>(null);
 
   useEffect(() => {
+    // Create unique keys for localStorage based on userId and friendId
     const key = `icebreakerVisible_${userId}_${friendId}`;
     const closeTimeKey = `icebreakerCloseTime_${userId}_${friendId}`;
-    const storedVisibility = sessionStorage.getItem(key);
-    const closeTime = parseInt(sessionStorage.getItem(closeTimeKey) || "0", 10);
+    const storedVisibility = localStorage.getItem(key);
+    const closeTime = parseInt(localStorage.getItem(closeTimeKey) || "0", 10);
 
     const now = Date.now();
     const twentyFourHours = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
     if (storedVisibility === 'false') {
       if (now - closeTime < twentyFourHours) {
+        // Set the timer duration if the icebreaker is not visible
         setTimerDuration(Math.max(0, twentyFourHours - (now - closeTime)));
         setVisible(false);
         return;
@@ -42,8 +44,8 @@ const Icebreaker: React.FC<IcebreakerProps> = ({ userId, friendId }) => {
     const key = `icebreakerVisible_${userId}_${friendId}`;
     const closeTimeKey = `icebreakerCloseTime_${userId}_${friendId}`;
     setVisible(false);
-    sessionStorage.setItem(key, 'false');
-    sessionStorage.setItem(closeTimeKey, now.toString());
+    localStorage.setItem(key, 'false');
+    localStorage.setItem(closeTimeKey, now.toString());
   };
 
   return (
