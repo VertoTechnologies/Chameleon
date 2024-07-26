@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import React, { useEffect, useState, useRef } from "react";
 import ChatHeader from "./ChatHeader";
 import MessageBubble from "./MessageBubble";
@@ -6,6 +6,7 @@ import MessageInput from "./MessageInput";
 import "../globals.css";
 import { useProfile } from "../components/slaystore";
 import { useRouter } from "next/navigation";
+import Icebreaker from "../components/icebreaker"
 interface ChatProps {
   friendId: string | null;
 }
@@ -147,6 +148,11 @@ const Chat: React.FC<ChatProps> = ({ friendId }) => {
         {/* Overlay */}
         <div className="relative flex flex-col h-full">
           <ChatHeader friendId={friendId} />
+          <div className="flex justify-center">
+            <div className="w-full max-w-md">
+            <Icebreaker userId={userId} friendId={friendId} />
+            </div>
+          </div>
           <div className="flex-1 p-4 overflow-y-auto h-0">
             <div className="flex flex-col">
               {messages.map((msg) => (
