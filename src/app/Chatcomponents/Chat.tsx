@@ -138,7 +138,7 @@ const Chat: React.FC<ChatProps> = ({ friendId }) => {
   return (
     <>
       <div
-        className="flex flex-col h-[750px] rounded-lg shadow-lg relative bg-cover bg-center"
+        className="flex flex-col h-full rounded-lg shadow-lg relative bg-cover bg-center"
         style={{
           backgroundImage: "url('/assets/extras/Background.png')",
         }}

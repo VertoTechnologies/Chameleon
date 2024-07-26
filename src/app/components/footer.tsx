@@ -52,7 +52,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-white text-[#2D2E2E] py-8 px-4">
+    <footer className="bg-white text-[#2D2E2E] py-6 px-4">
       <div className="max-w-container mx-auto flex items-center justify-between">
         {/* Logo */}
         <Link href="/" >
