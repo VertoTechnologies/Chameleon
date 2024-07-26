@@ -2,7 +2,7 @@ import React from 'react';
 
 const Features = () => {
   return (
-    <div className="py-12" style={{ backgroundColor: 'rgba(246, 237, 228, 0.8)' }}>
+    <div id='offer' className="py-12 scroll-smooth" style={{ backgroundColor: 'rgba(246, 237, 228, 0.8)' }}>
       <div className="max-w-container mx-auto px-4 font-mtextra">
         <h2 className="text-center text-3xl md:text-4xl font-bold mb-8">What We Offer?</h2>
         
