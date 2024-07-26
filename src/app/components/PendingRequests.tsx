@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import { handleFriendRequest, getPendingFriendRequests } from './FriendRequest';
 import { useProfile } from './slaystore';
+import { RxCross2 } from "react-icons/rx";
+import { TiTick } from "react-icons/ti";
 
 // Define the User type
 interface User {
@@ -104,18 +106,20 @@ const PendingRequests: React.FC = () => {
                             <img src={'/assets/extras/profilepicture.png'} alt={user.requesterDetails.name} className="w-12 h-12 rounded-full mr-4" />
                             <span className="text-lg text-mtextra">{user.requesterDetails.name}</span>
                             <div className="flex justify-end w-full">
-                                <button
-                                    className="w-16 p-3 m-1 rounded-3xl bg-[#65AD87] hover:bg-[#65AD87] text-white px-1 py-2 text-sm"
-                                    onClick={() => acceptFriend(user.id, 'accepted')}
-                                >
-                                    Accept
-                                </button>
-                                <button
-                                    className="w-16 p-3 m-1 rounded-3xl bg-[#65AD87] hover:bg-[#65AD87] text-white px-1 py-2 text-sm"
-                                    onClick={() => acceptFriend(user.id, 'rejected')}
-                                >
-                                    Reject
-                                </button>
+                            <button
+  className="w-16 p-3 m-1 rounded-3xl bg-[#65AD87] hover:bg-[#65AD87] text-white flex items-center justify-center"
+  onClick={() => acceptFriend(user.id, 'accepted')}
+>
+  <TiTick size={25} />
+</button>
+
+{/* Reject Button */}
+<button
+  className="w-16 p-3 m-1 rounded-3xl bg-[#65AD87] hover:bg-[#65AD87] text-white flex items-center justify-center"
+  onClick={() => acceptFriend(user.id, 'rejected')}
+>
+  <RxCross2 size={22} />
+</button>
                             </div>
                         </div>
                     ))
