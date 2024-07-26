@@ -7,6 +7,7 @@ import useUserProfile from '../components/useUserProfile';
 import { useUserStore } from '../components/store';
 import { useProfile } from '../components/slaystore';
 import { Key } from 'lucide-react';
+import BgImg from './BgImg';
 
 const ViewFile: React.FC = () => {
     interface Language {
@@ -58,13 +59,17 @@ const ViewFile: React.FC = () => {
     };
 
     return (
-        <div className="min-h-sm bg-gray-100 flex items-center justify-center p-6">
+        <div className="min-h-screen w-screen bg-gray-100 flex items-center justify-center p-6 z-10 relative">
             <div className="max-w-screen grid grid-cols-1 md:grid-cols-2 gap-6 text-lg">
                 <ProfileCard />
-                <div className="bg-white p-4 rounded-lg shadow-lg space-y-4">
-                    <div className="p-4 rounded-lg shadow-md bg-white">
-                        <h3 className="text-3xl mb-2">Native Language</h3>
-                        <span>{profile?.nativeLanguage}</span>
+                <div className="p-4 rounded-lg bg-white">
+                <div className="bg-white p-4 rounded-lg ">
+                <h3 className="text-3xl mb-2">Native Language</h3>
+                <div className='shadow-lg p-8 pr-3 rounded-lg'>
+                <div className="flex justify-between items-center">
+                <span>{profile?.nativeLanguage}</span>
+                    </div>
+                    </div>
                     </div>
                     <div className="p-4 rounded-lg bg-white">
                         <LanguageProficiency
@@ -82,6 +87,8 @@ const ViewFile: React.FC = () => {
                     </div>
                 </div>
             </div>
+
+            
         </div>
     );
 };

@@ -19,7 +19,7 @@ const LanguageProficiency: React.FC<LanguageProficiencyProps> = ({ title, langua
                 {languages.map(({ language, level }, languageIndex) => (
                     <div key={languageIndex} className='shadow-lg p-8 pr-3 rounded-lg'>
                         <div className="flex justify-between items-center">
-                            <span>{language}</span>
+                            <span>{language}</span> 
                             <div className="flex pl-7">
                                 {[...Array(5)].map((_, starIndex) => (
                                     <svg
