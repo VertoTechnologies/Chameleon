@@ -134,6 +134,7 @@ const Call: React.FC<CallProps> = ({ friendId }) => {
   const handleMute = () => {
     setIsMuted((prevIsMuted) => {
       const newIsMuted = !prevIsMuted;
+      console.log('Mute state changed:', newIsMuted); // Debug log
       if (localMicrophoneTrack) {
         localMicrophoneTrack.setEnabled(!newIsMuted);
       }
@@ -184,7 +185,7 @@ const Call: React.FC<CallProps> = ({ friendId }) => {
       <div className="absolute inset-0 bg-[rgba(101,173,135,0.3)]"></div>
       {isRinging && (
         <div className="absolute top-0 left-1/2 transform -translate-x-1/2 bg-gray-400 text-white text-base px-4 py-2 rounded-full mt-16">
-          Ringing...
+          Waiting for {friendName} to join...
         </div>
       )}
       <div className="relative flex flex-row h-full justify-center items-center space-x-8">
