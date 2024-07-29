@@ -16,30 +16,30 @@ interface UserProfileProps {
 
 const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
   return (
-    <div className="flex justify-between items-center bg-white px-48 py-20 rounded-lg shadow-md w-full max-w-screen-7xl">
-      <div className="flex items-center">
-        <div className="mr-4 flex-shrink-0">
-          <div className="rounded-full p-5">
-            <img
-              src="/assets/extras/profilepicture.png" // Placeholder image, replace with actual image source
-              alt="Profile Picture"
-              className="h-24 w-24 rounded-full object-cover"
-            />
-          </div>
-          
-        </div>
-        <div className="flex-grow">
-          <h3 className="text-lg font-bold">{user.name}</h3>
-          <div className="mt-1">
-            <p><span className="font-semibold">Native Languages:</span> {user.nativeLanguages.join(', ')}</p>
-            <p><span className="font-semibold">Fluent Languages:</span> {user.fluentLanguages.join(', ')}</p>
-            <p><span className="font-semibold">Learning Languages:</span> {user.learningLanguages.join(', ')}</p>
-          </div>
-          <hr className="border-t border-gray-300 my-4" />
-        </div>
-        <div className="border-l-2 border-gray-300 h-24 mx-4"></div>
+    <div className="flex items-center bg-white px-6 py-8 rounded-xl shadow-lg w-[850px] space-x-8">
+      <div className="flex-shrink-0">
+        <img
+          src="/assets/extras/profilepicture.png" // Placeholder image, replace with actual image source
+          alt="Profile Picture"
+          className="h-44 w-44 rounded-full object-cover" // Adjust size
+        />
       </div>
-      <button className="bg-green-500 text-white px-4 py-2 rounded-md">Add</button>
+      <div className="h-[100%] w-0.5 bg-gray-300 mx-6"></div> {/* Grey vertical line */}
+      <div className="flex-grow">
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-xl font-bold font-mt-extra">{user.name}</h2>
+          <button className="bg-[#65AD87] text-white px-6 py-1 rounded-full">Add</button> {/* Adjusted button */}
+        </div>
+        <hr className="border-t border-gray-300 my-3" />
+        <div className="mb-3">
+          <p><span className="font-semibold font-mt-extra mr-6">Native Languages</span> {user.nativeLanguages.join(', ')}</p>
+          <hr className="border-t  border-gray-300 my-3" />
+          <p><span className="font-semibold font-mt-extra mr-6">Fluent Languages</span> {user.fluentLanguages.join(' , ')}</p>
+          <hr className="border-t  border-gray-300 my-3" />
+          <p><span className="font-semibold font-mt-extra mr-6">Learning Languages</span> {user.learningLanguages.join(', ')}</p>
+        </div>
+        <hr className="border-t  border-gray-300 my-3" /> 
+      </div>
     </div>
   );
 };
