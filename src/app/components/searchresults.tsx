@@ -34,7 +34,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
         </div>
         <hr className="border-t border-gray-300 my-3" />
         <div className="mb-3">
-          <p><span className="font-semibold font-mt-extra mr-6">Native Languages</span> {user.nativeLanguage}</p>
+          <p><span className="font-semibold font-mt-extra mr-6">Native Language</span> {user.nativeLanguage}</p>
           <hr className="border-t  border-gray-300 my-3" />
           <p><span className="font-semibold font-mt-extra mr-6">Fluent Languages</span> {user.fluentLanguagess.join(' , ')}</p>
           <hr className="border-t  border-gray-300 my-3" />

@@ -3,35 +3,38 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../components/headermain';
 import Footer from '../components/footer';
-import SearchBar from '../components/searchbar';
-import SearchResultsContainer from '../components/SearchResultContainer';
 import RecResultsContainer from '../components/recommeendationC'
 import { useProfile } from '../components/slaystore';
+import useFriendStore from '../components/friendStore';
+import Aboutus from '../components/searchbar';
 
+
+interface User {
+  userId: string;
+  name: string;
+  nativeLanguage: string,
+  fluentLanguagess: string[],
+  learningLanguagess: string[]
+}
 
 
 const Explore: React.FC = () => {
+  const userData2 = useFriendStore((state) => state.usersData);
   const profile = useProfile()
   const [usersData, setUsersData] = useState<User[]>([]);
-
-  interface User {
-    userId: string;
-    name: string;
-    nativeLanguage: string,
-    fluentLanguagess: string[],
-    learningLanguagess: string[]
-  }
-  
+  const input = ''
+  const option = ''
 
   
   useEffect(() => {
     const fetchUsersData = async () => {
       try {
-        const response = await fetch(`/api/getUsers?user=${encodeURIComponent(JSON.stringify(profile))}`, {
-          method: 'GET',
+        const response = await fetch(`/api/getUsers?userId=${profile.userId}`, {
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
+          body: JSON.stringify({input, option }) 
         });
         {console.log(profile)}
         if (!response.ok) {
@@ -51,10 +54,12 @@ const Explore: React.FC = () => {
   return (
     <section className="scroll-smooth overflow-y-auto h-screen scrollbar scrollbar-thumb-custom-green scrollbar-track-gray ">
       <Header />
-      <SearchBar />
-      <div className="flex justify-center p-4 bg-[rgb(101,173,135,0.2)]">
-        {/* <SearchResultsContainer user = {usersData}/> */}
-        <RecResultsContainer user = {usersData}/>
+      <Aboutus></Aboutus>
+      <div className="flex flex-col items-center p-4 bg-[rgb(101,173,135,0.2)] rounded-lg shadow-lg">
+      <h1 className="text-xl font-bold font-mt-extra text-center mb-4">
+      Add Your Language Buddies
+      </h1>
+      <RecResultsContainer user={usersData} />
       </div>
       <Footer />
     </section>

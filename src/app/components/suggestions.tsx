@@ -15,14 +15,18 @@ interface User {
 const RightBox: React.FC = () => {
   const [usersData, setUsersData] = useState<User[]>([]);
   const profile = useProfile()
+  const id = profile.userId
+  const input = ''
+  const option = ''
   useEffect(() => {
     const fetchUsersData = async () => {
       try {
-        const response = await fetch(`/api/getUsers?user=${encodeURIComponent(JSON.stringify(profile))}`, {
-          method: 'GET',
+        const response = await fetch(`/api/getUsers?userId=${profile.userId}`, {
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
+          body: JSON.stringify({input, option }) // Send data in the request body
         });
 
         if (!response.ok) {

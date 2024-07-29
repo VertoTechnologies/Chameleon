@@ -1,44 +1,18 @@
-import {create} from 'zustand'
-import { createJSONStorage, persist } from 'zustand/middleware'
+// store.js
+import { create } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
 
-const useFriendProfileStore = create(
+const useFriendStore = create(
   persist(
     (set) => ({
-      userId: '',
-      name: '',
-      userDescription: '',
-      nativeLanguage: [],
-      fluentLanguagess: [],
-      learningLanguagess: [],
-      userInterests: [],
-      isOnline: Boolean,
-      setUserId: (userId) => set({userId}),
-      setName: (name) => set({ name }),
-      setUserDescription: (userDescription) => set({ userDescription }),
-      setNativeLanguage: (nativeLanguage) => set({ nativeLanguage }),
-      setfluentLanguagess: (fluentLanguagess) => set({ fluentLanguagess }),
-      setlearningLanguagess: (learningLanguagess) => set({ learningLanguagess }),
-      setUserInterests: (userInterests) => set({ userInterests }),
-      setIsOnline: (isOnline) => set({isOnline})
+      usersData: [],
+      setUsersData: (data) => set({ usersData: data }),
     }),
     {
-      name: 'friend-profile-storage', // Unique name for the storage
-      storage: createJSONStorage(()=>localStorage)
+      name: 'friend-data-storage',
+      storage: createJSONStorage(() => localStorage),
     }
   )
-)
+);
 
-export const useFriendProfile = () => {
-  return useFriendProfileStore((state) => ({
-    userId: state.userId,
-    name: state.name,
-    userDescription: state.userDescription,
-    nativeLanguage: state.nativeLanguage,
-    fluentLanguagess: state.fluentLanguagess,
-    learningLanguagess: state.learningLanguagess,
-    userInterests: state.userInterests,
-    isOnline: state.isOnline,
-  }));
-};
-
-export default useFriendProfileStore
+export default useFriendStore;

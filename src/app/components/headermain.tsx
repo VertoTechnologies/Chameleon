@@ -38,7 +38,7 @@ const Header = () => {
       {/* User Avatar Placeholder and Dropdown */}
       <div className="flex items-center ml-8 mr-4"> {/* Adjusted margin to position avatar and dropdown */}
         <div className="relative w-10 h-10 rounded-full overflow-hidden mr-2">
-          <Image src="/assets/extras/profilepicture.png" alt="User Avatar" layout="fill" objectFit="cover" />
+          <Image src={profile.profilePic} alt="User Avatar" layout="fill" objectFit="cover" />
         </div>
         <DropdownMenuComponent userName={profile.name} />
       </div>
