@@ -25,6 +25,9 @@ const Call: React.FC<CallProps> = ({ friendId }) => {
     userName: "Receiver Name",
   });
 
+  const placeHolderImage =
+    "<img src='https://tr.rbxcdn.com/38c6edcb50633730ff4cf39ac8859840/420/420/Hat/Png' alt='Profile Picture' style='width: 100%; height: 100%; object-fit: cover;' />";
+
   const [friendName, setFriendName] = useState<string | null>(null);
 
   const [isMuted, setIsMuted] = useState(false);
@@ -37,7 +40,8 @@ const Call: React.FC<CallProps> = ({ friendId }) => {
   const caller = useProfile();
   const currentUserId = useProfile().userId;
 
-  const { localMicrophoneTrack, isLoading: isLoadingMic } = useLocalMicrophoneTrack();
+  const { localMicrophoneTrack, isLoading: isLoadingMic } =
+    useLocalMicrophoneTrack();
   const { localCameraTrack, isLoading: isLoadingCam } = useLocalCameraTrack();
   const remoteUsers = useRemoteUsers();
   const { audioTracks } = useRemoteAudioTracks(remoteUsers);
@@ -56,33 +60,50 @@ const Call: React.FC<CallProps> = ({ friendId }) => {
   }, [audioTracks]);
 
   useEffect(() => {
-    if (typeof window !== "undefined" && !isLoadingCam && localCameraTrack && localVideoRef.current) {
+    if (
+      typeof window !== "undefined" &&
+      !isLoadingCam &&
+      localCameraTrack &&
+      localVideoRef.current
+    ) {
       localCameraTrack.play(localVideoRef.current);
     }
 
     if (typeof window !== "undefined") {
       remoteUsers.forEach((user) => {
-        user.videoTrack?.play(remoteVideoRef.current!);
+        console.log("Remote user video track:", user.videoTrack);
+
+        if (user.videoTrack) {
+          if (remoteVideoRef.current) {
+            user.videoTrack.play(remoteVideoRef.current);
+            console.log("Playing remote user video track.");
+          } else {
+            console.error("Remote video reference is not available.");
+          }
+        } else {
+          console.error("Remote user does not have a video track.");
+          if (remoteVideoRef.current) {
+            remoteVideoRef.current.innerHTML = placeHolderImage;
+          }
+        }
       });
 
       if (remoteUsers.length > 0) {
         handleCallAnswered();
       }
     }
-  }, [isLoadingCam, localCameraTrack, remoteUsers]);
+  }, [audioTracks, isLoadingCam, localCameraTrack, remoteUsers]);
 
   useEffect(() => {
     const fetchUser = async (id: string) => {
       try {
         const response = await fetch(`/api/viewProfile?userId=${id}`);
-        if (!response.ok) throw new Error('Network response was not ok');
+        if (!response.ok) throw new Error("Network response was not ok");
         const data = await response.json();
         setFriendName(data.name);
-        // setProfilePic(data.profilePic || '/assets/extras/profilepicture.png');
       } catch (error) {
-        console.error('Error fetching user profile:', error);
-        setFriendName('Friend');
-        // setProfilePic('/assets/extras/profilepicture.png');
+        console.error("Error fetching user profile:", error);
+        setFriendName("Friend");
       }
     };
 
@@ -107,11 +128,23 @@ const Call: React.FC<CallProps> = ({ friendId }) => {
 
   const handleMute = () => {
     setIsMuted(!isMuted);
-    localMicrophoneTrack?.setEnabled(!isMuted);
+    if (localMicrophoneTrack) {
+      localMicrophoneTrack.setEnabled(!isMuted);
+    }
   };
 
   const handleVideo = () => {
-    localCameraTrack?.setEnabled(!localCameraTrack?.enabled);
+    if (localCameraTrack) {
+      const newEnabledState = !localCameraTrack.enabled;
+      localCameraTrack.setEnabled(newEnabledState);
+
+      if (!newEnabledState) {
+        if (localVideoRef.current)
+          localVideoRef.current.innerHTML = placeHolderImage;
+      } else {
+        if (localVideoRef.current) localVideoRef.current.innerHTML = "";
+      }
+    }
   };
 
   const handleEndCall = () => {
@@ -134,23 +167,40 @@ const Call: React.FC<CallProps> = ({ friendId }) => {
         </div>
       )}
       <div className="relative flex flex-row h-full justify-center items-center space-x-8">
-        <Frame videoRef={localVideoRef} userName={caller.name || "Caller Name"} />
+        <Frame
+          videoRef={localVideoRef}
+          userName={caller.name || "Caller Name"}
+        />
         <Frame videoRef={remoteVideoRef} userName={friendName || "Friend"} />
       </div>
       <div className="absolute bottom-2 transform -translate-x-1/2 flex flex-row space-x-4 cursor-pointers mb-3">
-        <div onClick={handleMute} className="bg-[rgba(101,173,135)] p-3 rounded-full flex items-center justify-center">
-          {isMuted ? <FaMicrophoneSlash size={24} className="text-white" /> : <HiMicrophone size={24} className="text-white" />}
+        <div
+          onClick={handleMute}
+          className="bg-[rgba(101,173,135)] p-3 rounded-full flex items-center justify-center"
+        >
+          {isMuted ? (
+            <FaMicrophoneSlash size={24} className="text-white" />
+          ) : (
+            <HiMicrophone size={24} className="text-white" />
+          )}
         </div>
-        <div onClick={handleVideo} className="bg-[#65ad87] p-3 rounded-full flex items-center justify-center cursor-pointer">
+        <div
+          onClick={handleVideo}
+          className="bg-[#65ad87] p-3 rounded-full flex items-center justify-center cursor-pointer"
+        >
           <FaVideoSlash size={24} className="text-white" />
         </div>
-        <div onClick={handleEndCall} className="bg-[#DE3B46] p-3 rounded-full flex items-center justify-center cursor-pointer">
+        <div
+          onClick={handleEndCall}
+          className="bg-[#DE3B46] p-3 rounded-full flex items-center justify-center cursor-pointer"
+        >
           <MdCallEnd size={24} className="text-white" />
         </div>
       </div>
       {!isRinging && (
         <div className="absolute top-0 left-1/2 transform -translate-x-1/2 bg-gray-400 text-white text-base px-4 py-2 rounded-full mt-16">
-          {Math.floor(callDuration / 60)}:{("0" + (callDuration % 60)).slice(-2)}
+          {Math.floor(callDuration / 60)}:
+          {("0" + (callDuration % 60)).slice(-2)}
         </div>
       )}
     </div>
