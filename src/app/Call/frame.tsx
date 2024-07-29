@@ -13,14 +13,13 @@ const Frame: React.FC<FrameProps> = ({ videoRef, userName }) => {
       <div className="absolute bottom-2 left-2 bg-[rgba(101,173,135,0.5)] text-black text-sm px-2 py-1 rounded-full">
         {userName}
       </div>
-      {/* Mute button */}
+      {/* Mute button 
       <div
         className="absolute top-2 right-2 w-8 h-8 flex items-center justify-center bg-[rgba(101,173,135,0.5)] text-white rounded-full"
         title="Mute"
       >
-        <FaMicrophoneSlash  className="text-xl" />
+         <FaMicrophoneSlash  className="text-xl" /> */}
       </div>
-    </div>
   );
 };
 

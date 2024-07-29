@@ -13,6 +13,7 @@ import AgoraRTC, {
   usePublish,
   useRemoteUsers,
   useRemoteAudioTracks,
+  ICameraVideoTrack,
 } from "agora-rtc-react";
 
 interface CallProps {
@@ -126,24 +127,44 @@ const Call: React.FC<CallProps> = ({ friendId }) => {
     };
   }, [isRinging, timer]);
 
+  useEffect(() => {
+  },[isMuted]);
+
+
   const handleMute = () => {
-    setIsMuted(!isMuted);
-    if (localMicrophoneTrack) {
-      localMicrophoneTrack.setEnabled(!isMuted);
-    }
+    setIsMuted((prevIsMuted) => {
+      const newIsMuted = !prevIsMuted;
+      if (localMicrophoneTrack) {
+        localMicrophoneTrack.setEnabled(!newIsMuted);
+      }
+      return newIsMuted;
+    });
   };
+
+  function toggleCameraTrackEnabled(localCameraTrack: ICameraVideoTrack) {
+    const newEnabledState = !localCameraTrack.enabled;
+    localCameraTrack.setEnabled(newEnabledState);
+    return newEnabledState;
+  }
+
+  function updateLocalVideoDisplay(
+    newEnabledState: boolean,
+    localVideoRef: React.RefObject<HTMLDivElement>,
+    placeHolderImage: string
+  ) {
+    if (!newEnabledState) {
+      if (localVideoRef.current)
+        localVideoRef.current.innerHTML = placeHolderImage;
+    } else {
+      if (localVideoRef.current) localVideoRef.current.innerHTML = "";
+    }
+  }
 
   const handleVideo = () => {
     if (localCameraTrack) {
-      const newEnabledState = !localCameraTrack.enabled;
-      localCameraTrack.setEnabled(newEnabledState);
+      const newEnabledState = toggleCameraTrackEnabled(localCameraTrack);
 
-      if (!newEnabledState) {
-        if (localVideoRef.current)
-          localVideoRef.current.innerHTML = placeHolderImage;
-      } else {
-        if (localVideoRef.current) localVideoRef.current.innerHTML = "";
-      }
+      updateLocalVideoDisplay(newEnabledState, localVideoRef, placeHolderImage);
     }
   };
 
