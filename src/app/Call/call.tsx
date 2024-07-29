@@ -75,7 +75,6 @@ const Call: React.FC<CallProps> = ({ friendId }) => {
       localCameraTrack.play(localVideoRef.current);
       localCameraTrack.setEnabled(false);
       localVideoRef.current.innerHTML = placeHolderImage;
-      
     }
 
     if (typeof window !== "undefined") {
@@ -83,7 +82,6 @@ const Call: React.FC<CallProps> = ({ friendId }) => {
         const remoteUser = remoteUsers[0];
         console.log("Remote user:", remoteUser);
         console.log("Remote user video track:", remoteUser.videoTrack);
-       
 
         if (remoteUser.videoTrack) {
           if (remoteVideoRef.current) {
@@ -115,24 +113,28 @@ const Call: React.FC<CallProps> = ({ friendId }) => {
   ]);
 
   useEffect(() => {
-    const fetchUser = async (id: string) => {
-      try {
-        const response = await fetch(`/api/viewProfile?userId=${id}`);
-        if (!response.ok) throw new Error("Network response was not ok");
-        const data = await response.json();
-        setFriendName(data.name);
-      } catch (error) {
-        console.error("Error fetching user profile:", error);
-        setFriendName("Friend");
-      }
-    };
+    if (typeof window !== "undefined") {
+      const fetchUser = async (id: string) => {
+        try {
+          const response = await fetch(`/api/viewProfile?userId=${id}`);
+          if (!response.ok) throw new Error("Network response was not ok");
+          const data = await response.json();
+          setFriendName(data.name);
+        } catch (error) {
+          console.error("Error fetching user profile:", error);
+          setFriendName("Friend");
+        }
+      };
 
-    if (friendId) {
-      fetchUser(friendId);
+      if (friendId) {
+        fetchUser(friendId);
+      }
     }
   }, [friendId]);
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+
     if (!isRinging && !timer) {
       const newTimer = setInterval(() => {
         setCallDuration((prevDuration) => prevDuration + 1);
@@ -144,6 +146,7 @@ const Call: React.FC<CallProps> = ({ friendId }) => {
         clearInterval(timer);
       }
     };
+  }
   }, [isRinging, timer]);
 
   const handleMuteCall = async () => {
