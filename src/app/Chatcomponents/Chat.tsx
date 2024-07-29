@@ -3,10 +3,9 @@ import React, { useEffect, useState, useRef } from "react";
 import ChatHeader from "./ChatHeader";
 import MessageBubble from "./MessageBubble";
 import MessageInput from "./MessageInput";
-import "../globals.css";
 import { useProfile } from "../components/slaystore";
-import { useRouter } from "next/navigation";
-import Icebreaker from "../components/icebreaker"
+import Icebreaker from "../components/icebreaker";
+
 interface ChatProps {
   friendId: string | null;
 }
@@ -24,26 +23,17 @@ const Chat: React.FC<ChatProps> = ({ friendId }) => {
   const profile = useProfile();
   const userId = profile.userId;
   const [eventSource, setEventSource] = useState<EventSource | null>(null);
-  const bottomRef = useRef<HTMLDivElement>(null); // Create the ref
+  const bottomRef = useRef<HTMLDivElement>(null);
+  const [first, setFirst] = useState<Boolean>(true);
 
   useEffect(() => {
-    console.log(
-      "useEffect triggered with friendId:",
-      friendId,
-      "and userId:",
-      userId
-    );
+    console.log("useEffect triggered with friendId:", friendId, "and userId:", userId);
 
     const fetchMessages = async () => {
       if (friendId && userId) {
         try {
-          console.log("Fetching messages for:", {
-            senderId: userId,
-            receiverId: friendId,
-          });
-          const response = await fetch(
-            `/api/getmessage?senderId=${userId}&receiverId=${friendId}`
-          );
+          console.log("Fetching messages for:", { senderId: userId, receiverId: friendId });
+          const response = await fetch(`/api/getmessage?senderId=${userId}&receiverId=${friendId}`);
           if (!response.ok) throw new Error("Failed to fetch messages");
           const data = await response.json();
           console.log("Fetched messages:", data);
@@ -62,14 +52,13 @@ const Chat: React.FC<ChatProps> = ({ friendId }) => {
     }
 
     if (friendId && userId) {
-      const newEventSource = new EventSource(
-        `/api/streamMessages?friendId=${friendId}&userId=${userId}`
-      );
+      const newEventSource = new EventSource(`/api/streamMessages?friendId=${friendId}&userId=${userId}`);
       console.log("New EventSource created:", newEventSource);
 
       newEventSource.onmessage = (event) => {
         console.log("Received event:", event.data);
         try {
+          setFirst(false);
           const newMessage: Message = JSON.parse(event.data);
           console.log("Parsed new message:", newMessage);
           setMessages((prevMessages) => {
@@ -98,7 +87,9 @@ const Chat: React.FC<ChatProps> = ({ friendId }) => {
 
   useEffect(() => {
     console.log("Messages updated:", messages);
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" }); // Scroll to bottom on messages update
+    first
+      ? bottomRef.current?.scrollIntoView({ behavior: "auto" })   // Auto Scroll to bottom on first render
+      : bottomRef.current?.scrollIntoView({ behavior: "smooth" }); // Smooth Scroll to bottom on messages update
   }, [messages]);
 
   useEffect(() => {
@@ -108,12 +99,8 @@ const Chat: React.FC<ChatProps> = ({ friendId }) => {
   const handleSend = async (message: string, timestamp: string) => {
     if (friendId && userId) {
       try {
-        console.log("Sending message:", {
-          senderId: userId,
-          receiverId: friendId,
-          message,
-          timestamp,
-        });
+        setFirst(false);
+        console.log("Sending message:", { senderId: userId, receiverId: friendId, message, timestamp });
         const response = await fetch("/api/sendmessage", {
           method: "POST",
           headers: {
@@ -137,39 +124,26 @@ const Chat: React.FC<ChatProps> = ({ friendId }) => {
   };
 
   return (
-    <>
-      <div
-        className="flex flex-col h-full rounded-lg shadow-lg relative bg-cover bg-center"
-        style={{
-          backgroundImage: "url('/assets/extras/Background.png')",
-        }}
-      >
-        <div className="absolute inset-0 bg-[rgba(101,173,135,0.3)]"></div>{" "}
-        {/* Overlay */}
-        <div className="relative flex flex-col h-full">
-          <ChatHeader friendId={friendId} />
-          <div className="flex justify-center">
-            <div className="w-full max-w-md">
+    <div className="flex flex-col h-full rounded-lg shadow-lg relative bg-cover bg-center" style={{ backgroundImage: "url('/assets/extras/Background.png')" }}>
+      <div className="absolute inset-0 bg-[rgba(101,173,135,0.3)]"></div> {/* Overlay */}
+      <div className="relative flex flex-col h-full">
+        <ChatHeader friendId={friendId} />
+        <div className="flex justify-center">
+          <div className="w-full max-w-md">
             <Icebreaker userId={userId} friendId={friendId} />
-            </div>
           </div>
-          <div className="flex-1 p-4 overflow-y-auto h-0">
-            <div className="flex flex-col">
-              {messages.map((msg) => (
-                <MessageBubble
-                  key={msg._id}
-                  message={msg.message}
-                  isOwnMessage={msg.senderId === userId}
-                  timestamp={msg.timestamp}
-                />
-              ))}
-              <div ref={bottomRef} />
-            </div>
-          </div>
-          <MessageInput onSend={handleSend} />
         </div>
+        <div className="flex-1 p-4 overflow-y-auto h-0 chat-messages-container">
+          <div className="flex flex-col">
+            {messages.map((msg) => (
+              <MessageBubble key={msg._id} message={msg.message} isOwnMessage={msg.senderId === userId} timestamp={msg.timestamp} />
+            ))}
+            <div ref={bottomRef} />
+          </div>
+        </div>
+        <MessageInput onSend={handleSend} />
       </div>
-    </>
+    </div>
   );
 };
 
