@@ -13,6 +13,7 @@ const useUserProfileStore = create(
       learningLanguagess: [],
       userInterests: [],
       isOnline: Boolean,
+      profilePic: '',
       setUserId: (userId) => set({userId}),
       setName: (name) => set({ name }),
       setUserDescription: (userDescription) => set({ userDescription }),
@@ -20,7 +21,8 @@ const useUserProfileStore = create(
       setfluentLanguagess: (fluentLanguagess) => set({ fluentLanguagess }),
       setlearningLanguagess: (learningLanguagess) => set({ learningLanguagess }),
       setUserInterests: (userInterests) => set({ userInterests }),
-      setIsOnline: (isOnline) => set({isOnline})
+      setIsOnline: (isOnline) => set({isOnline}),
+      setProfilePic: (profilePic) => set({ profilePic })
     }),
     {
       name: 'user-profile-storage', // Unique name for the storage
@@ -39,6 +41,7 @@ export const useProfile = () => {
     learningLanguagess: state.learningLanguagess,
     userInterests: state.userInterests,
     isOnline: state.isOnline,
+    profilePic: state.profilePic,
   }));
 };
 

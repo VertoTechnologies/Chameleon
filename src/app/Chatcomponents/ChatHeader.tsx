@@ -1,4 +1,5 @@
 'use client';
+
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { HiVideoCamera, HiPhone, HiDotsHorizontal } from 'react-icons/hi';
@@ -7,12 +8,11 @@ interface ChatHeaderProps {
   friendId: string | null;
 }
 
-
-
 const ChatHeader: React.FC<ChatHeaderProps> = ({ friendId }) => {
   const router = useRouter(); 
-  const [friendName, setFriendName] = useState<string | null>(null);
-  const [profilePic, setProfilePic] = useState<string | null>('/assets/extras/profilepicture.png');
+  const [friendName, setFriendName] = useState<string | undefined>(undefined);
+  const [profilePic, setProfilePic] = useState<string | undefined>(undefined);
+
   const handleCallClick = () => {
     console.log('Initiating call...');
     if (friendId) {
@@ -21,6 +21,7 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ friendId }) => {
       console.error('Friend ID is not available');
     }
   };
+
   useEffect(() => {
     const fetchUser = async (id: string) => {
       try {
@@ -46,7 +47,8 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ friendId }) => {
       {/* Left side: Profile picture and friend name */}
       <div className="flex items-center space-x-3">
         <img 
-          src='/assets/extras/profilepicture.png'
+          src={profilePic || '/assets/extras/profilepicture.png'} // Use a default picture if profilePic is undefined
+          alt={friendName || 'Profile Picture'}
           className="w-10 h-10 rounded-full border border-gray-300 ml-2"
         />
         <span className="text-mtextra text-lg font-bold align-middle ml-2">
@@ -56,8 +58,7 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ friendId }) => {
 
       {/* Right side: Icons */}
       <div className="flex space-x-4">
-      <HiPhone className="text-[#65AD87] text-3xl cursor-pointer mr-1"  title="Voice Call" onClick={handleCallClick}  // Adding onClick handler
-  />
+        <HiPhone className="text-[#65AD87] text-3xl cursor-pointer mr-1" title="Voice Call" onClick={handleCallClick} />
         <HiVideoCamera className="text-[#65AD87] text-3xl cursor-pointer mr-1" title="Video Call" />
         <HiDotsHorizontal className="text-[#65AD87] text-3xl cursor-pointer mr-1" title="More Options" />
       </div>
