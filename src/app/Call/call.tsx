@@ -127,10 +127,6 @@ const Call: React.FC<CallProps> = ({ friendId }) => {
     };
   }, [isRinging, timer]);
 
-  useEffect(() => {
-  },[isMuted]);
-
-
   const handleMute = () => {
     setIsMuted((prevIsMuted) => {
       const newIsMuted = !prevIsMuted;
