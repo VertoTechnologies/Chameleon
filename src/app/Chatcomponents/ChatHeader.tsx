@@ -3,7 +3,8 @@
 "use client";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { HiVideoCamera, HiPhone, HiDotsHorizontal } from "react-icons/hi";
+import { HiDotsHorizontal } from "react-icons/hi";
+import "bootstrap-icons/font/bootstrap-icons.css";
 import { Button } from "@/components/ui/button";
 
 interface ChatHeaderProps {
@@ -61,18 +62,25 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ friendId }) => {
       <div className="flex space-x-4">
         {/*<HiPhone
           className="text-[#65AD87] text-3xl cursor-pointer mr-1"
-          title="Voice Call"
+          title="Voice Call"  
           onClick={handleCallClick} // Adding onClick handler
         />
-         <HiVideoCamera className="text-[#65AD87] text-3xl cursor-pointer mr-1" title="Video Call" />
-        <HiDotsHorizontal className="text-[#65AD87] text-3xl cursor-pointer mr-1" title="More Options" /> */}
-        <Button
+         <HiVideoCamera className="text-[#65AD87] text-3xl cursor-pointer mr-1" title="Video Call" />*/}
+        {/* <Button
           onClick={handleCallClick} // Adding onClick handler
           className="bg-[#65AD87] text-[#ffff]"
           variant="destructive"
-        >
-          Join Call
-        </Button>
+        > */}
+        <i
+          className="bi bi-telephone-plus-fill p-1 pl-1 pr-1 text-2xl bg-transparent bottom-full cursor-pointer mr-1 text-[#65AD87] border-spacing-x-2 rounded"
+          onClick={handleCallClick}
+          title="Join Call"
+        ></i>
+        {/* </Button> */}
+        <HiDotsHorizontal
+          className="text-[#65AD87] text-3xl cursor-pointer mr-1 mt-1"
+          title="More Options"
+        />
       </div>
     </div>
   );

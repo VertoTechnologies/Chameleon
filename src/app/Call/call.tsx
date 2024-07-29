@@ -1,7 +1,12 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import Frame from "./frame"; // Ensure the correct path based on your project structure
-import { FaMicrophoneSlash, FaVideoSlash } from "react-icons/fa";
+import {
+  FaMicrophone,
+  FaMicrophoneSlash,
+  FaVideo,
+  FaVideoSlash,
+} from "react-icons/fa";
 import { HiMicrophone } from "react-icons/hi";
 import { MdCallEnd } from "react-icons/md";
 import { useProfile } from "../components/slaystore"; // Ensure the correct path
@@ -14,6 +19,7 @@ import AgoraRTC, {
   useRemoteUsers,
   useRemoteAudioTracks,
   ICameraVideoTrack,
+  LocalAudioTrack,
 } from "agora-rtc-react";
 
 interface CallProps {
@@ -30,10 +36,9 @@ const Call: React.FC<CallProps> = ({ friendId }) => {
     "<img src='https://tr.rbxcdn.com/38c6edcb50633730ff4cf39ac8859840/420/420/Hat/Png' alt='Profile Picture' style='width: 100%; height: 100%; object-fit: cover;' />";
 
   const [friendName, setFriendName] = useState<string | null>(null);
-
-  const [isMuted, setIsMuted] = useState(false);
   const [isRinging, setIsRinging] = useState(true);
   const [callDuration, setCallDuration] = useState(0);
+  const [muteStatus, setMuteStatus] = useState(false);
   const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
   const localVideoRef = useRef<HTMLDivElement>(null);
   const remoteVideoRef = useRef<HTMLDivElement>(null);
@@ -68,15 +73,21 @@ const Call: React.FC<CallProps> = ({ friendId }) => {
       localVideoRef.current
     ) {
       localCameraTrack.play(localVideoRef.current);
+      localCameraTrack.setEnabled(false);
+      localVideoRef.current.innerHTML = placeHolderImage;
+      
     }
 
     if (typeof window !== "undefined") {
-      remoteUsers.forEach((user) => {
-        console.log("Remote user video track:", user.videoTrack);
+      if (remoteUsers.length > 0) {
+        const remoteUser = remoteUsers[0];
+        console.log("Remote user:", remoteUser);
+        console.log("Remote user video track:", remoteUser.videoTrack);
+       
 
-        if (user.videoTrack) {
+        if (remoteUser.videoTrack) {
           if (remoteVideoRef.current) {
-            user.videoTrack.play(remoteVideoRef.current);
+            remoteUser.videoTrack.play(remoteVideoRef.current);
             console.log("Playing remote user video track.");
           } else {
             console.error("Remote video reference is not available.");
@@ -87,13 +98,21 @@ const Call: React.FC<CallProps> = ({ friendId }) => {
             remoteVideoRef.current.innerHTML = placeHolderImage;
           }
         }
-      });
-
-      if (remoteUsers.length > 0) {
-        handleCallAnswered();
+      } else {
+        console.warn("No remote users available.");
       }
     }
-  }, [audioTracks, isLoadingCam, localCameraTrack, remoteUsers]);
+
+    if (remoteUsers.length > 0) {
+      handleCallAnswered();
+    }
+  }, [
+    audioTracks,
+    isLoadingCam,
+    localCameraTrack,
+    remoteUsers,
+    localMicrophoneTrack,
+  ]);
 
   useEffect(() => {
     const fetchUser = async (id: string) => {
@@ -127,15 +146,21 @@ const Call: React.FC<CallProps> = ({ friendId }) => {
     };
   }, [isRinging, timer]);
 
-  const handleMute = () => {
-    setIsMuted((prevIsMuted) => {
-      const newIsMuted = !prevIsMuted;
-      console.log('Mute state changed:', newIsMuted); // Debug log
+  const handleMuteCall = async () => {
+    try {
+      console.log("handleMuteCall triggered");
       if (localMicrophoneTrack) {
-        localMicrophoneTrack.setEnabled(!newIsMuted);
+        const newMuteStatus = !localMicrophoneTrack.enabled;
+        console.log("Setting microphone enabled state to:", newMuteStatus);
+        await localMicrophoneTrack.setEnabled(newMuteStatus);
+        setMuteStatus(newMuteStatus);
+        console.log("Microphone state set to:", newMuteStatus);
+      } else {
+        console.warn("Microphone track is not available or is locked");
       }
-      return newIsMuted;
-    });
+    } catch (error) {
+      console.error("Error in handleMuteCall:", error);
+    }
   };
 
   function toggleCameraTrackEnabled(localCameraTrack: ICameraVideoTrack) {
@@ -193,20 +218,24 @@ const Call: React.FC<CallProps> = ({ friendId }) => {
       </div>
       <div className="absolute bottom-2 transform -translate-x-1/2 flex flex-row space-x-4 cursor-pointers mb-3">
         <div
-          onClick={handleMute}
-          className="bg-[rgba(101,173,135)] p-3 rounded-full flex items-center justify-center"
+          onClick={handleMuteCall}
+          className="bg-[#65ad87] p-3 rounded-full flex items-center justify-center cursor-pointer"
         >
-          {isMuted ? (
+          {muteStatus ? (
             <FaMicrophoneSlash size={24} className="text-white" />
           ) : (
-            <HiMicrophone size={24} className="text-white" />
+            <FaMicrophone size={24} className="text-white" />
           )}
         </div>
         <div
           onClick={handleVideo}
           className="bg-[#65ad87] p-3 rounded-full flex items-center justify-center cursor-pointer"
         >
-          <FaVideoSlash size={24} className="text-white" />
+          {localCameraTrack?.enabled ? (
+            <FaVideo size={24} className="text-white" />
+          ) : (
+            <FaVideoSlash size={24} className="text-white" />
+          )}
         </div>
         <div
           onClick={handleEndCall}
