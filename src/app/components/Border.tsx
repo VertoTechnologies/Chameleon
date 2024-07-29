@@ -4,8 +4,8 @@ import Image from 'next/image';
 const Border = () => {
   return (
     <div className="logo-container rounded-xl rounded-l-3xl bg-orange-100 flex items-center justify-center">
-      <div className="max-w-4xl mx-auto">
-        <div style={{ maxWidth: '100%', maxHeight: '600px' }}>
+      <div className="max-w-2xl mx-auto">
+        <div style={{ maxWidth: '100%', maxHeight: '300px' }}>
           <Image
             src='/assets/images/logo.png'
             alt="Example Image"

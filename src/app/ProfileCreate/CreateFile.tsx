@@ -110,7 +110,7 @@ const CreateFile: React.FC = () => {
       const data = await response.json();
       console.log('Update Success:', data.message);
       // Handle success (e.g., redirect to a login page or show a success message)
-      router.push('/Dashboard');
+      router.push('/ProfileCreate2');
 
     } catch (error) {
       console.error('Update Error:', error);
@@ -205,8 +205,7 @@ const CreateFile: React.FC = () => {
           ></textarea>
         </div>
         <div className="w-full flex justify-end px-2 mt-4">
-          <Button type="submit" variant="outline" className="w-[120px] mr-2 rounded-full bg-[#65AD87] hover:bg-[#65AD87] text-white">Save</Button>
-          <Button variant="outline" onClick={handleCancel} className="w-[120px] rounded-full bg-[#65AD87] hover:bg-[#65AD87] text-white">Cancel</Button>
+          <Button type="submit" variant="outline" className="w-[120px] mr-2 rounded-full bg-[#65AD87] hover:bg-[#65AD87] text-white">Next</Button>
         </div>
       </form>
     </div>

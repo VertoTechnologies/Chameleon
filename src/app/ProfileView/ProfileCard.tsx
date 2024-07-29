@@ -43,8 +43,7 @@ const ProfileCard: React.FC = () => {
                     {profile?.userDescription}
                 </p>
                 <div>
-                    <h3 className="font-bold text-2xl mb-2 pt-14">Interests</h3>
-                    {profile?.userInterests}
+                    <Interests userInterests={profile?.userInterests}></Interests>
                 </div>
             </div>
         </div>
