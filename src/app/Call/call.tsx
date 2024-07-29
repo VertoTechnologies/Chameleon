@@ -150,9 +150,9 @@ const Call: React.FC<CallProps> = ({ friendId }) => {
     try {
       console.log("handleMuteCall triggered");
       if (localMicrophoneTrack) {
-        const newMuteStatus = !localMicrophoneTrack.enabled;
+        const newMuteStatus = localMicrophoneTrack.enabled;
         console.log("Setting microphone enabled state to:", newMuteStatus);
-        await localMicrophoneTrack.setEnabled(newMuteStatus);
+        await localMicrophoneTrack.setEnabled(!newMuteStatus);
         setMuteStatus(newMuteStatus);
         console.log("Microphone state set to:", newMuteStatus);
       } else {
