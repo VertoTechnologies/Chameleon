@@ -4,12 +4,13 @@
 // components/DropdownMenu.jsx
 // components/DropdownMenu.jsx
 
-import React from "react";
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation'; // Import useRouter from next/navigation
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button, cn } from "@nextui-org/react";
 import { IoIosSettings, IoIosLogOut, IoIosArrowDown } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
 import { useProfile } from "./slaystore";
+import Settings from './settings';
 
 interface DropdownMenuProps {
   userName: string;
@@ -18,11 +19,16 @@ interface DropdownMenuProps {
 const DropdownMenuComponent: React.FC<DropdownMenuProps> = ({ userName }) => {
   const router = useRouter();
   const profile = useProfile()
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false); 
+
   const handleSettingsClick = () => {
     console.log("Settings clicked");
-    // Add your settings logic here
+    
+    setIsSettingsOpen(true);
   };
-
+  const closeSettingsModal = () => {
+    setIsSettingsOpen(false); // Close the Settings modal
+  };
   async function logoutUser(userId: string) {
     try {
       const response = await fetch('/api/logout', {
@@ -56,7 +62,7 @@ const DropdownMenuComponent: React.FC<DropdownMenuProps> = ({ userName }) => {
   const handleProfileClick = () => {
     console.log("Profile clicked");
     // Perform logout logic (e.g., clear session, etc.)
-    router.push('/ProfileView'); // Redirect to the login page
+    router.push('/ProfileView'); // Redirect to the loagin page
   };
 
 
@@ -88,6 +94,7 @@ const DropdownMenuComponent: React.FC<DropdownMenuProps> = ({ userName }) => {
   };
 
   return (
+    <div className=''>
     <Dropdown>
       <DropdownTrigger>
         <Button className={cn("bordered", dropdownButtonStyle)}>
@@ -111,6 +118,10 @@ const DropdownMenuComponent: React.FC<DropdownMenuProps> = ({ userName }) => {
         </DropdownItem>
       </DropdownMenu>
     </Dropdown>
+    {isSettingsOpen && (
+        <Settings isOpen={isSettingsOpen} onClose={closeSettingsModal} />
+      )}
+    </div>
   );
 };
 
