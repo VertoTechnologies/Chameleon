@@ -84,7 +84,7 @@ const CreateFile: React.FC = () => {
         profilePic: '',
       }
     });
-    router.push('/Dashboard')
+    router.push('/ProfileCreate2')
   };
 //  window?.localStorage.setItem("userId",userId)
   const handleSubmit = async (e: React.FormEvent) => {

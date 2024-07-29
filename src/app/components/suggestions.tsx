@@ -49,7 +49,7 @@ const RightBox: React.FC = () => {
         </div>
         <div className="mt-2 ml-7 mr-5">
         {usersData.length > 0 ? (
-          <div>
+          <div> 
             {usersData.map((user, index) => (
               <div key={user.userId} className={`flex items-center p-4 ${index === 0 ? '' : 'border-t-2'}`} style={{ borderTopColor: '#65AD87' }}>
                 <img src={'/assets/extras/profilepicture.png'} alt={user.name} className="w-12 h-12 rounded-full mr-4" />

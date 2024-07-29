@@ -3,8 +3,6 @@
 import React, { useState } from 'react';
 import UserProfile from './searchresults';
 
-import { useProfile } from './slaystore';
-
 interface User {
   userId: string;
   name: string;
@@ -21,7 +19,7 @@ interface UserProfileProps {
 
 const ITEMS_PER_PAGE = 6; // Number of items to show per page
 
-const SearchResultsContainer: React.FC<UserProfileProps> = ({ user }) => {
+const RecResultsContainer: React.FC<UserProfileProps> = ({ user }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(user.length / ITEMS_PER_PAGE);
 
@@ -68,4 +66,4 @@ const SearchResultsContainer: React.FC<UserProfileProps> = ({ user }) => {
   );
 };
 
-export default SearchResultsContainer;
+export default RecResultsContainer;

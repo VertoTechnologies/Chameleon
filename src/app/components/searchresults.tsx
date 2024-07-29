@@ -1,17 +1,18 @@
 // components/UserProfile.tsx
 'use client'
 import React from 'react';
+import FriendButton from './friendbutton';
 
 interface User {
-  id: number;
+  userId: string;
   name: string;
-  nativeLanguages: string[];
-  fluentLanguages: string[];
-  learningLanguages: string[];
+  nativeLanguage: string,
+  fluentLanguagess: string[],
+  learningLanguagess: string[]
 }
 
 interface UserProfileProps {
-  user: User;
+  user: User; 
 }
 
 const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
@@ -28,15 +29,16 @@ const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
       <div className="flex-grow">
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-xl font-bold font-mt-extra">{user.name}</h2>
-          <button className="bg-[#65AD87] text-white px-6 py-1 rounded-full">Add</button> {/* Adjusted button */}
+          <div className="bg-[#65AD87] text-white pl-3 rounded-full"><FriendButton id = {user.userId}></FriendButton></div>
+           {/* Adjusted button */}
         </div>
         <hr className="border-t border-gray-300 my-3" />
         <div className="mb-3">
-          <p><span className="font-semibold font-mt-extra mr-6">Native Languages</span> {user.nativeLanguages.join(', ')}</p>
+          <p><span className="font-semibold font-mt-extra mr-6">Native Languages</span> {user.nativeLanguage}</p>
           <hr className="border-t  border-gray-300 my-3" />
-          <p><span className="font-semibold font-mt-extra mr-6">Fluent Languages</span> {user.fluentLanguages.join(' , ')}</p>
+          <p><span className="font-semibold font-mt-extra mr-6">Fluent Languages</span> {user.fluentLanguagess.join(' , ')}</p>
           <hr className="border-t  border-gray-300 my-3" />
-          <p><span className="font-semibold font-mt-extra mr-6">Learning Languages</span> {user.learningLanguages.join(', ')}</p>
+          <p><span className="font-semibold font-mt-extra mr-6">Learning Languages</span> {user.learningLanguagess.join(', ')}</p>
         </div>
         <hr className="border-t  border-gray-300 my-3" /> 
       </div>

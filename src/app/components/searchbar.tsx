@@ -1,6 +1,6 @@
 // components/Aboutus.tsx
 'use client'
-import React from 'react';
+import React from 'react'; 
 import { IoSearchOutline } from "react-icons/io5";
 import Link from 'next/link';
 
@@ -13,7 +13,7 @@ const Aboutus = () => {
           <input 
             type="text" 
             className="w-full px-4 py-3 pl-10  border border-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-white" 
-            placeholder="Search..." 
+            placeholder="Search on basis of language..." 
           />
           <IoSearchOutline className="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-500" size={25} />
           <button 
