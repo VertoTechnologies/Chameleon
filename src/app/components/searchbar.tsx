@@ -50,6 +50,7 @@ const Aboutus: React.FC = () => {
     if (event.key === 'Enter') {
       event.preventDefault(); // Prevent default form submission
       fetchUsersData(); // Trigger the search
+      setCurrentPage(1)
     }
   };
 

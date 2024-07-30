@@ -77,13 +77,14 @@ export default async function getUsers(req, res) {
                         { fluentLanguagess: input }
                     ]
                 }).select('-password').skip(skip).limit(ITEMS_PER_PAGE);
-            }
+            
             totalCount = await User.countDocuments({
                 $and: [
                     { userId: { $nin: [user.userId] } },
                     { fluentLanguagess: input }
                 ]
             });
+        }
             combinedUsers = searches;
         } else {
             if (user.purpose === 'To Teach') {
