@@ -10,6 +10,7 @@ import { useProfile } from './slaystore';
 interface User {
   userId: string;
   name: string;
+  profilePic?: string;
 }
 
 const RightBox: React.FC = () => {
@@ -45,7 +46,7 @@ const RightBox: React.FC = () => {
 
   return (
     <div className="w-1/4 h-screen overflow-y-auto custom-scrollbar" style={{ backgroundColor: 'rgba(101, 173, 135, 0.2)' }}>
-      {/* Suggestions Section */}
+    
       <div className="mt-6">
         <div className="flex justify-between items-center p-4">
         <h1 className="text-mtextra text-lg font-bold mb-2">Suggestions</h1> 
@@ -56,7 +57,7 @@ const RightBox: React.FC = () => {
           <div> 
             {usersData.map((user, index) => (
               <div key={user.userId} className={`flex items-center p-4 ${index === 0 ? '' : 'border-t-2'}`} style={{ borderTopColor: '#65AD87' }}>
-                <img src={'/assets/extras/profilepicture.png'} alt={user.name} className="w-12 h-12 rounded-full mr-4" />
+                <img src={user.profilePic || '/assets/extras/profilepicture.png'} alt={user.name} className="w-12 h-12 rounded-full mr-4" />
                 <span className="text-lg font-medium">{user.name}</span>
                 <div className= 'flex justify-end w-full'><FriendButton id = {user.userId}></FriendButton></div>
                 
@@ -68,7 +69,7 @@ const RightBox: React.FC = () => {
             No users found
           </div>
         )}
-        {/* Add more content here */}
+       
       </div>
         </div>
       </div>

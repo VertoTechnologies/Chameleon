@@ -1,14 +1,20 @@
 import React from 'react';
+import Header from '../components/headermain';
+import Footer from '../components/footer';
 import ViewFile from './ViewFile';
-import BgImg from './BgImg';
+import BackgroundImage from './Topbacground'; // Import the component
 
 const Page: React.FC = () => {
   return (
-    <div className="sign-up-layout rounded-4xl relative overflow-hidden">
-      <BgImg />
-      <div className="form-container flex rounded-4xl h-auto relative z-10">
-        <ViewFile />
+    <div className="rounded-4xl relative overflow-hidden">
+      <Header />
+      <div className="relative">
+        <BackgroundImage /> {/* Call the image component here */}
+        <div className="relative -mt-32 z-10 flex justify-center">
+          <ViewFile />
+        </div>
       </div>
+      <Footer />
     </div>
   );
 };

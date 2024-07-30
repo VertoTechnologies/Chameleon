@@ -11,7 +11,7 @@ const Interests: React.FC<InterestsProps> = ({ userInterests }) => {
             <h3 className="font-bold text-2xl mb-2">Interests</h3>
                 {userInterests.map(( interest , index) => (
                     <div key={index} className="flex justify-between items-center mb-2">
-                        <span>{interest}</span>
+                        <span>{interest.interest}</span>
                     </div>
                 ))}
 

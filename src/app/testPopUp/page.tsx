@@ -3,8 +3,11 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import { Button } from '../../components/ui/button'; // Adjust the import based on your project
-import SuggestionPopup from '../components/suggestionsPopUp';
+// const  SuggestionPopup from '../components/suggestionsPopUp';
+import dynamic from 'next/dynamic';
+const SuggestionPopup = dynamic(() => import('../components/suggestionsPopUp'));
 import { useRouter } from 'next/navigation';
+import { setUserId } from 'firebase/analytics';
 
 interface User {
   userId: string;
@@ -21,12 +24,16 @@ const Page: React.FC = () => {
   const [usersData, setUsersData] = useState<User[]>([]);
   const input = '';
   const option = '';
+  const [storedUserId, setStoredUserId] = useState<string | null>(null);
   const router = useRouter();
 
   useEffect(() => {
     const fetchUsersData = async () => {
       try {
-        const response = await fetch(`/api/getUsers?userId=${window.localStorage.getItem('userId')}`, {
+        const userId=localStorage?.getItem('userId')
+        setStoredUserId(userId);
+
+        const response = await fetch(`/api/getUsers?userId=${storedUserId}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -46,7 +53,7 @@ const Page: React.FC = () => {
     };
 
     fetchUsersData();
-  }, [window.localStorage.getItem('userId')]);
+  }, [storedUserId]);
 
 //   const handleButtonClick = () => {
 //     setIsPopupOpen(true);

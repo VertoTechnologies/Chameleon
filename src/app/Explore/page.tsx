@@ -50,7 +50,7 @@ const Explore: React.FC = () => {
     };
 
     fetchUsersData();
-  }, [window?.localStorage?.getItem('userId')]);
+  }, [profile.userId]);
 
   return (
     <section className="scroll-smooth overflow-y-auto h-screen scrollbar scrollbar-thumb-custom-green scrollbar-track-gray ">

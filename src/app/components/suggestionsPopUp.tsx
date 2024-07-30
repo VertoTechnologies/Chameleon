@@ -67,7 +67,7 @@ const SuggestionPopup: React.FC<SuggestionPopupProps> = ({ isOpen, onClose, user
                 </div>
               </div>
               <div className= 'bg-[#65AD87] pl-3 text-white font-semibold rounded-full hover:bg-[#4E8C6A] transition-colors mt-4 self-end'>
-                <FriendButton id = {window.localStorage.getItem('userId')}></FriendButton>
+                <FriendButton id = {localStorage?.getItem('userId')}></FriendButton>
                 </div>
             </div>
           ))}
