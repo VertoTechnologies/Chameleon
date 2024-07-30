@@ -46,6 +46,12 @@ const Aboutus: React.FC = () => {
   const handleSelectChange = (value: string) => {
     setOption(value);
   };
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // Prevent default form submission
+      fetchUsersData(); // Trigger the search
+    }
+  };
 
   const fetchUsersData = async () => {
     console.log(profile.userId)
@@ -114,6 +120,7 @@ if(currentPage!=0){
             className="w-full px-4 py-3 pl-10 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-white" 
             placeholder="Search on basis of language..." 
             onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
           />
           <IoSearchOutline className="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-500" size={25} />
           <button 
