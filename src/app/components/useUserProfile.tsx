@@ -1,51 +1,51 @@
 "use client";
 
-import { useEffect, useState } from 'react';
-import { useUserStore } from './store';
+import { useEffect, useState } from "react";
 
 interface UserProfile {
-    userId: string;
-    name: string;
-    userDescription: string;
-    nativeLanguage: string,
-    fluentLanguagess: string[],
-    learningLanguagess: string[],
-    userInterests: string[],
-    isOnline: boolean,
+  userId: string;
+  name: string;
+  userDescription: string;
+  nativeLanguage: string;
+  fluentLanguagess: string[];
+  learningLanguagess: string[];
+  userInterests: string[];
+  isOnline: boolean;
 }
 
-const useUserProfile = (userId: string | null) => {
-    const [profile, setProfile] = useState<UserProfile | null>(null);
+const useUserProfile = () => {
+  const [profile, setProfile] = useState<UserProfile | null>(null);
 
-    useEffect(() => {
-        const fetchUserProfile = async () => {
-            if (!userId) return;
-            
-            try {
-                console.log(`Fetching profile for userId: ${userId}`); // Log the userId being used
-                const response = await fetch(`/api/viewProfile/?userId=${userId}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
+  useEffect(() => {
+    (async () => {
+      const userId = localStorage.getItem("userId");
 
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
+      if (!userId) return;
 
-                const data = await response.json();
-                console.log('Profile data received:', data); // Log the received profile data
-                setProfile(data);
-            } catch (error) {
-                console.error('Error fetching user profile:', error);
-            }
-        };
+      try {
+        console.log(`Fetching profile for userId: ${userId}`); // Log the userId being used
 
-        fetchUserProfile();
-    }, [userId]);
+        const response = await fetch(`/api/viewProfile/?userId=${userId}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
-    return { profile };
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const data = await response.json();
+        console.log("Profile data received:", data); // Log the received profile data
+        setProfile(data);
+      } catch (error) {
+        console.error("Error fetching user profile:", error);
+      }
+    })();
+  }, []);
+
+  return { profile };
 };
 
 export default useUserProfile;

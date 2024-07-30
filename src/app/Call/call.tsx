@@ -1,17 +1,19 @@
-"use client";
 import React, { useEffect, useRef, useState } from "react";
-import Frame from "./frame"; // Ensure the correct path based on your project structure
+import dynamic from "next/dynamic";
+// import Frame from "../components/frame";
+import { useSearchParams } from "next/navigation";
+
 import {
   FaMicrophone,
   FaMicrophoneSlash,
   FaVideo,
   FaVideoSlash,
 } from "react-icons/fa";
-import { HiMicrophone } from "react-icons/hi";
 import { MdCallEnd } from "react-icons/md";
-import { useProfile } from "../components/slaystore"; // Ensure the correct path
+import { useProfile } from "../components/slaystore";
 import { useRouter } from "next/navigation";
-import AgoraRTC, {
+
+import {
   useLocalMicrophoneTrack,
   useLocalCameraTrack,
   useJoin,
@@ -19,14 +21,13 @@ import AgoraRTC, {
   useRemoteUsers,
   useRemoteAudioTracks,
   ICameraVideoTrack,
-  LocalAudioTrack,
 } from "agora-rtc-react";
 
-interface CallProps {
-  friendId: string | null;
-}
+const Frame = dynamic(() => import("../components/frame"), { ssr: false });
 
-const Call: React.FC<CallProps> = ({ friendId }) => {
+const Call = () => {
+  // if (typeof window !== "undefined") {
+  // const [isClient, setIsClient] = useState(false);
   const [receiver, setReceiver] = useState({
     profilePicture: "/assets/extras/profilepicture.png",
     userName: "Receiver Name",
@@ -34,7 +35,9 @@ const Call: React.FC<CallProps> = ({ friendId }) => {
 
   const placeHolderImage =
     "<img src='https://tr.rbxcdn.com/38c6edcb50633730ff4cf39ac8859840/420/420/Hat/Png' alt='Profile Picture' style='width: 100%; height: 100%; object-fit: cover;' />";
+  const searchParams = useSearchParams();
 
+  const friendId = searchParams?.get("friend") ?? null;
   const [friendName, setFriendName] = useState<string | null>(null);
   const [isRinging, setIsRinging] = useState(true);
   const [callDuration, setCallDuration] = useState(0);
@@ -60,14 +63,13 @@ const Call: React.FC<CallProps> = ({ friendId }) => {
   });
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    // if (isClient) {
       audioTracks.forEach((track) => track.play());
-    }
+    // }
   }, [audioTracks]);
 
   useEffect(() => {
     if (
-      typeof window !== "undefined" &&
       !isLoadingCam &&
       localCameraTrack &&
       localVideoRef.current
@@ -77,7 +79,7 @@ const Call: React.FC<CallProps> = ({ friendId }) => {
       localVideoRef.current.innerHTML = placeHolderImage;
     }
 
-    if (typeof window !== "undefined") {
+    // if (isClient) {
       if (remoteUsers.length > 0) {
         const remoteUser = remoteUsers[0];
         console.log("Remote user:", remoteUser);
@@ -99,7 +101,7 @@ const Call: React.FC<CallProps> = ({ friendId }) => {
       } else {
         console.warn("No remote users available.");
       }
-    }
+    
 
     if (remoteUsers.length > 0) {
       handleCallAnswered();
@@ -110,10 +112,11 @@ const Call: React.FC<CallProps> = ({ friendId }) => {
     localCameraTrack,
     remoteUsers,
     localMicrophoneTrack,
+    // isClient,
   ]);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    
       const fetchUser = async (id: string) => {
         try {
           const response = await fetch(`/api/viewProfile?userId=${id}`);
@@ -126,27 +129,22 @@ const Call: React.FC<CallProps> = ({ friendId }) => {
         }
       };
 
-      if (friendId) {
-        fetchUser(friendId);
-      }
-    }
+      fetchUser(friendId||"");
+    
   }, [friendId]);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-
-    if (!isRinging && !timer) {
-      const newTimer = setInterval(() => {
-        setCallDuration((prevDuration) => prevDuration + 1);
-      }, 1000);
-      setTimer(newTimer);
-    }
-    return () => {
-      if (timer) {
-        clearInterval(timer);
+      if (!isRinging && !timer) {
+        const newTimer = setInterval(() => {
+          setCallDuration((prevDuration) => prevDuration + 1);
+        }, 1000);
+        setTimer(newTimer);
       }
-    };
-  }
+      return () => {
+        if (timer) {
+          clearInterval(timer);
+        }
+      };
   }, [isRinging, timer]);
 
   const handleMuteCall = async () => {
@@ -165,25 +163,6 @@ const Call: React.FC<CallProps> = ({ friendId }) => {
       console.error("Error in handleMuteCall:", error);
     }
   };
-
-  function toggleCameraTrackEnabled(localCameraTrack: ICameraVideoTrack) {
-    const newEnabledState = !localCameraTrack.enabled;
-    localCameraTrack.setEnabled(newEnabledState);
-    return newEnabledState;
-  }
-
-  function updateLocalVideoDisplay(
-    newEnabledState: boolean,
-    localVideoRef: React.RefObject<HTMLDivElement>,
-    placeHolderImage: string
-  ) {
-    if (!newEnabledState) {
-      if (localVideoRef.current)
-        localVideoRef.current.innerHTML = placeHolderImage;
-    } else {
-      if (localVideoRef.current) localVideoRef.current.innerHTML = "";
-    }
-  }
 
   const handleVideo = () => {
     if (localCameraTrack) {
@@ -256,5 +235,25 @@ const Call: React.FC<CallProps> = ({ friendId }) => {
     </div>
   );
 };
+
+function toggleCameraTrackEnabled(localCameraTrack: ICameraVideoTrack) {
+  const newEnabledState = !localCameraTrack.enabled;
+  localCameraTrack.setEnabled(newEnabledState);
+  return newEnabledState;
+}
+
+function updateLocalVideoDisplay(
+  newEnabledState: boolean,
+  localVideoRef: React.RefObject<HTMLDivElement>,
+  placeHolderImage: string
+) {
+  if (!newEnabledState) {
+    if (localVideoRef.current)
+      localVideoRef.current.innerHTML = placeHolderImage;
+  } else {
+    if (localVideoRef.current) localVideoRef.current.innerHTML = "";
+  }
+  // }
+}
 
 export default Call;
