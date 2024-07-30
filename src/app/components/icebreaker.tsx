@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { icebreakersv } from "../../constants/enums";
+import axios from "axios";
 import Image from "next/image";
 import snowflakeIcon from "../../../public/assets/extras/snowflake.png";
 import icebreakerIcon from "../../../public/assets/extras/iceb.png";
@@ -17,7 +17,19 @@ const Icebreaker: React.FC<IcebreakerProps> = ({ userId, friendId }) => {
   const [timerDuration, setTimerDuration] = useState<number | null>(null);
 
   useEffect(() => {
-    // Create unique keys for localStorage based on userId and friendId
+    if (!userId || !friendId) return;
+
+    const fetchIcebreaker = async () => {
+      try {
+        const response = await axios.get(`/api/geticebreaker?userId=${userId}&friendId=${friendId}`);
+        setIcebreaker(response.data.question);
+      } catch (error) {
+        console.error("Error fetching icebreaker:", error);
+      }
+    };
+
+    fetchIcebreaker();
+
     const key = `icebreakerVisible_${userId}_${friendId}`;
     const closeTimeKey = `icebreakerCloseTime_${userId}_${friendId}`;
     const storedVisibility = localStorage.getItem(key);
@@ -28,7 +40,6 @@ const Icebreaker: React.FC<IcebreakerProps> = ({ userId, friendId }) => {
 
     if (storedVisibility === 'false') {
       if (now - closeTime < twentyFourHours) {
-        // Set the timer duration if the icebreaker is not visible
         setTimerDuration(Math.max(0, twentyFourHours - (now - closeTime)));
         setVisible(false);
         return;
@@ -36,7 +47,6 @@ const Icebreaker: React.FC<IcebreakerProps> = ({ userId, friendId }) => {
     }
 
     setVisible(true);
-    setIcebreaker(icebreakersv[Math.floor(Math.random() * icebreakersv.length)]);
   }, [userId, friendId]);
 
   const handleClose = () => {
