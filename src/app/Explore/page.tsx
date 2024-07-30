@@ -14,12 +14,13 @@ interface User {
   name: string;
   nativeLanguage: string,
   fluentLanguagess: string[],
-  learningLanguagess: string[]
+  learningLanguagess: string[],
+  profilePic: string
 }
 
 
 const Explore: React.FC = () => {
-  const userData2 = useFriendStore((state) => state.usersData);
+  // const userData2 = useFriendStore((state) => state.usersData);
   const profile = useProfile()
   const [usersData, setUsersData] = useState<User[]>([]);
   const input = ''

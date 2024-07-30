@@ -1,10 +1,18 @@
 // components/Aboutus.tsx
 'use client'
-import React, { useState } from 'react'; 
+import React, { useEffect, useState, useRef } from 'react'; 
 import { IoSearchOutline } from "react-icons/io5";
 import { useProfile } from './slaystore';
 import UserProfile from './searchresults';
-
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { animateScroll as scroll } from 'react-scroll';
+import Link from 'next/link';
 
 interface User {
   userId: string;
@@ -12,17 +20,20 @@ interface User {
   nativeLanguage: string;
   fluentLanguagess: string[];
   learningLanguagess: string[];
+  profilePic: string
 }
-
-const ITEMS_PER_PAGE = 6; // Number of items to show per page
 
 const Aboutus: React.FC = () => {
   const profile = useProfile();
   const id = profile.userId
   const [input, setInput] = useState<string>('');
   const [usersData, setUsersData] = useState<User[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const option = 'Native Language';
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalCount, setTotalCount] = useState(0);
+  const [option, setOption] = useState<string>('Name')
+
+  const inputRef = useRef<HTMLInputElement>(null);
+  // const option = 'Native Language';
 
   //  const totalPages = Math.ceil(usersData.length / ITEMS_PER_PAGE);
   // const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -31,6 +42,9 @@ const Aboutus: React.FC = () => {
   // Handler for input change
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setInput(event.target.value);
+  };
+  const handleSelectChange = (value: string) => {
+    setOption(value);
   };
 
   const fetchUsersData = async () => {
@@ -50,6 +64,8 @@ const Aboutus: React.FC = () => {
 
       const data = await response.json();
       setUsersData(data.users);
+      setTotalCount(data.totalCount)
+      console.log("hhh"+data.totalCount)
     } catch (error) {
       console.error('Error fetching user data:', error);
     }
@@ -58,26 +74,41 @@ const Aboutus: React.FC = () => {
   // Handler for button click
   const buttonClicked = (): void => {
     fetchUsersData();
+     setCurrentPage(1)
     // Use the `input` state value here
+    
     console.log('Input value:', input);
   };
 
+  useEffect(() => {
+if(currentPage!=0){
+    fetchUsersData();}
+    if (inputRef.current) {
+      inputRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  },[currentPage]);
+  
+    
+  
   // Pagination handlers
   const handlePrevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
-    fetchUsersData();
+    
   };
 
   const handleNextPage = () => {
-    setCurrentPage(currentPage + 1);
-    fetchUsersData();
+    if (currentPage<((totalCount/4))) setCurrentPage(currentPage + 1);
+    
   };
 
   return (
     <section id='about' className="relative max-w-full scroll-smooth bg-[#65ad87] bg-opacity-50 py-16 md:py-28 h-auto flex flex-col items-center">
       {/* Search Bar */}
+      
       <div className="flex flex-col justify-center items-center text-center px-6 md:px-12 md:text-left w-full mb-8">
-        <div className="relative w-full md:w-6/12 lg:w-2/3">
+      
+        <div className="relative w-full md:w-6/12 lg:w-2/3"ref={inputRef}>
+
           <input 
             type="text" 
             className="w-full px-4 py-3 pl-10 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-white" 
@@ -91,7 +122,19 @@ const Aboutus: React.FC = () => {
           >
             Search
           </button>
+          
         </div>
+        <Select onValueChange={(value) => handleSelectChange(value)}>
+  <SelectTrigger className="w-[180px]">
+    <SelectValue placeholder="Select a Filter" />
+  </SelectTrigger>
+  <SelectContent>
+  <SelectItem value="Name">Name</SelectItem>
+    <SelectItem value="Native Language">Native Language</SelectItem>
+    <SelectItem value="Fluent Language">Fluent Language</SelectItem>
+    <SelectItem value="Learning Language">Learning Language</SelectItem>
+  </SelectContent>
+</Select>
       </div>
 
       {/* Search Results */}
@@ -161,3 +204,6 @@ const Aboutus: React.FC = () => {
 };
 
 export default Aboutus;
+
+
+

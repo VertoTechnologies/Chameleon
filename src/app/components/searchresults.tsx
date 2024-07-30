@@ -9,6 +9,7 @@ interface User {
   nativeLanguage: string,
   fluentLanguagess: string[],
   learningLanguagess: string[]
+  profilePic: string;
 }
 
 interface UserProfileProps {
@@ -20,7 +21,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
     <div className="flex items-center bg-white px-6 py-8 rounded-xl shadow-lg w-[850px] space-x-8">
       <div className="flex-shrink-0">
         <img
-          src="/assets/extras/profilepicture.png" // Placeholder image, replace with actual image source
+          src= {user.profilePic || "/assets/extras/profilepicture.png"} // Placeholder image, replace with actual image source
           alt="Profile Picture"
           className="h-44 w-44 rounded-full object-cover" // Adjust size
         />
