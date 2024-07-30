@@ -44,6 +44,8 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
         body: JSON.stringify({ requesterId, recipientId }),
       });
 
+      setFriendsList(friendsList.filter(friend => friend.userId !== recipientId));
+
       const data = await response.json();
 
       if (!response.ok) {
@@ -80,6 +82,11 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
     };
     fetchFriendList();
   }, [profile.userId]);
+
+  useEffect(() => {
+
+
+  }, [friendsList]);
 
   const handleFriendClick = (userId: string) => {
     
