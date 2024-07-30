@@ -21,7 +21,7 @@ const ChatPage = () => {
     <section className="flex flex-col min-h-screen " >
       {/* Header Component */}
       <Header />
-      <div className="flex flex-grow" style={{ maxHeight: 'calc(100vh - 60px - 50px)' }}>
+      <div className="flex flex-grow" style={{ maxHeight: 'calc(150vh - 60px - 50px)' }}>
         {/* Left Box or Communities */}
         {activeButton === 'friends' ? (
           <LeftBox activeButton={activeButton} toggleButton={toggleButton} />
