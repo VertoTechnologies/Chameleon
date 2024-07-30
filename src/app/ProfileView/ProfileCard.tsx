@@ -28,7 +28,7 @@ const ProfileCard: React.FC = () => {
         <div className="relative" style={{ width: "120px", height: "120px" }}>
           <Image
             className="rounded-full object-cover"
-            src="/assets/extras/profilepicture.png"
+            src={profile.profilePic || "/assets/extras/profilepicture.png"}
             alt="Profile Picture"
             layout="fill"
           />

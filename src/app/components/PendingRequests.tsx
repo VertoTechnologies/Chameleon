@@ -103,7 +103,7 @@ const PendingRequests: React.FC = () => {
                 {pFriendsData.length > 0 ? (
                     pFriendsData.map((user) => (
                         <div key={user.id} className="flex items-center px-4 py-2" style={{ borderTopColor: '#65AD87', borderTopWidth: '2px', borderTopStyle: 'solid' }}>
-                            <img src={'/assets/extras/profilepicture.png'} alt={user.requesterDetails.name} className="w-12 h-12 rounded-full mr-4" />
+                            <img src={user.requesterDetails.profilePic || '/assets/extras/profilepicture.png'} alt={user.requesterDetails.name} className="w-12 h-12 rounded-full mr-4" />
                             <span className="text-lg text-mtextra">{user.requesterDetails.name}</span>
                             <div className="flex justify-end w-full">
                             <button

@@ -24,6 +24,7 @@
     "cmdk": "^1.0.0",
     "date-fns": "^3.6.0",
     "emoji-picker-react": "^4.11.1",
+    "firebase": "^10.12.4",
     "framer-motion": "^11.3.2",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.407.0",

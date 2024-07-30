@@ -25,6 +25,7 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ friendId }) => {
       console.error("Friend ID is not available");
     }
   };
+
   useEffect(() => {
     const fetchUser = async (id: string) => {
       try {
