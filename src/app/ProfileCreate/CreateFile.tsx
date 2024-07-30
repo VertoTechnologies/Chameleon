@@ -14,9 +14,11 @@ import {
 } from "@/components/ui/select";
 import { interests, languages } from "../../constants/enums";
 import ReactSelect from "react-select";
+import { useProfile } from "../components/slaystore";
 
 const CreateFile: React.FC = () => {
   const router = useRouter();
+  const profile = useProfile();
 
   interface FormData {
     nativeLanguage: string;
@@ -29,12 +31,12 @@ const CreateFile: React.FC = () => {
 
   const [formData, setFormData] = useState<{ updateData: FormData }>({
     updateData: {
-      nativeLanguage: "",
-      fluentLanguagess: [],
-      learningLanguagess: [],
-      userInterests: [],
-      userDescription: "",
-      profilePic: "",
+      nativeLanguage: profile.nativeLanguage,
+      fluentLanguagess: profile.fluentLanguagess,
+      learningLanguagess: profile.learningLanguagess,
+      userInterests: profile.userInterests,
+      userDescription: profile.userDescription,
+      profilePic: profile.profilePic,
     },
   });
 
@@ -143,13 +145,17 @@ const CreateFile: React.FC = () => {
   return (
     <div className="sign-up-form bg-white rounded-4xl p-10">
       <div className="flex flex-col items-center mb-6">
-        <AddPic onImageChange={onImageChange} />
+        <AddPic
+          onImageChange={onImageChange}
+          oldImage={formData.updateData.profilePic}
+        />
       </div>
       <form className="flex flex-wrap justify-between" onSubmit={handleSubmit}>
         <div className="w-full sm:w-1/2 px-2 mb-4">
           <label className="block mb-2 font-light text-gray-400 text-sm">
             Native Language
             <Select
+              defaultValue={formData.updateData.nativeLanguage}
               onValueChange={(value) =>
                 handleSelectChange("nativeLanguage", value)
               }
@@ -174,6 +180,12 @@ const CreateFile: React.FC = () => {
               isMulti
               name="fluentLanguages"
               options={languageOptions}
+              defaultValue={formData.updateData.fluentLanguagess.map(
+                (lang) => ({
+                  value: lang,
+                  label: lang,
+                })
+              )}
               className="basic-multi-select text-gray-400"
               classNamePrefix="select"
               onChange={(selectedOptions) =>
@@ -192,6 +204,12 @@ const CreateFile: React.FC = () => {
               isMulti
               name="learningLanguagess"
               options={languageOptions}
+              defaultValue={formData.updateData.learningLanguagess.map(
+                (lang) => ({
+                  value: lang,
+                  label: lang,
+                })
+              )}
               className="basic-multi-select text-gray-400"
               classNamePrefix="select"
               onChange={(selectedOptions) =>
@@ -209,6 +227,12 @@ const CreateFile: React.FC = () => {
             <ReactSelect
               isMulti
               name="userInterests"
+              defaultValue={formData.updateData.learningLanguagess.map(
+                (lang) => ({
+                  value: lang,
+                  label: lang,
+                })
+              )}
               options={interestOptions}
               className="basic-multi-select text-gray-400"
               classNamePrefix="select"
