@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import React, { useState } from "react";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { Button } from "@/components/ui/button";
@@ -14,9 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { interests, languages } from "../../constants/enums";
-import useUserProfileStore from "../components/slaystore.js";
 import ReactSelect from "react-select";
-import MultiSelect from "@/components/ui/MultiSelect";
 
 const CreateFile: React.FC = () => {
   const router = useRouter();
@@ -88,14 +85,11 @@ const CreateFile: React.FC = () => {
     });
     router.push("/Dashboard");
   };
-  //  window?.localStorage.setItem("userId",userId)
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); // Prevent default form submission behavior
-    //const url = window.location.href.toString()
     //const userId = url.split('=').slice(-1)[0]
 
     try {
-      // const response = await fetch(`/api/updateProfile?userId=${window?.localStorage.getItem("userId")}`,
       const userId = localStorage.getItem("userId");
 
       if (!userId) {
@@ -120,7 +114,7 @@ const CreateFile: React.FC = () => {
       console.log("Update Success:", data.message);
 
       // Handle success (e.g., redirect to a login page or show a success message)
-      router.push("/Dashboard");
+      router.push("/ProfileCreate2");
     } catch (error) {
       // Handle error (e.g., show an error message)
       console.error("Update Error:", error);

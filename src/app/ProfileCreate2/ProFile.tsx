@@ -24,7 +24,7 @@ const ProFile: React.FC = () => {
     },
   });
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (event:  React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormData(prevState => ({
       updateData: {
@@ -48,12 +48,10 @@ const ProFile: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); // Prevent default form submission behavior
-    //const url = window.location.href.toString()
     //const userId = url.split('=').slice(-1)[0]
 
     try {
-      // const response = await fetch(`/api/updateProfile?userId=${window?.localStorage.getItem("userId")}`, 
-      const response = await fetch(`/api/updateProfile?userId=${window?.localStorage.getItem("userId")}`, 
+      const response = await fetch(`/api/updateProfile?userId=${localStorage.getItem("userId")}`, 
         {
         method: 'PATCH',
         headers: {
@@ -155,8 +153,8 @@ const ProFile: React.FC = () => {
         </div>
 
         <div className="w-full flex justify-end px-10 ml-20 mt-10">
-          <Button type="submit" variant="outline" className="w-[120px] mr-2 rounded-full bg-[#65AD87] hover:bg-[#65AD87] text-white">Save</Button>
-          <Button variant="outline" onClick={handleCancel} className="w-[120px] rounded-full bg-[#65AD87] hover:bg-[#65AD87] text-white">Cancel</Button>
+          <Button type="submit" variant="bordered" className="w-[120px] mr-2 rounded-full bg-[#65AD87] hover:bg-[#65AD87] text-white">Save</Button>
+          <Button variant="bordered" onClick={handleCancel} className="w-[120px] rounded-full bg-[#65AD87] hover:bg-[#65AD87] text-white">Cancel</Button>
         </div>
       </form>
     </div>
