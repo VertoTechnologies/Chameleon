@@ -12,7 +12,7 @@ const ProfileCard: React.FC = () => {
   const profile = useProfile();
 
   const handleEditFile = () => {
-    const userId = localStorage.getItem("userId");
+    const userId = profile.userId;
 
     if (!userId) {
       alert("User not found");
@@ -48,10 +48,9 @@ const ProfileCard: React.FC = () => {
           <h2 className="text-2xl font-bold  mb-2 flex-grow text-center font-mt-extra">
             {profile?.name}
           </h2>
-          <i
-            className="bi bi-pencil-fill cursor-pointer"
-            onClick={handleEditFile}
-          ></i>
+          <div onClick={handleEditFile}>
+            <i className="bi bi-pencil-fill cursor-pointer"></i>
+          </div>
         </div>
         <h3 className="font-bold text-xl mb-2 pt-14  font-mt-extra">
           Description
