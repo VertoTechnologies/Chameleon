@@ -26,7 +26,6 @@ import {
 const Frame = dynamic(() => import("../components/frame"), { ssr: false });
 
 const Call = () => {
-  // if (typeof window !== "undefined") {
   // const [isClient, setIsClient] = useState(false);
   const [receiver, setReceiver] = useState({
     profilePicture: "/assets/extras/profilepicture.png",

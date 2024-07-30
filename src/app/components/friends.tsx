@@ -52,6 +52,7 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
   }, [profile.userId]);
 
   const handleFriendClick = (userId: string) => {
+    
     router.push(`/Chat?friend=${encodeURIComponent(userId)}`);
   };
 

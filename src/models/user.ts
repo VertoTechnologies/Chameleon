@@ -15,6 +15,9 @@ export interface IUser extends Document {
   nativeLanguage: Language;
   fluentLanguagess: Language[];
   learningLanguagess: Language[];
+  purpose: string;
+  learningMethods: string;
+  usageFrequency: string;
   isOnline : boolean;
 }
 
@@ -65,6 +68,18 @@ const userSchema: Schema<IUser> = new mongoose.Schema({
   },
   learningLanguagess: {
     type: [String],
+    required: false,
+  },
+  purpose: {
+    type: String,
+    required: false,
+  },
+  learningMethods: {
+    type: String,
+    required: false,
+  },
+  usageFrequency: {
+    type: String,
     required: false,
   },
   isOnline: {

@@ -16,14 +16,18 @@ interface User {
 const RightBox: React.FC = () => {
   const [usersData, setUsersData] = useState<User[]>([]);
   const profile = useProfile()
+  const id = profile.userId
+  const input = ''
+  const option = ''
   useEffect(() => {
     const fetchUsersData = async () => {
       try {
-        const response = await fetch(`/api/getUsers?user=${encodeURIComponent(JSON.stringify(profile))}`, {
-          method: 'GET',
+        const response = await fetch(`/api/getUsers?userId=${profile.userId}`, {
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
+          body: JSON.stringify({input, option }) // Send data in the request body
         });
 
         if (!response.ok) {
@@ -50,7 +54,7 @@ const RightBox: React.FC = () => {
         </div>
         <div className="mt-2 ml-7 mr-5">
         {usersData.length > 0 ? (
-          <div>
+          <div> 
             {usersData.map((user, index) => (
               <div key={user.userId} className={`flex items-center p-4 ${index === 0 ? '' : 'border-t-2'}`} style={{ borderTopColor: '#65AD87' }}>
                 <img src={user.profilePic || '/assets/extras/profilepicture.png'} alt={user.name} className="w-12 h-12 rounded-full mr-4" />
