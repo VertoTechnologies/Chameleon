@@ -69,7 +69,7 @@ const ProFile: React.FC = () => {
       const data = await response.json();
       console.log('Update Success:', data.message);
       // Handle success (e.g., redirect to a login page or show a success message)
-      router.push('/Dashboard');
+      router.push('/testPopUp');
 
     } catch (error) {
       console.error('Update Error:', error);
