@@ -63,7 +63,7 @@ const RemoveFriendButton: React.FC<RemoveFriendButtonProps> = ({ id }) => {
           >
             &times;
           </button>
-        </div>
+        </div> 
       )}
       <button
         className="ml-auto mr-4 text-white px-6 py-2 rounded-full"

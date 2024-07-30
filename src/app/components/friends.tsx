@@ -31,6 +31,38 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
   const router = useRouter();
   const [friendsList, setFriendsList] = useState<User[]>([]);
   const profile = useProfile();
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const [alertType, setAlertType] = useState<'success' | 'error' | null>(null);
+
+  async function removeFriend(requesterId: string, recipientId: string) {
+    try {
+      const response = await fetch('/api/friends/removeFriend', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ requesterId, recipientId }),
+      });
+
+      setFriendsList(friendsList.filter(friend => friend.userId !== recipientId));
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Something went wrong');
+      }
+
+      return data;
+    } catch (error) {
+      console.error('Error removing friend:', error);
+      throw error;
+    }
+  }
+
+  const closeAlert = () => {
+    setAlertMessage(null);
+    setAlertType(null);
+  };
 
   useEffect(() => {
     const fetchFriendList = async () => {
@@ -51,26 +83,54 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
     fetchFriendList();
   }, [profile.userId]);
 
+  useEffect(() => {
+
+
+  }, [friendsList]);
+
   const handleFriendClick = (userId: string) => {
     
     router.push(`/Chat?friend=${encodeURIComponent(userId)}`);
   };
-
+ 
   const handleBlockFriend = (userId: string) => {
     // Implement block friend logic here
     console.log(`Block friend with ID: ${userId}`);
   };
 
-  const handleRemoveFriend = (userId: string) => {
+  const handleRemoveFriend = async (userId: string) => {
     // Implement remove friend logic here
+    try {
+      const response = await removeFriend(profile.userId, userId);
+      console.log('Friend removed:', response);
+      setAlertMessage('Friend removed');
+      setAlertType('success');
+    } catch (error) {
+      console.error('Error removing friend:', error);
+      setAlertMessage('Error removing friend');
+      setAlertType('error');
+    }
     console.log(`Remove friend with ID: ${userId}`);
   };
 
   return (
+    
     <div
       className="w-1/4 h-screen overflow-y-auto custom-scrollbar"
       style={{ backgroundColor: "rgba(101, 173, 135, 0.2)" }}
     >
+      {alertMessage && (
+        <div className={`fixed top-0 left-0 right-0 p-4 text-center z-50 ${alertType === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+          {alertMessage}
+          <button
+            onClick={closeAlert}
+            className="absolute top-2 right-2 text-xl font-bold"
+            style={{ background: 'transparent', border: 'none', cursor: 'pointer' }}
+          >
+            &times;
+          </button>
+        </div> 
+      )}
       <div className="p-4 flex mt-4 ml-7">
         <button
           className={`px-10 py-2 rounded-full border-none ${
