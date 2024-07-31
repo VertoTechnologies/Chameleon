@@ -50,7 +50,7 @@ const PersonalizationForm: React.FC = () => {
     //const userId = url.split('=').slice(-1)[0]
 
     try {
-      const response = await fetch(`/api/userprofile/userprofile/updateProfile?userId=${localStorage.getItem("userId")}`, 
+      const response = await fetch(`/api/userprofile/updateProfile?userId=${localStorage.getItem("userId")}`, 
         {
         method: 'PATCH',
         headers: {
@@ -66,7 +66,7 @@ const PersonalizationForm: React.FC = () => {
       const data = await response.json();
       console.log('Update Success:', data.message);
       // Handle success (e.g., redirect to a login page or show a success message)
-      router.push('/testPopUp');
+      router.push('/SuggestionsPopup');
 
     } catch (error) {
       console.error('Update Error:', error);
