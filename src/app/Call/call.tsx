@@ -10,7 +10,7 @@ import {
   FaVideoSlash,
 } from "react-icons/fa";
 import { MdCallEnd } from "react-icons/md";
-import { useProfile } from "../components/slaystore";
+import { useProfile } from "../stores/UserStore";
 import { useRouter } from "next/navigation";
 
 import {
@@ -23,7 +23,7 @@ import {
   ICameraVideoTrack,
 } from "agora-rtc-react";
 
-const Frame = dynamic(() => import("../components/frame"), { ssr: false });
+const Frame = dynamic(() => import("./CallComponents/frame"), { ssr: false });
 
 const Call = () => {
   // const [isClient, setIsClient] = useState(false);
@@ -118,7 +118,7 @@ const Call = () => {
     
       const fetchUser = async (id: string) => {
         try {
-          const response = await fetch(`/api/viewProfile?userId=${id}`);
+          const response = await fetch(`/api/userprofile/viewProfile?userId=${id}`);
           if (!response.ok) throw new Error("Network response was not ok");
           const data = await response.json();
           setFriendName(data.name);

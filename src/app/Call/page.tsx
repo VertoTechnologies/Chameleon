@@ -4,10 +4,10 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import "../globals.css"; // Ensure this path is correct based on your project structure
-import Header from "../components/headermain";
-import Footer from "../components/footer";
-import LeftBox from "../components/friends";
-import Communities from "../components/communities";
+import Header from "@/app/components/headerComponents/HomeHeader";
+import Footer from "@/app/components/footerComponents/footer";
+import LeftBox from "@/app/components/friendsComponents/friends";
+import Communities from "@/app/components/friendsComponents/FriendRequests";
 
 // Dynamically import the Call component
 const Call = dynamic(() => import("./call"), { ssr: false });

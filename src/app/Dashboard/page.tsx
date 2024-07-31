@@ -1,16 +1,15 @@
 "use client";
 
 import "../globals.css"; // Correct path based on the structure above
-import Header from "../components/headermain";
-import Footer from "../components/footer";
-import LeftBox from "../components/friends";
-import RightBox from "../components/suggestions";
-import Communities from "../components/communities";
-import useUserProfile from "../components/useUserProfile";
-import useUserProfileStore from "../components/slaystore";
+import Header from "../components/headerComponents/HomeHeader";
+import Footer from "../components/footerComponents/footer";
+import LeftBox from "../components/friendsComponents/friends";
+import RightBox from "../components/suggestionComponents/suggestions";
+import Communities from "../components/friendsComponents/FriendRequests";
+import useUserProfile from "../components/profileComponents/useUserProfile";
+import useUserProfileStore from "../stores/UserStore";
 import React, { useEffect, useState } from "react";
 import { IoChatbubbleSharp } from "react-icons/io5";
-import PendingRequests from "../components/PendingRequests";
 import { useRouter } from "next/navigation";
 
 
@@ -40,7 +39,7 @@ const Page = () => {
       try {
         if (!profile?.userId) return;
         const response = await fetch(
-          `/api/onlineusers?userId=${profile.userId}`
+          `/api/users/onlineusers?userId=${profile.userId}`
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");

@@ -1,12 +1,12 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
-import Header from '../components/headermain';
-import Footer from '../components/footer';
-import RecResultsContainer from '../components/recommeendationC'
-import { useProfile } from '../components/slaystore';
-import useFriendStore from '../components/friendStore';
-import Aboutus from '../components/searchbar';
+import Header from '../components/headerComponents/HomeHeader';
+import Footer from '../components/footerComponents/footer';
+import RecResultsContainer from '../components/suggestionComponents/recommendationComponent'
+import { useProfile } from '../stores/UserStore';
+import useFriendStore from '../stores/friendStore';
+import Searchbar from '@/app/Explore/ExploreComponents/searchbar';
 
 
 interface User {
@@ -30,7 +30,7 @@ const Explore: React.FC = () => {
   useEffect(() => {
     const fetchUsersData = async () => {
       try {
-        const response = await fetch(`/api/getUsers?userId=${profile.userId}`, {
+        const response = await fetch(`/api/users/searchAndSuggestUsers?userId=${profile.userId}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -55,7 +55,7 @@ const Explore: React.FC = () => {
   return (
     <section className="scroll-smooth overflow-y-auto h-screen scrollbar scrollbar-thumb-custom-green scrollbar-track-gray ">
       <Header />
-      <Aboutus></Aboutus>
+      <Searchbar></Searchbar>
       <div className="flex flex-col items-center p-4 bg-[rgb(101,173,135,0.2)] rounded-lg shadow-lg">
       <h1 className="text-xl font-bold font-mt-extra text-center mb-4">
       Add Your Language Buddies
