@@ -43,7 +43,7 @@ const ChatPage = () => {
           </AgoraProvider>
         </div>
       </div>
-      <Footer />
+    
     </section>
   );
   // }

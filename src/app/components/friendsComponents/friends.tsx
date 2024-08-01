@@ -72,9 +72,7 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
       }
 
       try {
-        console.log("Fetching friends for user:", profile.userId);
         const data = await getFriendsList(profile.userId);
-        console.log("Fetched friends data:", data);
         setFriendsList(data.friends);
       } catch (error) {
         console.error("Error fetching friends:", error);
@@ -83,26 +81,17 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
     fetchFriendList();
   }, [profile.userId]);
 
-  useEffect(() => {
-
-
-  }, [friendsList]);
-
   const handleFriendClick = (userId: string) => {
-    
     router.push(`/Chat?friend=${encodeURIComponent(userId)}`);
   };
- 
+
   const handleBlockFriend = (userId: string) => {
-    // Implement block friend logic here
     console.log(`Block friend with ID: ${userId}`);
   };
 
   const handleRemoveFriend = async (userId: string) => {
-    // Implement remove friend logic here
     try {
       const response = await removeFriend(profile.userId, userId);
-      console.log('Friend removed:', response);
       setAlertMessage('Friend removed');
       setAlertType('success');
     } catch (error) {
@@ -110,13 +99,15 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
       setAlertMessage('Error removing friend');
       setAlertType('error');
     }
-    console.log(`Remove friend with ID: ${userId}`);
   };
 
+  // Separate online and offline friends
+  const onlineFriends = friendsList.filter(friend => friend.isOnline);
+  const offlineFriends = friendsList.filter(friend => !friend.isOnline);
+
   return (
-    
     <div
-      className="w-1/4 h-screen overflow-y-auto custom-scrollbar"
+      className="w-1/4 h-[600px] overflow-y-auto custom-scrollbar"
       style={{ backgroundColor: "rgba(101, 173, 135, 0.2)" }}
     >
       {alertMessage && (
@@ -129,8 +120,9 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
           >
             &times;
           </button>
-        </div> 
+        </div>
       )}
+
       <div className="p-4 flex mt-4 ml-7">
         <button
           className={`px-10 py-2 rounded-full border-none ${
@@ -174,36 +166,74 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
         </button>
       </div>
 
-      {/* Friends List */}
+      {/* Online Friends Section */}
       <div className="mt-4 ml-6 mr-3">
-        {friendsList.length > 0 ? (
-          friendsList.map((user) => (
-            <div
-              key={user.userId}
-              className="flex items-center p-4 border-b-2 cursor-pointer"
-              style={{ borderBottomColor: "#65AD87" }}
-            >
-              <img
-                src={user.profilePic || "/assets/extras/profilepicture.png"}
-                alt={user.name}
-                className="w-12 h-12 rounded-full mr-3"
-                onClick={() => handleFriendClick(user.userId)}
-              />
-              <span
-                className="text-lg font-medium flex-grow"
-                onClick={() => handleFriendClick(user.userId)}
+        {onlineFriends.length > 0 ? (
+          <>
+          
+            {onlineFriends.map((user) => (
+              <div
+                key={user.userId}
+                className="flex items-center p-4 border-b-2 cursor-pointer"
+                style={{ borderBottomColor: "#65AD87" }}
               >
-                {user.name}
-              </span>
-              <FriendActionsDropdown
-                onBlock={() => handleBlockFriend(user.userId)}
-                onRemove={() => handleRemoveFriend(user.userId)}
-              />
-            </div>
-          ))
+                <img
+                  src={user.profilePic || "/assets/extras/profilepicture.png"}
+                  alt={user.name}
+                  className="w-12 h-12 rounded-full mr-3 border-4 border-green-500"
+                  onClick={() => handleFriendClick(user.userId)}
+                />
+                <span
+                  className="text-lg font-medium flex-grow"
+                  onClick={() => handleFriendClick(user.userId)}
+                >
+                  {user.name}
+                </span>
+                <FriendActionsDropdown
+                  onBlock={() => handleBlockFriend(user.userId)}
+                  onRemove={() => handleRemoveFriend(user.userId)}
+                />
+              </div>
+            ))}
+          </>
         ) : (
-          <div className="p-3 border-2 border-white">You have no friends</div>
+          <div className="p-3 border-2 border-white">No friends online</div>
         )}
+
+        {/* Offline Friends Section */}
+        <div className="mt-4">
+          {offlineFriends.length > 0 ? (
+            <>
+             
+              {offlineFriends.map((user) => (
+                <div
+                  key={user.userId}
+                  className="flex items-center p-4 border-b-2 cursor-pointer"
+                  style={{ borderBottomColor: "#65AD87" }}
+                >
+                  <img
+                    src={user.profilePic || "/assets/extras/profilepicture.png"}
+                    alt={user.name}
+                    className="w-12 h-12 rounded-full mr-3"
+                    onClick={() => handleFriendClick(user.userId)}
+                  />
+                  <span
+                    className="text-lg font-medium flex-grow"
+                    onClick={() => handleFriendClick(user.userId)}
+                  >
+                    {user.name}
+                  </span>
+                  <FriendActionsDropdown
+                    onBlock={() => handleBlockFriend(user.userId)}
+                    onRemove={() => handleRemoveFriend(user.userId)}
+                  />
+                </div>
+              ))}
+            </>
+          ) : (
+            <div className="p-3 border-2 border-white">You have no friends</div>
+          )}
+        </div>
       </div>
     </div>
   );
