@@ -124,7 +124,7 @@ const Chat: React.FC<ChatProps> = ({ friendId }) => {
   };
 
   return (
-    <div className="flex flex-col h-full rounded-lg shadow-lg relative bg-cover bg-center" style={{ backgroundImage: "url('/assets/extras/Background.png')" }}>
+    <div className="flex flex-col h-[600px] rounded-lg shadow-lg relative bg-cover bg-center  overflow-y-auto custom-scrollbar" style={{ backgroundImage: "url('/assets/extras/Background.png')" }}>
       <div className="absolute inset-0 bg-[rgba(101,173,135,0.3)]"></div> {/* Overlay */}
       <div className="relative flex flex-col h-full">
         <ChatHeader friendId={friendId} />

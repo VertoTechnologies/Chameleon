@@ -40,3 +40,4 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, isOwnMessage, ti
 };
 
 export default MessageBubble;
+  

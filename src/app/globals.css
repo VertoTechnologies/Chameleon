@@ -147,11 +147,14 @@ body {
 
 .scrollbar::-webkit-scrollbar {
   width: 10px;
+  max-height: 400px;
 }
 
 .scrollbar::-webkit-scrollbar-thumb {
   border-radius: 9950px;
+  max-height: 400px;
 }
+
 
 
 .scrollbar-thumb-custom::-webkit-scrollbar-thumb {
@@ -171,6 +174,7 @@ body {
 .custom-scrollbar::-webkit-scrollbar {
 width: 12px;
 height: 300px;
+max-height: 400px;
 }
 
 .alert-message {
@@ -234,4 +238,9 @@ border-radius: 10px;
 
 .online-users-container::-webkit-scrollbar-thumb:hover {
   background: #4a8a5f; /* Darker color on hover */
+}
+.fixed-height-container {
+  min-height: 600px; /* Set the minimum height */
+  max-height: 640px; /* Set the maximum height */
+  overflow-y: auto; /* Ensure scroll if content exceeds max-height */
 }
