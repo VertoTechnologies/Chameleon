@@ -21,7 +21,7 @@ const Icebreaker: React.FC<IcebreakerProps> = ({ userId, friendId }) => {
 
     const fetchIcebreaker = async () => {
       try {
-        const response = await axios.get(`/api/icebreaker/geticebreaker?userId=${userId}&friendId=${friendId}`);
+        const response = await axios.get(`/api/icebreaker/geticebreaker?userId=${userId}&friendId=${friendId}`); // for making http request
         setIcebreaker(response.data.question);
       } catch (error) {
         console.error("Error fetching icebreaker:", error);
