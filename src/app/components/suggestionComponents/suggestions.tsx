@@ -45,7 +45,7 @@ const RightBox: React.FC = () => {
   }, [profile.fluentLanguagess]);
 
   return (
-    <div className="w-1/4 h-screen overflow-y-auto custom-scrollbar" style={{ backgroundColor: 'rgba(101, 173, 135, 0.2)' }}>
+    <div className="w-1/4 h-[600px] overflow-y-auto custom-scrollbar" style={{ backgroundColor: 'rgba(101, 173, 135, 0.2)' }}>
     
       <div className="mt-6">
         <div className="flex justify-between items-center p-4">
