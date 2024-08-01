@@ -93,33 +93,7 @@ const Page = () => {
           <h1 className="text-mtextra text-xl font-bold mb-2">Online</h1>
 
           {/* Online Users Section */}
-          <div className="mt-6">
-            {onlineUsers.map((user:UserData, index:any) => (
-              <div
-                key={index}
-                className="flex items-center px-4 py-2"
-                style={{
-                  borderTopColor: "#65AD87",
-                  borderTopWidth: "2px",
-                  borderTopStyle: "solid",
-                }}
-              >
-                <img
-                  src={"/assets/extras/profilepicture.png"}
-                  alt={user.name}
-                  className="w-12 h-12 rounded-full mr-4"
-                />
-                <span className="text-lg text-mtextra cursor-pointer">{user.name}</span>
-                <span className="ml-auto"  onClick={(event) => handleChatClick(event,user)}>
-                  {/* Chat icon using IoChatbubbleSharp */}
-                  <IoChatbubbleSharp
-                    style={{ color: "#65AD87" }}
-                    className="h-6 w-6"
-                  />
-                </span>
-              </div>
-            ))}
-          </div>
+         
         </div>
 
         {/* Right Box */}
@@ -127,7 +101,7 @@ const Page = () => {
       </div>
 
       {/* Footer Component */}
-      <Footer />
+      
     </section>
   );
 };
