@@ -6,6 +6,7 @@ import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 const SuggestionPopup = dynamic(() => import('./suggestionsPopUp'), { ssr: false });
 import { useRouter } from 'next/navigation';
+import withAuth from '../components/authComponents/withAuth';
 
 interface User {
   userId: string;
@@ -75,4 +76,4 @@ const Page: React.FC = () => {
   );
 };
 
-export default Page;
+export default withAuth(Page);

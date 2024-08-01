@@ -227,10 +227,10 @@ const SetupProfile: React.FC = () => {
             <ReactSelect
               isMulti
               name="userInterests"
-              defaultValue={formData.updateData.learningLanguagess.map(
-                (lang) => ({
-                  value: lang,
-                  label: lang,
+              defaultValue={formData.updateData.userInterests.map(
+                (interest) => ({
+                  value: interest,
+                  label: interest,
                 })
               )}
               options={interestOptions}
