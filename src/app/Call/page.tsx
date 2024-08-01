@@ -8,6 +8,7 @@ import Header from "@/app/components/headerComponents/HomeHeader";
 import Footer from "@/app/components/footerComponents/footer";
 import LeftBox from "@/app/components/friendsComponents/friends";
 import Communities from "@/app/components/friendsComponents/FriendRequests";
+import withAuth from "../components/authComponents/withAuth";
 
 // Dynamically import the Call component
 const Call = dynamic(() => import("./call"), { ssr: false });
@@ -49,4 +50,4 @@ const ChatPage = () => {
   // }
 };
 
-export default ChatPage;
+export default withAuth(ChatPage);

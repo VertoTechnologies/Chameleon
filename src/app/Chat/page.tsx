@@ -7,6 +7,7 @@ import Footer from '@/app/components/footerComponents/footer';
 import LeftBox from '../components/friendsComponents/friends';
 import Chat from './Chatcomponents/Chat';
 import Communities from '../components/friendsComponents/FriendRequests';
+import withAuth from '../components/authComponents/withAuth';
 
 const ChatPage = () => {
   const [activeButton, setActiveButton] = useState('friends');
@@ -37,4 +38,4 @@ const ChatPage = () => {
   );
 };
 
-export default ChatPage;
+export default withAuth(ChatPage);

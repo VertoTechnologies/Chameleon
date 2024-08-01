@@ -1,10 +1,11 @@
 'use client'
 import React from 'react'
+import Loading from './components/loadingComponents/Loading'
 
 const loading = () => {
   return (
     <div>
-      <p>Loading...</p>
+      <Loading/>
     </div>
   )
 }
