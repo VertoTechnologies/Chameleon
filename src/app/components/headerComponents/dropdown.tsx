@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation'; // Import useRouter from next/navig
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button, cn } from "@nextui-org/react";
 import { IoIosSettings, IoIosLogOut, IoIosArrowDown } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
-import { useProfile } from "@/app/stores/UserStore"
+import useUserProfileStore, { useProfile } from "@/app/stores/UserStore"
 import Settings from './settings';
 
 interface DropdownMenuProps {
@@ -20,6 +20,8 @@ const DropdownMenuComponent: React.FC<DropdownMenuProps> = ({ userName }) => {
   const router = useRouter();
   const profile = useProfile()
   const [isSettingsOpen, setIsSettingsOpen] = useState(false); 
+  const resetUserProfileStore = useUserProfileStore((state:any) => state.reset); // Get the reset function
+
 
   const handleSettingsClick = () => {
     console.log("Settings clicked");
@@ -38,7 +40,10 @@ const DropdownMenuComponent: React.FC<DropdownMenuProps> = ({ userName }) => {
         },
         body: JSON.stringify({ userId }),
       });
-  
+      localStorage.removeItem('userId'); // Remove the userId from localStorage
+      localStorage.removeItem('user-profile-storage'); // Remove the user profile from localStorage
+      resetUserProfileStore(); // Reset the user profile store
+      
       if (!response.ok) {
         throw new Error(`Error: ${response.status}`);
       }
