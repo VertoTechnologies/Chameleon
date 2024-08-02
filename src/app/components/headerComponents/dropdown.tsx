@@ -54,7 +54,8 @@ const DropdownMenuComponent: React.FC<DropdownMenuProps> = ({ userName }) => {
   const handleLogoutClick = () => {
     console.log("Logout clicked");
     logoutUser(profile.userId)
-    
+    localStorage.removeItem('userId'); // Remove the userId from localStorage
+    localStorage.removeItem('user-profile-storage'); // Remove the user profile from localStorage
     // Perform logout logic (e.g., clear session, etc.)
     router.push('/Login'); // Redirect to the login page
   };

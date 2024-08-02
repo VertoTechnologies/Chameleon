@@ -7,7 +7,7 @@ import RecResultsContainer from '../components/suggestionComponents/recommendati
 import { useProfile } from '../stores/UserStore';
 import useFriendStore from '../stores/friendStore';
 import Searchbar from '@/app/Explore/ExploreComponents/searchbar';
-
+import withAuth from '../components/authComponents/withAuth';
 
 interface User {
   userId: string;
@@ -67,4 +67,4 @@ const Explore: React.FC = () => {
   );
 }; 
 
-export default Explore;
+export default withAuth(Explore);

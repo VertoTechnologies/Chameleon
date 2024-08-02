@@ -1,8 +1,10 @@
+"use client";
 import React from 'react';
 import Header from '@/app/components/headerComponents/HomeHeader';
 import Footer from '@/app/components/footerComponents/footer';
 import ViewProfile from './ViewProfile';
 import BackgroundImage from './Topbacground'; // Import the component
+import withAuth from '../components/authComponents/withAuth';
 
 const Page: React.FC = () => {
   return (
@@ -19,4 +21,4 @@ const Page: React.FC = () => {
   );
 };
 
-export default Page;
+export default withAuth(Page);

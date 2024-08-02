@@ -1,7 +1,9 @@
+"use client";
 import React from 'react';
 import SignUp from './SignUp';
 import Border from '../components/authComponents/FormBorder';
 import Background from '../components/authComponents/Background';
+import withNoAuth from '../components/authComponents/withNoAuth';
 
 const Page: React.FC = () => {
   return (
@@ -15,4 +17,4 @@ const Page: React.FC = () => {
   );
 };
 
-export default Page;
+export default withNoAuth(Page);
