@@ -18,7 +18,7 @@ export default async function resetPassword(req, res) {
   }
 
   const { email, password } = req.body;
-  console.log(password)
+  
 
   const hashedPassword = await bcrypt.hash(password, 12);
 

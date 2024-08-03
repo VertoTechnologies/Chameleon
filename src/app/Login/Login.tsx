@@ -26,10 +26,11 @@ const Login: React.FC = () => {
     }));
   };
 
+
   const navigateToOtp = async () => {
-    if (userEmail) {
+    const email = formData.email;
+    if (/^\S+@\S+\.\S+$/.test(email)) {
       const OTP = Math.floor(Math.random() * 9000 + 1000);
-      console.log(OTP);
       setOtp(OTP.toString());
 
       try {
@@ -123,9 +124,9 @@ const Login: React.FC = () => {
             {/* <Link href="/ResetPassword" className="text-purple-500 text-xxs">
               Forgot Password?
             </Link> */}
-            <a href='#' onClick={()=> navigateToOtp()} className="text-purple-500 text-xxs">Forgot Password?
+            <Link href='/Login' onClick={()=> navigateToOtp()} className="text-purple-500 text-xxs">Forgot Password?
 
-            </a>
+            </Link>
           </div>
           <button
             className="w-full p-3 rounded-3xl bg-[#65AD87] hover:bg-[#65AD87] text-white px-1 py-2 text-xs"
