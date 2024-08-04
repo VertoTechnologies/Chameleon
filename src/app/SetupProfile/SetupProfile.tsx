@@ -379,14 +379,14 @@ const Component2 = () => {
 				className="pb-10"
 				styles={{
 					"step-button-container": cn(
-					"text-[#5A3767] flex items-center justify-center",
-					"border-[#5A3767] border-2",
-					"data-[current=true]:border-[#5A3767] data-[current=true]:bg-[#D9D9D9]",
-					"data-[active=true]:bg-[#5A3767] data-[active=true]:border-[#5A3767]",
+					"text-[#65AD87] flex items-center justify-center",
+					"border-[#65AD87] border-2",
+					"data-[current=true]:border-[#65AD87] data-[current=true]:bg-[#65AD87]",
+					"data-[active=true]:bg-[#65AD87] data-[active=true]:border-[#65AD87]",
 					"rounded-full w-14 h-14" 
 					),
 					"horizontal-step": 
-					"data-[completed=true]:[&:not(:last-child)]:after:bg-[#5A3767]",
+					"data-[completed=true]:[&:not(:last-child)]:after:bg-[#65AD87]",
 
 				}}
 				>

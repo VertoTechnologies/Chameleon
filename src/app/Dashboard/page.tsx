@@ -11,6 +11,7 @@ import useUserProfileStore from "../stores/UserStore";
 import React, { useEffect, useState } from "react";
 import { IoChatbubbleSharp } from "react-icons/io5";
 import { useRouter } from "next/navigation";
+import Loading from "../components/loadingComponents/Loading"
 
 
 interface UserData {
@@ -62,9 +63,11 @@ const Page = () => {
   };
   
   
+
   if (!profile) {
-    return <div>Loading...</div>; // Or show a loading spinner or placeholder
+    return <Loading />; // Or show a loading spinner or placeholder
   }
+
 
   const toggleButton = (button: string) => {
     setActiveButton(button);

@@ -9,7 +9,15 @@ const nextConfig =
             hostname: '**',
           },
         ],
-      }
+      },
+      async rewrites() {
+        return [
+          {
+            source: '/api/socket',
+            destination: '/api/socket',
+          },
+        ];
+      },
     
 };
 

@@ -1,6 +1,7 @@
 // updateProfile.js
 import dbConnect from "../../../middleware/mongodb";
 import User from "../../../models/user";
+import Chat from '../../../models/Chat';
 
 function _calculateAge(birthday) {
   // birthday is a date
@@ -108,6 +109,28 @@ export default async function updateProfile(req, res) {
     if (!updatedUser) {
       return res.status(404).json({ message: "User not found" });
     }
+    // If learningLanguages are updated, handle the chat groups
+    if (updateData.learningLanguagess) {
+      for (const language of updateData.learningLanguagess) {
+        let chat = await Chat.findOne({ language });
+
+        if (!chat) {
+          chat = await Chat.create({
+            language,
+            users: [updatedUser._id],
+            groupPhoto: updateData.groupPhoto || '', // Add group photo if provided
+          });
+          console.log(language+" chat create")
+        } else {
+          if (!chat.users.includes(updatedUser._id)) {
+            chat.users.push(updatedUser._id);
+            await chat.save();
+          }
+        }
+      }
+    }
+
+    await updatedUser.save();
 
     res.status(200).json(updatedUser); // Send the updated user profile information
   } catch (error) {
