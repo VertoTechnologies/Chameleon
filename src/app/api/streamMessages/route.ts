@@ -1,10 +1,4 @@
-// pages/api/streamMessages.ts
-import { IMessage } from "@/models/message";
-import {
-  MongoClient,
-  ChangeStreamDocument,
-  ObjectId,
-} from "mongodb";
+import { MongoClient, ChangeStreamDocument, ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
 
 let client: MongoClient | null = null;
@@ -17,84 +11,114 @@ async function initClient() {
   }
   return client;
 }
-
+export const maxDuration = 60; 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
   console.log("New connection");
+  const chatroom = req.nextUrl.searchParams.get("chatroom");
+  const currentuser = req.nextUrl.searchParams.get("senderId");
 
-  const friendId = req.nextUrl.searchParams.get("friendId");
-  const userId = req.nextUrl.searchParams.get("userId");
-
-  if (!friendId || !userId) {
+  if (!chatroom) {
     return NextResponse.json(
-      { message: "Friend ID and User ID are required" },
+      { message: "chatroom is required" },
       { status: 400 }
     );
   }
 
-  const client = await initClient();
-  const db = client.db("test");
-  const collection = db.collection("messages");
+  try {
+    const client = await initClient();
+    const db = client.db("test");
+    const collection = db.collection("chatrooms");
+    console.log("Starting change stream");
 
-  console.log("Starting change stream");
-
-  const pipeline = [
-    {
-    $match: {
-      $or: [
-        // {
-        //   "fullDocument.senderId": userId,
-        //   "fullDocument.receiverId": friendId,
-        // },
-        {
-          "fullDocument.senderId": friendId,
-          "fullDocument.receiverId": userId,
+    const pipeline = [
+      {
+        $match: {
+          "fullDocument._id": new ObjectId(chatroom),
         },
-      ],
-    },
-    },
-  ];
+      },
+    ];
 
-  const changeStream = collection.watch(pipeline, {
-    fullDocument: "updateLookup",
-  });
+    const changeStream = collection.watch(pipeline, {
+      fullDocument: "updateLookup",
+    });
 
-  const resStream = new TransformStream();
-  const writer = resStream.writable.getWriter();
-  const encoder = new TextEncoder();
+    const resStream = new TransformStream();
+    const writer = resStream.writable.getWriter();
+    const encoder = new TextEncoder();
 
-  changeStream.on(
-    "change",
-    async (
-      data: ChangeStreamDocument<Document> & {
-        fullDocument?: any;
+    // Send a ping every 10 seconds to keep the connection alive
+    const pingInterval = setInterval(() => {
+      writer.write(encoder.encode("data: ping\n\n"));
+    }, 10000);
+
+    changeStream.on(
+      "change",
+      async (
+        data: ChangeStreamDocument<Document> & {
+          fullDocument?: any;
+        }
+      ) => {
+        if (data.fullDocument) {
+          console.log("--------------------");
+          console.log("Starting sending res....");
+          // console.log("recv", data.fullDocument.messages);
+
+          if (
+            data.fullDocument.messages[data.fullDocument.messages.length - 1]
+              .senderId !== currentuser
+          ) {
+            await writer
+              .write(
+                encoder.encode(
+                  `data: ${JSON.stringify(
+                    data.fullDocument.messages[
+                      data.fullDocument.messages.length - 1
+                    ]
+                  )}\n\n`
+                )
+              )
+              .then((d) => {
+                console.log(
+                  "data",
+                  JSON.stringify(
+                    data.fullDocument.messages[
+                      data.fullDocument.messages.length - 1
+                    ]
+                  )
+                );
+              });
+          }
+        }
       }
-    ) => {
-      if (data.fullDocument) {
-        console.log("--------------------");
-        console.log("Starting sending res....");
-        const document = {
-          ...data.fullDocument,
-          _id: (data.fullDocument?._id as ObjectId).toString(), // Convert ObjectId to string
-        };
+    );
 
-        await writer
-          .write(encoder.encode(`data: ${JSON.stringify(document)}\n\n`))
-          .then((d) => {
-            console.log("data", d);
-          });
-        // console.log("New message:", next);
-      }
-    }
-  );
+    changeStream.on("error", (error) => {
+      console.error("Change stream error:", error);
+      clearInterval(pingInterval);
+      writer.close();
+    });
 
-  return new Response(resStream.readable, {
-    headers: {
-      "Content-Type": "text/event-stream",
-      "Cache-Control": "no-cache",
-      Connection: "keep-alive",
-    },
-  });
+    changeStream.on("close", () => {
+      console.log("Change stream closed");
+      clearInterval(pingInterval);
+      writer.close();
+    });
+
+    return new Response(resStream.readable, {
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
+      },
+    });
+  } catch (error) {
+    console.error("Error in GET handler:", error);
+    return NextResponse.json(
+      { message: "Internal Server Error" },
+      { status: 500 }
+    );
+  }
 }

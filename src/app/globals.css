@@ -3,12 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;700&display=swap');
-@font-face {
-  font-family: 'MT Extra';
-  src: url('/MTEXTRA.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
+
 
 .chat-messages-container {
   max-height: 100%; /* Adjust based on your layout */
@@ -16,7 +11,7 @@
 }
 
 body {
-  font-family: 'MT Extra', Arial, sans-serif;
+  font-family:  Arial, sans-serif;
 
 }
 
@@ -52,7 +47,7 @@ body {
 }
 
 .form{
-  font-family: 'MT EXTRA';
+  font-family: Arial, sans-serif;
 }
 
 .form-container {
@@ -117,16 +112,11 @@ body {
   font-style: normal;
 }
 
-@font-face {
-  font-family: 'MT Extra';
-  src: url('/fonts/MTExtra-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
+
 
 /* Apply fonts to elements */
 body {
-  font-family: 'MT Extra', sans-serif; /* Default font for all text */
+  font-family:  sans-serif; /* Default font for all text */
 }
 
 .font-source-code-pro {
