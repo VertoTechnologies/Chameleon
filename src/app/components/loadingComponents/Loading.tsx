@@ -1,17 +1,17 @@
-import React from 'react';
+import React from 'react'
+import Skeleton from 'react-loading-skeleton'
 
-
-const Loading: React.FC = () => {
-
-  
+const Loading = () => {
   return (
-    <div className="flex items-center justify-center h-screen">
-      <div className="spinner-border border-emerald-400 animate-spin inline-block w-12 h-12 border-4 rounded-full" role="status">
-        <span className="visually-hidden"></span>
+    <div className="flex w-full h-screen overflow-hidden">
+      <div className="w-1/5 bg-gray-200">
+        <Skeleton height="100%" width="100%" />
       </div>
-      
+      <div className="w-4/5 bg-white">
+        <Skeleton height="100%" width="100%" />
+      </div>
     </div>
   );
 };
 
-export default Loading;
+export default Loading

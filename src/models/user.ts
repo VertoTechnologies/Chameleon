@@ -86,7 +86,7 @@ const userSchema: Schema<IUser> = new mongoose.Schema({
     type: Boolean,
     required: true,
     default: false,
-  }
+  },
 
 });
 

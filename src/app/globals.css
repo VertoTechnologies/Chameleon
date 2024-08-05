@@ -40,10 +40,24 @@ body {
 
 .sign-up-layout {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
   background-color: #A7CDB9;
+}
+
+.step-button-container {
+  width: var(--step-button-width);
+  height: var(--step-button-height);
+  border-radius: var(--step-button-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.step-button {
+  margin-right: 8px; /* Adjust this value as needed */
 }
 
 .form{
@@ -64,7 +78,7 @@ body {
 
 .sign-up-form p {
   margin-top: 1rem;
-  text-align: center;
+  /*text-align: center;*/
 }
 
 .sign-up-form a {
@@ -79,6 +93,83 @@ body {
   margin-left: 2rem;
   background-color: #F6EDE4;
 }
+
+/*Css of Setup Profile Page*/
+
+/* Custom styling for react-select */
+.custom-select .select__control {
+  border: none !important;
+  border-bottom: 2px solid #65AD87 !important;
+  box-shadow: none !important;
+}
+
+/* Remove default focus outline */
+.custom-select .select__control--is-focused {
+  box-shadow: none !important;
+  outline: 0 !important;
+}
+
+/* Adjust styles on hover */
+.custom-select .select__control:hover {
+  border-bottom: 2px solid #65AD87 !important;
+}
+
+/* Style for placeholder and selected values */
+.custom-select .select__placeholder,
+.custom-select .select__single-value {
+  color: #7B7D84; /* or whatever color you prefer */
+}
+
+/* Adjust multi-value container styling */
+.custom-select .select__multi-value {
+  background-color: #e1f5ec; /* Example: a light green background for selected items */
+  border: none !important;
+}
+
+.navigation-dots {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 1rem;
+}
+
+.dot {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form-container {
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.form-enter {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+.form-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.form-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.form-exit-active {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+
+/*________________________________________*/
 
 .logo-container img {
   width: 200px;

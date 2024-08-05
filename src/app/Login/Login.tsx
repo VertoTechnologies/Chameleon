@@ -74,6 +74,7 @@ const Login: React.FC = () => {
       } else {
         throw new Error(data.message || "Login failed");
       }
+      
     } catch (error) {
       console.error("Login Error:", error);
       // Handle error (e.g., show an error message)
