@@ -60,7 +60,7 @@ const ViewProfile: React.FC = () => {
           {" "}
           {/* Reduced margin-left */}
           <div className="bg-white py-4 mr-36 pr-36 rounded-xl shadow-lg w-[700px] max-h-[600px] overflow-y-auto  custom-scrollbar ">
-            <div className="absolute bottom-0 right-9 p-3">
+          <div className="absolute bottom-0 right-32 p-3">
               <Image
                 src="/assets/extras/dots.png" // Make sure this path is correct
                 alt="Decoration"
