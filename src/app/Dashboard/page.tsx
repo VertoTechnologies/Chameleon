@@ -12,8 +12,7 @@ import React, { useEffect, useState } from "react";
 import { IoChatbubbleSharp } from "react-icons/io5";
 import { useRouter } from "next/navigation";
 import withAuth from "../components/authComponents/withAuth";
-import Loading from "../components/loadingComponents/Loading"
-
+import Loading from "../components/loadingComponents/Loading";
 
 interface UserData {
   name: string;
@@ -35,18 +34,9 @@ const Page = () => {
   }, [profile]);
 
 
-
-  const handleChatClick = (event: React.MouseEvent<HTMLSpanElement>, userData: UserData) => {
-    router.push(`/Chat?friend=${userData.userId}`); // Navigate to the chat page of the clicked user
-
-  };
-  
-  
-
   if (!profile) {
     return <Loading />; // Or show a loading spinner or placeholder
   }
-
 
   const toggleButton = (button: string) => {
     setActiveButton(button);
