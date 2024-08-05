@@ -19,13 +19,19 @@ interface UserData {
   profilePic: string;
   userId: string;
 }
-
+interface Chat {
+  _id: string;
+  language: string;
+  groupPhoto: string;
+  users: string[];
+}
 const Page = () => {
   const { profile } = useUserProfile(
     typeof window !== "undefined" ? localStorage.getItem("userId") : null
   );
   const router = useRouter(); // Initialize useRouter
   const [activeButton, setActiveButton] = useState("friends");
+  const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
 
   const [onlineUsers, setOnlineUsers] = useState<
    UserData[]
@@ -82,11 +88,12 @@ const Page = () => {
       <div className="flex flex-grow">
         {/* Left Box or Communities */}
         {activeButton === "friends" ? (
-          <LeftBox activeButton={activeButton} toggleButton={toggleButton} />
+          <LeftBox activeButton={activeButton} toggleButton={toggleButton}   setSelectedChat={setSelectedChat} />
         ) : (
           <Communities
             activeButton={activeButton}
             toggleButton={toggleButton}
+          
           />
         )}
 
