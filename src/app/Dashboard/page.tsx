@@ -33,12 +33,6 @@ const Page = () => {
     console.log(profile);
   }, [profile]);
 
-  const handleChatClick = (
-    event: React.MouseEvent<HTMLSpanElement>,
-    userData: UserData
-  ) => {
-    router.push(`/Chat?friend=${userData.userId}`); // Navigate to the chat page of the clicked user
-  };
 
   if (!profile) {
     return <Loading />; // Or show a loading spinner or placeholder
