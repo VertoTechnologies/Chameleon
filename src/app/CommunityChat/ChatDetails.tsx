@@ -3,6 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { io } from 'socket.io-client';
+import ChatHeader from './CommunityComponents/Cheader';
+import MessageInput from './CommunityComponents/Input';
+import MessageBubble from './CommunityComponents/MessageBubble';
 
 interface Chat {
   _id: string;
@@ -16,86 +19,88 @@ interface Message {
   text: string;
   sender: {
     name: string;
+    picture: string; // Add picture field
+    _id: string;
   };
   createdAt: string;
 }
 
 const ChatDetails: React.FC<{ chat: Chat; userId: string }> = ({ chat, userId }) => {
-  const [text, setText] = useState('');
   const [messages, setMessages] = useState<Message[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [socket, setSocket] = useState<any>(null);
-  const chatId = chat._id
 
   useEffect(() => {
-    const socket = io({
+    const socketInstance = io({
       path: '/api/socket',
     });
 
-    setSocket(socket);
+    setSocket(socketInstance);
 
-    socket.emit('joinRoom', chatId);
+    socketInstance.emit('joinRoom', chat._id);
 
-    socket.on('previousMessages', (previousMessages) => {
+    socketInstance.on('previousMessages', (previousMessages) => {
       console.log('Previous messages received:', previousMessages);
       setMessages(previousMessages);
     });
 
-    socket.on('receiveMessage', (message) => {
+    socketInstance.on('receiveMessage', (message) => {
       console.log('New message received:', message);
       setMessages((prevMessages) => [...prevMessages, message]);
     });
 
-    socket.on('error', (error) => {
-      console.error('Socket error:', error);
-      setError(error.message);
+    socketInstance.on('error', (socketError) => {
+      console.error('Socket error:', socketError);
+      setError(socketError.message);
     });
 
     return () => {
-      socket.disconnect();
+      socketInstance.disconnect();
     };
   }, [chat._id]);
 
-  const sendMessage = async () => {
-    if (!text) return;
-
+  const sendMessage = async (message: string, timestamp: string) => {
     try {
       const response = await axios.post('/api/groups/groupMessage', {
         chatId: chat._id,
         userId,
-        text,
+        text: message,
+        createdAt: timestamp,
       });
-      setText('');
       const newMessage = response.data;
-    //   setMessages((prevMessages) => [...prevMessages, newMessage]);
-      socket.emit('sendMessage', { ...newMessage, chatId: chat._id, userId });
+      socket?.emit('sendMessage', { ...newMessage, chatId: chat._id, userId });
     } catch (err) {
       setError((err as Error).message || 'An error occurred while sending the message.');
     }
   };
 
   return (
-    <div>
-      <h2>Chat Details</h2>
-      <p>Language: {chat.language}</p>
-      <p>Users: {chat.users.join(', ')}</p>
-      <div>
-        <input
-          type="text"
-          placeholder="Write a message"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-        />
-        <button onClick={sendMessage}>Send</button>
-      </div>
-      {error && <p>Error: {error}</p>}
-      <div className="messages">
-        {messages.map((message) => (
-          <div key={message._id} className="message">
-            <p><strong>{message.sender.name}</strong>: {message.text}</p>
-            <p><small>{new Date(message.createdAt).toLocaleString()}</small></p>
+    <div
+      className="flex flex-col h-full rounded-lg shadow-lg relative bg-cover bg-center"
+      style={{ backgroundImage: "url('/assets/extras/Background.png')" }}
+    >
+      <div className="absolute inset-0 bg-[rgba(101,173,135,0.3)]"></div>
+      <div className="relative flex flex-col h-full">
+        <ChatHeader language={chat.language} profilePic={chat.groupPhoto} />
+
+        <div className="flex-1 p-4 overflow-y-auto h-0 chat-messages-container">
+          <div className="flex flex-col">
+            {messages.map((msg) => (
+               <MessageBubble
+               key={msg._id}
+               message={msg.text}
+               isOwnMessage={msg.sender._id === userId}
+               timestamp={msg.createdAt}
+               senderName={msg.sender.name}
+               senderPicture={msg.sender.picture} // Add this prop
+             />
+            ))}
           </div>
-        ))}
+        </div>
+
+        {error && <p className="text-red-500 text-center">{error}</p>}
+
+        <MessageInput onSend={sendMessage} />
       </div>
     </div>
   );

@@ -1,7 +1,12 @@
-'use client'
+'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import axios from 'axios';
+import Header from '../components/headerComponents/HomeHeader';
+import Footer from '@/app/components/footerComponents/footer';
+import LeftBox from '../components/friendsComponents/friends';
+import Communities from '../components/friendsComponents/FriendRequests';
 import ChatDetails from './ChatDetails';
 
 interface Chat {
@@ -15,10 +20,19 @@ const UserChatsPage: React.FC = () => {
   const [chats, setChats] = useState<Chat[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [activeButton, setActiveButton] = useState('friends');
+  const searchParams = useSearchParams();
   const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
-  
-  const userId = localStorage.getItem('userId'); // Replace with actual user ID or fetch from authentication context
+  const friendId = searchParams?.get('friend') ?? null;
+  const userId = localStorage.getItem('userId') || '';
 
+  const toggleButton = (button: string) => {
+    setActiveButton(button);
+  };
+  useEffect(() => {
+    console.log('Selected chat:', selectedChat);
+  }, [selectedChat]);
+  
   useEffect(() => {
     const fetchUserChats = async () => {
       try {
@@ -31,46 +45,45 @@ const UserChatsPage: React.FC = () => {
       }
     };
 
-    fetchUserChats();
-  }, []);
+    if (userId) {
+      fetchUserChats();
+    }
+  }, [userId]);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
-  if (selectedChat) {
-    return <ChatDetails chat={selectedChat} userId={userId} />;
-  }
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
-    <div>
-      <h1>Group Chats</h1>
-      {chats.length === 0 ? (
-        <div>No group chats found.</div>
-      ) : (
-        <ul>
-          {chats.map(chat => (
-            <div className='border' onClick={() => setSelectedChat(chat)} key={chat._id}>
-              <li key={chat._id}>
-                <h2>{chat.language}</h2>
-                <div className='w-14'>
-                  {chat.groupPhoto ? (
-                    <img src={chat.groupPhoto} alt="Group" />
-                  ) : (
-                    <img src={`/assets/extras/${chat.language}.png`} alt="Group" />
-                  )}
-                </div>
-              </li>
-            </div>
-          ))}
-        </ul>
-      )}
-    </div>
+    <section className="flex flex-col min-h-screen">
+      <Header />
+      <div className="flex flex-grow" style={{ maxHeight: 'calc(150vh - 60px - 50px)' }}>
+        {activeButton === 'friends' ? (
+          <LeftBox
+            activeButton={activeButton}
+            toggleButton={toggleButton}
+            setSelectedChat={setSelectedChat}
+           
+          />
+        ) : (
+          <Communities
+            activeButton={activeButton}
+            toggleButton={toggleButton}
+            //setSelectedChat={setSelectedChat}
+          
+          />
+        )}
+        <div className="flex-1 px-4 overflow-hidden">
+          {selectedChat ? (
+            <ChatDetails chat={selectedChat} userId={userId} />
+          ) : (
+            <div>Select a chat to view details.</div>
+          )}
+        </div>
+      </div>
+      <Footer />
+    </section>
   );
+  
 };
 
 export default UserChatsPage;
