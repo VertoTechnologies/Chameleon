@@ -58,7 +58,7 @@ const Chat: React.FC<ChatProps> = ({ friendId, chatroom }) => {
     }
 
     if (friendId && userId) {
-      const newEventSource = new EventSource(`/api/streamMessages?chatroom=${chatroom}`);
+      const newEventSource = new EventSource(`/api/streamMessages?chatroom=${chatroom}&senderId=${userId}`);
       console.log("New EventSource created:", newEventSource);
 
       newEventSource.onmessage = (event) => {
