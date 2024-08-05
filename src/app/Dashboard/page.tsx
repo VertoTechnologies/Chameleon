@@ -14,7 +14,6 @@ import { useRouter } from "next/navigation";
 import withAuth from "../components/authComponents/withAuth";
 import Loading from "../components/loadingComponents/Loading";
 
-
 interface UserData {
   name: string;
   profilePic: string;
@@ -28,44 +27,21 @@ const Page = () => {
   const router = useRouter(); // Initialize useRouter
   const [activeButton, setActiveButton] = useState("friends");
 
-  const [onlineUsers, setOnlineUsers] = useState<
-   UserData[]
-  >([]);
-
   useEffect(() => {
     if (!profile) return;
     useUserProfileStore.setState(profile);
     console.log(profile);
-
-    const fetchOnlineUsers = async () => {
-      try {
-        if (!profile?.userId) return;
-        const response = await fetch(
-          `/api/users/onlineusers?userId=${profile.userId}`
-        );
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const data = await response.json();
-        setOnlineUsers(data);
-      } catch (error) {
-        console.error("Error fetching online users:", error);
-      }
-    };
-
-    fetchOnlineUsers();
   }, [profile]);
 
-
-
-  const handleChatClick = (event: React.MouseEvent<HTMLSpanElement>, userData: UserData) => {
+  const handleChatClick = (
+    event: React.MouseEvent<HTMLSpanElement>,
+    userData: UserData
+  ) => {
     router.push(`/Chat?friend=${userData.userId}`); // Navigate to the chat page of the clicked user
-
   };
-  
-  
+
   if (!profile) {
-    return <Loading/>; // Or show a loading spinner or placeholder
+    return <Loading />; // Or show a loading spinner or placeholder
   }
 
   const toggleButton = (button: string) => {
@@ -92,10 +68,9 @@ const Page = () => {
         {/* Main Content Area */}
         <div className="flex-grow p-4">
           <div className="flex-col"></div>
-          <h1 className="text-mtextra text-xl font-bold mb-2">Online</h1>
-
-          {/* Online Users Section */}
-         
+          <div className="text-center text-2xl font-bold mt-4">
+            Coming Soon...
+          </div>
         </div>
 
         {/* Right Box */}
