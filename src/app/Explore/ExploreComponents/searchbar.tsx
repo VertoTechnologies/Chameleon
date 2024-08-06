@@ -23,7 +23,6 @@ interface User {
   profilePic: string
 }
 
-<<<<<<< Updated upstream
 const Searchbar: React.FC = () => {
   const profile = useProfile();
   const id = profile.userId
@@ -102,22 +101,6 @@ const Searchbar: React.FC = () => {
   const handleNextPage = () => {
     if (currentPage<((totalCount/4))) setCurrentPage(currentPage + 1);
     
-=======
-// SearchBar Component
-const SearchBar: React.FC<{ 
-  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void; 
-  handleKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void; 
-  buttonClicked: () => void; 
-  handleSelectChange: (value: string) => void;
-}> = ({ handleInputChange, handleKeyDown, buttonClicked, handleSelectChange }) => {
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [selectedFilter, setSelectedFilter] = useState<string>('Name'); // Default to 'Name'
-
-  const handleFilterClick = (filter: string) => {
-    const newFilter = filter === selectedFilter ? null : filter;
-    setSelectedFilter(newFilter || 'Name'); // Default to 'Name' if filter is null
-    handleSelectChange(newFilter || 'Name');
->>>>>>> Stashed changes
   };
 
   return (
@@ -140,7 +123,6 @@ const SearchBar: React.FC<{
             Search
           </button>
         </div>
-<<<<<<< Updated upstream
         <Select onValueChange={(value) => handleSelectChange(value)}>
   <SelectTrigger className="w-[180px]">
     <SelectValue placeholder="Select a Filter" />
@@ -152,29 +134,6 @@ const SearchBar: React.FC<{
     <SelectItem value="Learning Language">Learning Language</SelectItem>
   </SelectContent>
 </Select>
-=======
-        <div className="flex flex-wrap gap-2 mt-7">
-          {[  'Native Language', 'Fluent Language', 'Learning Language'].map((filter) => (
-            <button
-              key={filter}
-              onClick={() => handleFilterClick(filter)}
-              className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold whitespace-nowrap transition-colors duration-200 ${
-                selectedFilter === filter
-                  ? 'bg-[#B2EBF2] text-[#004D40] border border-[#004D40]'
-                  : 'bg-[#E0F7FA] text-[#00796B]'
-              }`}
-            >
-              {selectedFilter === filter && <FaCheck className="text-[#004D40]" />}
-             
-              {filter === 'Native Language' && <FaGlobe />}
-              {filter === 'Fluent Language' && <FaLanguage />}
-              {filter === 'Learning Language' && <FaBook />}
-              
-              {filter}
-            </button>
-          ))}
-        </div>
->>>>>>> Stashed changes
       </div>
 
       {/* Search Results */}
@@ -255,142 +214,4 @@ const SearchBar: React.FC<{
   );
 };
 
-<<<<<<< Updated upstream
 export default Searchbar;
-
-=======
-// SearchResults Component
-// SearchResults Component
-const SearchResults: React.FC<{ 
-  usersData: User[], 
-  handlePrevPage: () => void, 
-  handleNextPage: () => void, 
-  currentPage: number, 
-  totalCount: number 
-}> = ({ usersData, handlePrevPage, handleNextPage, currentPage, totalCount }) => {
-  // Calculate total pages based on total count and items per page (assuming 4 items per page)
-  const itemsPerPage = 4;
-  const totalPages = Math.ceil(totalCount / itemsPerPage);
->>>>>>> Stashed changes
-
-
-<<<<<<< Updated upstream
-=======
-      {/* Pagination Controls */}
-      <div className="flex justify-center items-center mt-4 space-x-4">
-        <button
-          className="px-4 py-2 bg-[#65AD87] text-white rounded-lg"
-          onClick={handlePrevPage}
-          disabled={currentPage === 1}
-        >
-          Previous
-        </button>
-        <span>
-          Page {currentPage} of {totalPages}
-        </span>
-        <button
-          className="px-4 py-2 bg-[#65AD87] text-white rounded-lg"
-          onClick={handleNextPage}
-          disabled={currentPage === totalPages}
-        >
-          Next
-        </button>
-      </div>
-    </div>
-  );
-};
-
-// Main Component
-const SearchSection: React.FC = () => {
-  const profile = useProfile();
-  const [input, setInput] = useState<string>('');
-  const [usersData, setUsersData] = useState<User[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalCount, setTotalCount] = useState(0);
-  const [option, setOption] = useState<string>('Name');
-  const [isSearchClicked, setIsSearchClicked] = useState<boolean>(false);
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    setInput(event.target.value);
-  };
-
-  const handleSelectChange = (value: string) => {
-    setOption(value);
-  };
-
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
-    if (event.key === 'Enter') {
-      event.preventDefault(); // Prevent default form submission
-      fetchUsersData(); // Trigger the search
-    }
-  };
-
-  const fetchUsersData = async () => {
-    try {
-      const response = await fetch(`/api/users/searchAndSuggestUsers?userId=${profile.userId}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ input, option, currentPage })
-      });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const data = await response.json();
-      setUsersData(data.users);
-      setTotalCount(data.totalCount);
-    } catch (error) {
-      console.error('Error fetching user data:', error);
-    }
-  };
-
-  const buttonClicked = (): void => {
-    setIsSearchClicked(true);
-    fetchUsersData();
-    setCurrentPage(1);
-  };
-
-  const handlePrevPage = () => {
-    if (currentPage > 1) setCurrentPage(currentPage - 1);
-  };
-
-  const handleNextPage = () => {
-    if (currentPage < Math.ceil(totalCount / 4)) setCurrentPage(currentPage + 1);
-  };
-
-  useEffect(() => {
-    if (currentPage !== 0) {
-      fetchUsersData();
-    }
-  }, [currentPage]);
-
-  return (
-    <div>
-      <SearchBar 
-        handleInputChange={handleInputChange} 
-        handleKeyDown={handleKeyDown} 
-        buttonClicked={buttonClicked} 
-        handleSelectChange={handleSelectChange} 
-      />
-      {isSearchClicked ? (
-        <SearchResults 
-          usersData={usersData} 
-          handlePrevPage={handlePrevPage} 
-          handleNextPage={handleNextPage} 
-          currentPage={currentPage} 
-          totalCount={totalCount} 
-        />
-      ) : (
-        <div className="flex flex-col items-center p-4 bg-[rgb(101,173,135,0.2)] rounded-lg shadow-lg ">
-          <RecResultsContainer user={usersData} />
-        </div>
-      )}
-    </div>
-  );
-};
-
-export default SearchSection;
->>>>>>> Stashed changes
