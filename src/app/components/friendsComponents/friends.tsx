@@ -1,8 +1,11 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useProfile } from "../../stores/UserStore";
 import { getFriendsList } from "./FriendApiCalls";
 import FriendActionsDropdown from "./friendsdropdown"; // Ensure the path is correct
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 interface LeftBoxProps {
   activeButton: string;
@@ -33,6 +36,7 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
   const profile = useProfile();
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const [alertType, setAlertType] = useState<"success" | "error" | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   async function removeFriend(requesterId: string, recipientId: string) {
     try {
@@ -76,6 +80,7 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
       try {
         const data = await getFriendsList(profile.userId);
         setFriendsList(data.friends);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching friends:", error);
       }
@@ -94,7 +99,11 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
   const handleFriendClick = async (userId: string) => {
     const chatroom: string = await getChatRoom(profile.userId, userId);
 
-    router.push(`/Chat?chatroom=${encodeURIComponent(chatroom)}&friendId=${encodeURIComponent(userId)}`);
+    router.push(
+      `/Chat?chatroom=${encodeURIComponent(
+        chatroom
+      )}&friendId=${encodeURIComponent(userId)}`
+    );
   };
 
   const handleBlockFriend = (userId: string) => {
@@ -189,7 +198,8 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
       </div>
 
       {/* Online Friends Section */}
-      <div className="mt-4 ml-6 mr-3">
+              <div className="mt-4 ml-6 mr-3">
+      
         {onlineFriends.length > 0 ? (
           <>
             {onlineFriends.map((user) => (
@@ -218,10 +228,21 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
             ))}
           </>
         ) : (
-          <div className="p-3 border-2 border-white">No friends online</div>
+          loading && (
+          <div className="p-3 border-2 border-transparent">
+            <Skeleton
+              height={420}
+              width={320}
+              enableAnimation={true}
+              baseColor="rgba(101, 173, 135, 0.2)"
+              highlightColor="rgba(101, 173, 135, 0.4)"
+              direction="ltr"
+            />
+          </div>)
         )}
 
         {/* Offline Friends Section */}
+        
         <div className="mt-4">
           {offlineFriends.length > 0 ? (
             <>
@@ -251,9 +272,14 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
               ))}
             </>
           ) : (
-            <div className="p-3 border-2 border-white">You have no friends</div>
+            friendsList.length === 0 && !loading && (
+              <div className="p-3 text-center text-gray-500">
+                No friends found.
+              </div>
+            )
           )}
         </div>
+
       </div>
     </div>
   );

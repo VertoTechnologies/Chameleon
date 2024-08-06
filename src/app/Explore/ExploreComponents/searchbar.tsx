@@ -4,6 +4,8 @@ import React, { useEffect, useState, useRef } from 'react';
 import { IoSearchOutline } from "react-icons/io5";
 import { useProfile } from '@/app/stores/UserStore';
 import UserProfile from './searchresults';
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import {
   Select,
   SelectContent,
@@ -28,92 +30,83 @@ const Searchbar: React.FC = () => {
   const [usersData, setUsersData] = useState<User[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
-  const [option, setOption] = useState<string>('Name')
+  const [option, setOption] = useState<string>('Name');
+  const [loading, setLoading] = useState<boolean>(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
-  // const option = 'Native Language';
-
-  //  const totalPages = Math.ceil(usersData.length / ITEMS_PER_PAGE);
-  // const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  // const selectedData = usersData.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
   // Handler for input change
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setInput(event.target.value);
   };
+
   const handleSelectChange = (value: string) => {
     setOption(value);
   };
+
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
     if (event.key === 'Enter') {
       event.preventDefault(); // Prevent default form submission
       fetchUsersData(); // Trigger the search
-      setCurrentPage(1)
+      setCurrentPage(1);
     }
   };
 
   const fetchUsersData = async () => {
-    console.log(profile.userId)
+    setLoading(true);
     try {
       const response = await fetch(`/api/users/searchAndSuggestUsers?userId=${profile.userId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({input, option, currentPage }) // Send data in the request body
+        body: JSON.stringify({ input: input.toLowerCase, option, currentPage }) // Send data in the request body
       });
-      {console.log(profile)}
+
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
 
       const data = await response.json();
       setUsersData(data.users);
-      setTotalCount(data.totalCount)
-      console.log("hhh"+data.totalCount)
+      setTotalCount(data.totalCountF);
     } catch (error) {
       console.error('Error fetching user data:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
   // Handler for button click
   const buttonClicked = (): void => {
     fetchUsersData();
-     setCurrentPage(1)
-    // Use the `input` state value here
-    
+    setCurrentPage(1);
     console.log('Input value:', input);
   };
 
   useEffect(() => {
-if(currentPage!=0){
-    fetchUsersData();}
+    if (currentPage !== 0) {
+      fetchUsersData();
+    }
     if (inputRef.current) {
       inputRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  },[currentPage]);
-  
-    
-  
+  }, [currentPage]);
+
   // Pagination handlers
   const handlePrevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
-    
   };
 
   const handleNextPage = () => {
-    if (currentPage<((totalCount/4))) setCurrentPage(currentPage + 1);
-    
+    if (currentPage < (totalCount / 4)) setCurrentPage(currentPage + 1);
   };
 
   return (
     <section id='about' className="relative max-w-full scroll-smooth bg-[#65ad87] bg-opacity-50 py-16 md:py-28 h-auto flex flex-col items-center">
       {/* Search Bar */}
-      
       <div className="flex flex-col justify-center items-center text-center px-6 md:px-12 md:text-left w-full mb-8">
-      
-        <div className="relative w-full md:w-6/12 lg:w-2/3"ref={inputRef}>
-
+        <div className="relative w-full md:w-6/12 lg:w-2/3" ref={inputRef}>
           <input 
             type="text" 
             className="w-full px-4 py-3 pl-10 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-white" 
@@ -128,51 +121,62 @@ if(currentPage!=0){
           >
             Search
           </button>
-          
         </div>
         <Select onValueChange={(value) => handleSelectChange(value)}>
-  <SelectTrigger className="w-[180px]">
-    <SelectValue placeholder="Select a Filter" />
-  </SelectTrigger>
-  <SelectContent>
-  <SelectItem value="Name">Name</SelectItem>
-    <SelectItem value="Native Language">Native Language</SelectItem>
-    <SelectItem value="Fluent Language">Fluent Language</SelectItem>
-    <SelectItem value="Learning Language">Learning Language</SelectItem>
-  </SelectContent>
-</Select>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select a Filter" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="Name">Name</SelectItem>
+            <SelectItem value="Native Language">Native Language</SelectItem>
+            <SelectItem value="Fluent Language">Fluent Language</SelectItem>
+            <SelectItem value="Learning Language">Learning Language</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       {/* Search Results */}
-      {usersData.length > 0 && (
-        <div className="max-w-full px-4 py-6">
-          <div className="grid gap-4">
-            {usersData.map((item) => (
-              <UserProfile key={item.userId} user={item} />
-            ))}
-          </div>
-
-          {/* Pagination Controls */}
-          <div className="flex justify-center items-center mt-4 space-x-4">
-            <button
-              className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md"
-              onClick={handlePrevPage}
-              disabled={currentPage === 1}
-            >
-              Previous
-            </button>
-            <span>
-              Page {currentPage} {/*of {totalPages}*/}
-            </span>
-            <button
-              className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md"
-              onClick={handleNextPage}
-              // disabled={currentPage === totalPages}
-            >
-              Next
-            </button>
-          </div>
+      {loading ? (
+        <div className='p-3'>
+          <Skeleton
+            height={300}
+            width={900}
+            enableAnimation={true}
+            baseColor="rgba(101, 173, 135, 0.2)"
+            highlightColor="rgba(101, 173, 135, 0.4)"
+            direction="ltr"
+          />
         </div>
+      ) : (
+        usersData.length > 0 && (
+          <div className="max-w-full px-4 py-6">
+            <div className="grid gap-4">
+              {usersData.map((item) => (
+                <UserProfile key={item.userId} user={item} />
+              ))}
+            </div>
+
+            {/* Pagination Controls */}
+            <div className="flex justify-center items-center mt-4 space-x-4">
+              <button
+                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md"
+                onClick={handlePrevPage}
+                disabled={currentPage === 1}
+              >
+                Previous
+              </button>
+              <span>
+                Page {currentPage}
+              </span>
+              <button
+                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md"
+                onClick={handleNextPage}
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        )
       )}
 
       {/* Decorative elements */}
@@ -210,6 +214,3 @@ if(currentPage!=0){
 };
 
 export default Searchbar;
-
-
-
