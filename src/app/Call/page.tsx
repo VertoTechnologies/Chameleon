@@ -11,11 +11,17 @@ import Communities from "@/app/components/friendsComponents/FriendRequests";
 
 // Dynamically import the Call component
 const Call = dynamic(() => import("./call"), { ssr: false });
-
+interface Chat {
+  _id: string;
+  language: string;
+  groupPhoto: string;
+  users: string[];
+}
 const AgoraProvider = dynamic(() => import("./provider"), { ssr: false });
 
 const ChatPage = () => {
   const [activeButton, setActiveButton] = useState("friends");
+  const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
   // const searchParams = useSearchParams();
   // const friendId = searchParams?.get("friend") ?? null; // Directly get 'friend' from searchParams
 
@@ -30,7 +36,7 @@ const ChatPage = () => {
       <div className="flex flex-grow">
         {/* Left Box or Communities */}
         {activeButton === "friends" ? (
-          <LeftBox activeButton={activeButton} toggleButton={toggleButton} />
+          <LeftBox activeButton={activeButton} toggleButton={toggleButton} setSelectedChat={setSelectedChat} />
         ) : (
           <Communities
             activeButton={activeButton}
