@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { useEffect, useState, useRef } from "react";
 import ChatHeader from "./ChatHeader";
 import MessageBubble from "./MessageBubble";
@@ -28,13 +28,23 @@ const Chat: React.FC<ChatProps> = ({ friendId, chatroom }) => {
   const [first, setFirst] = useState<Boolean>(true);
 
   useEffect(() => {
-    console.log("useEffect triggered with friendId:", friendId, "and userId:", userId);
+    console.log(
+      "useEffect triggered with friendId:",
+      friendId,
+      "and userId:",
+      userId
+    );
 
     const fetchMessages = async () => {
       if (friendId && userId) {
         try {
-          console.log("Fetching messages for:", { senderId: userId, receiverId: friendId });
-          const response = await fetch(`/api/chats/getmessage?chatroom=${chatroom}`);
+          console.log("Fetching messages for:", {
+            senderId: userId,
+            receiverId: friendId,
+          });
+          const response = await fetch(
+            `/api/chats/getmessage?chatroom=${chatroom}`
+          );
           if (!response.ok) throw new Error("Failed to fetch messages");
           const data = await response.json();
           //convert object
@@ -58,7 +68,9 @@ const Chat: React.FC<ChatProps> = ({ friendId, chatroom }) => {
     }
 
     if (friendId && userId) {
-      const newEventSource = new EventSource(`/api/streamMessages?chatroom=${chatroom}&senderId=${userId}`);
+      const newEventSource = new EventSource(
+        `/api/streamMessages?chatroom=${chatroom}&senderId=${userId}`
+      );
       console.log("New EventSource created:", newEventSource);
 
       newEventSource.onmessage = (event) => {
@@ -94,7 +106,7 @@ const Chat: React.FC<ChatProps> = ({ friendId, chatroom }) => {
   useEffect(() => {
     console.log("Messages updated:", messages);
     first
-      ? bottomRef.current?.scrollIntoView({ behavior: "auto" })   // Auto Scroll to bottom on first render
+      ? bottomRef.current?.scrollIntoView({ behavior: "auto" }) // Auto Scroll to bottom on first render
       : bottomRef.current?.scrollIntoView({ behavior: "smooth" }); // Smooth Scroll to bottom on messages update
   }, [messages]);
 
@@ -102,11 +114,65 @@ const Chat: React.FC<ChatProps> = ({ friendId, chatroom }) => {
     console.log("EventSource updated:", eventSource);
   }, [eventSource]);
 
+  const handleEditMessage = async (messageId: string, newMessage: string) => {
+    try {
+      const response = await fetch("/api/chats/editmessage", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ messageId, newMessage }),
+      });
+
+      if (response.ok) {
+        setMessages((prevMessages) =>
+          prevMessages.map((msg) =>
+            msg._id === messageId ? { ...msg, message: newMessage } : msg
+          )
+        );
+      } else {
+        console.error("Error editing message");
+      }
+    } catch (error) {
+      console.error("Error editing message:", error);
+    }
+  };
+
+  const handleDeleteMessage = async (messageId: string) => {
+    try {
+      const response = await fetch("/api/chats/deletemessage", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ messageId, chatroomId: chatroom }),
+      });
+    
+      if (response.ok) {
+        console.log("Message Deleted Successfully");
+    }
+    else {
+      console.error("Error deleting message");
+    }
+      {
+        setMessages((prevMessages) =>
+          prevMessages.filter((msg) => msg._id !== messageId)
+        );}
+      
+    } catch (error) {
+      console.error("Error deleting message:", error);
+    }
+  };
   const handleSend = async (message: string, timestamp: string) => {
     if (friendId && userId) {
       try {
         setFirst(false);
-        console.log("Sending message:", { senderId: userId, receiverId: friendId, message, timestamp });
+        console.log("Sending message:", {
+          senderId: userId,
+          receiverId: friendId,
+          message,
+          timestamp,
+        });
         const response = await fetch("/api/chats/sendmessage", {
           method: "POST",
           headers: {
@@ -131,8 +197,12 @@ const Chat: React.FC<ChatProps> = ({ friendId, chatroom }) => {
   };
 
   return (
-    <div className="flex flex-col h-[600px] rounded-lg shadow-lg relative bg-cover bg-center  overflow-y-auto custom-scrollbar" style={{ backgroundImage: "url('/assets/extras/Background.png')" }}>
-      <div className="absolute inset-0 bg-[rgba(101,173,135,0.3)]"></div> {/* Overlay */}
+    <div
+      className="flex flex-col h-[600px] rounded-lg shadow-lg relative bg-cover bg-center  overflow-y-auto custom-scrollbar"
+      style={{ backgroundImage: "url('/assets/extras/Background.png')" }}
+    >
+      <div className="absolute inset-0 bg-[rgba(101,173,135,0.3)]"></div>{" "}
+      {/* Overlay */}
       <div className="relative flex flex-col h-full">
         <ChatHeader friendId={friendId} />
         <div className="flex justify-center">
@@ -143,7 +213,14 @@ const Chat: React.FC<ChatProps> = ({ friendId, chatroom }) => {
         <div className="flex-1 p-4 overflow-y-auto h-0 chat-messages-container">
           <div className="flex flex-col">
             {messages.map((msg) => (
-              <MessageBubble key={msg._id} message={msg.message} isOwnMessage={msg.senderId === userId} timestamp={msg.timestamp} />
+              <MessageBubble
+              messageId={msg._id}
+                message={msg.message}
+                isOwnMessage={msg.senderId === userId}
+                timestamp={msg.timestamp}
+                onEdit={handleEditMessage}
+                onDelete={handleDeleteMessage}
+              />
             ))}
             <div ref={bottomRef} />
           </div>
