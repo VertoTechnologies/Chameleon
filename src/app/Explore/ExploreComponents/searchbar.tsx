@@ -40,7 +40,7 @@ const SearchBar: React.FC<{
         <div className="relative w-full md:w-6/12 lg:w-2/3" ref={inputRef}>
           <input 
             type="text" 
-            className="w-full px-4 py-3 pl-10 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-white rounded-" 
+            className="w-full px-4 py-3 pl-10 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-white rounded-lg" 
             placeholder="Search on basis of language..." 
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
