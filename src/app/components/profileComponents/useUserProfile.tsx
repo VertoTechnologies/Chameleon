@@ -11,6 +11,7 @@ interface UserProfile {
     learningLanguagess: string[],
     userInterests: string[],
     isOnline: boolean,
+    purpose:string
 }
 
 const useUserProfile = (userId: string | null) => {
