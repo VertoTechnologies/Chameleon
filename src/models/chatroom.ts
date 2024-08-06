@@ -1,9 +1,9 @@
 import mongoose, { Document, Schema } from "mongoose";
-import MessageSchema, { IMessage } from "./message";
+import { IMessage} from "./message";
 
 // Define an interface for the Chatroom document
 export interface IChatroom extends Document {
-  participants: mongoose.Schema.Types.ObjectId[];
+  participants: string[];
   messages: IMessage[];
   created_at: Date;
   updated_at: Date;
@@ -11,8 +11,8 @@ export interface IChatroom extends Document {
 
 // Define the Chatroom schema using the interface
 const ChatroomSchema: Schema<IChatroom> = new mongoose.Schema({
-  participants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }],
-  messages: [MessageSchema],
+  participants:  [{ type: String }],
+  messages: [],
   created_at: { type: Date, default: Date.now },
   updated_at: { type: Date, default: Date.now },
 });

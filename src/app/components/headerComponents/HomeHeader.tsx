@@ -11,11 +11,11 @@ const Header: React.FC = () => {
   const profile = useProfile();
 
   if (!profile) {
-    return null; // Or show a loading spinner or placeholder
+    return null; 
   }
 
   return (
-    <nav className="flex items-center justify-between max-w-container px-4 py-5 relative z-30">
+    <nav className="flex items-center justify-between max-w-container px-4 py-4 relative z-30">
       {/* Logo and Brand Name */}
       <div className="flex items-center">
         <Link href="/">

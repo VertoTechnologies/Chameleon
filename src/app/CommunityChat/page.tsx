@@ -86,4 +86,4 @@ const UserChatsPage: React.FC = () => {
   
 };
 
-export default UserChatsPage;
+export default page

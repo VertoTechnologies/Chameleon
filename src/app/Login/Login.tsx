@@ -2,22 +2,56 @@
 
 import Link from "next/link";
 import React, { useState } from "react";
+import axios from "axios";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { useRouter } from "next/navigation";
+import useEmailStore from "../stores/emailStore";
 
 const Login: React.FC = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const setUserEmail = useEmailStore((state) => state.setUserEmail);
+  const userEmail = useEmailStore((state) => state.userEmail);
   const router = useRouter();
+  const setOtp = useEmailStore((state) => state.setOtp);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
   const handleChange = (e: any) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: value,
     }));
+  };
+
+  const navigateToOtp = async () => {
+    const email = formData.email;
+    if (/^\S+@\S+\.\S+$/.test(email)) {
+      const OTP = Math.floor(Math.random() * 9000 + 1000);
+      setOtp(OTP.toString());
+
+      try {
+        await axios.post("/api/notifications/sendPasswordResetEmail", {
+          toEmail: userEmail,
+          OTP,
+        });
+        router.push("/ResetPassword");
+      } catch (error) {
+        console.error("Error sending email notification:", error);
+        // Optionally set an alert message for email error
+      }
+    } else {
+      alert("Please enter your email");
+    }
+  };
+
+  const onChange = (e: any) => {
+    const { name, value } = e.target;
+    setUserEmail(value);
+    handleChange(e);
   };
 
   const handleSubmit = async (e: any) => {
@@ -40,16 +74,17 @@ const Login: React.FC = () => {
       } else {
         throw new Error(data.message || "Login failed");
       }
-      
-    } catch (error) {
+    } catch (error: any) {
       console.error("Login Error:", error);
+      setErrorMessage(error.message); // Set error message
+
       // Handle error (e.g., show an error message)
     }
   };
+
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
-
   return (
     <div className="sign-up-form bg-white rounded-2xl px-10 py-10 w-full max-w-lg h-auto lg:w-1/2 lg:h-3/4 mx-auto my-10">
       <h1 className="mb-4 font-source-code text-3xl font-bold">Sign In</h1>
@@ -61,7 +96,7 @@ const Login: React.FC = () => {
               className="w-full p-2 mb-4 border-b border-green-200 focus:bg-green-100 outline-none"
               type="email"
               name="email"
-              onChange={handleChange}
+              onChange={onChange}
               required
             />
           </label>
@@ -83,14 +118,20 @@ const Login: React.FC = () => {
               ></i>
             </div>
           </label>
-          <div className="flex justify-between items-center mb-4">
-            <label className="flex text-xxs text-gray-400">
-              <input type="checkbox" className="mr-2 text-xxs" />
-              Remember me
-            </label>
-            <a href="/forgot-password" className="text-purple-500 text-xxs">
+          <div className="flex-col justify-between items-center mb-4">
+            {/* <Link href="/ResetPassword" className="text-purple-500 text-xxs">
               Forgot Password?
-            </a>
+            </Link> */}
+            
+              <div className="text-red-500 text-sm">{errorMessage && (errorMessage) }</div>
+           
+            <Link
+              href="/Login"
+              onClick={() => navigateToOtp()}
+              className="text-purple-500 text-xxs"
+            >
+              Forgot Password?
+            </Link>
           </div>
           <button
             className="w-full p-3 rounded-3xl bg-[#65AD87] hover:bg-[#65AD87] text-white px-1 py-2 text-xs"

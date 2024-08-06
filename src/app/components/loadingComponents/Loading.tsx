@@ -1,17 +1,33 @@
-import React from 'react'
-import Skeleton from 'react-loading-skeleton'
+"use client";
+import React from "react";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
-const Loading = () => {
+const loading = () => {
   return (
-    <div className="flex w-full h-screen overflow-hidden">
-      <div className="w-1/5 bg-gray-200">
-        <Skeleton height="100%" width="100%" />
+    <>
+      <div className="flex justify-between items-center px-2">
+
+      <Skeleton
+        height={100}
+        width={1520}
+        baseColor="rgba(101, 173, 135, 0.3)"
+      />
       </div>
-      <div className="w-4/5 bg-white">
-        <Skeleton height="100%" width="100%" />
+      <div className="flex justify-between items-center px-4 py-2">
+        <Skeleton
+          height={600}
+          width={350}
+          baseColor="rgba(101, 173, 135, 0.3)"
+        />
+        <Skeleton
+          height={600}
+          width={1130}
+          baseColor="rgba(101, 173, 135, 0.3)"
+        />
       </div>
-    </div>
+    </>
   );
 };
 
-export default Loading
+export default loading;

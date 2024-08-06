@@ -1,5 +1,7 @@
+"use client";
 import React from 'react'
 import LandingPage from './LandingPage/page'
+import withNoAuth from './components/authComponents/withNoAuth';
 
 const page = () => {
   return (
@@ -9,4 +11,4 @@ const page = () => {
   )
 }
 
-export default page
+export default withNoAuth(page);
