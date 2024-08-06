@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import React, { useState } from "react";
-import axios from 'axios'; 
+import axios from "axios";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { useRouter } from "next/navigation";
-import useEmailStore from '../stores/emailStore';
+import useEmailStore from "../stores/emailStore";
 
 const Login: React.FC = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -17,6 +17,7 @@ const Login: React.FC = () => {
     email: "",
     password: "",
   });
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -26,7 +27,6 @@ const Login: React.FC = () => {
     }));
   };
 
-
   const navigateToOtp = async () => {
     const email = formData.email;
     if (/^\S+@\S+\.\S+$/.test(email)) {
@@ -34,13 +34,13 @@ const Login: React.FC = () => {
       setOtp(OTP.toString());
 
       try {
-        await axios.post('/api/notifications/sendPasswordResetEmail', {
+        await axios.post("/api/notifications/sendPasswordResetEmail", {
           toEmail: userEmail,
           OTP,
         });
-        router.push('/ResetPassword')
+        router.push("/ResetPassword");
       } catch (error) {
-        console.error('Error sending email notification:', error);
+        console.error("Error sending email notification:", error);
         // Optionally set an alert message for email error
       }
     } else {
@@ -74,8 +74,10 @@ const Login: React.FC = () => {
       } else {
         throw new Error(data.message || "Login failed");
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Login Error:", error);
+      setErrorMessage(error.message); // Set error message
+
       // Handle error (e.g., show an error message)
     }
   };
@@ -116,16 +118,19 @@ const Login: React.FC = () => {
               ></i>
             </div>
           </label>
-          <div className="flex justify-between items-center mb-4">
-            <label className="flex text-xxs text-gray-400">
-              <input type="checkbox" className="mr-2 text-xxs" />
-              Remember me
-            </label>
+          <div className="flex-col justify-between items-center mb-4">
             {/* <Link href="/ResetPassword" className="text-purple-500 text-xxs">
               Forgot Password?
             </Link> */}
-            <Link href='/Login' onClick={()=> navigateToOtp()} className="text-purple-500 text-xxs">Forgot Password?
-
+            
+              <div className="text-red-500 text-sm">{errorMessage && (errorMessage) }</div>
+           
+            <Link
+              href="/Login"
+              onClick={() => navigateToOtp()}
+              className="text-purple-500 text-xxs"
+            >
+              Forgot Password?
             </Link>
           </div>
           <button
