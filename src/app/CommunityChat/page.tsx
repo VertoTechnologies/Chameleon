@@ -61,8 +61,6 @@ const UserChatsPage: React.FC = () => {
           <LeftBox
             activeButton={activeButton}
             toggleButton={toggleButton}
-            setSelectedChat={setSelectedChat}
-           
           />
         ) : (
           <Communities
@@ -86,4 +84,4 @@ const UserChatsPage: React.FC = () => {
   
 };
 
-export default page
+export default UserChatsPage;
