@@ -30,7 +30,7 @@ const UserChatsPage: React.FC = () => {
     setActiveButton(button);
   };
   useEffect(() => {
-    console.log('Selected chat:', selectedChat);
+    console.log('Selected cha:', selectedChat);
   }, [selectedChat]);
   
   useEffect(() => {
