@@ -8,6 +8,8 @@ import { useProfile } from '../stores/UserStore';
 import useFriendStore from '../stores/friendStore';
 import Searchbar from '@/app/Explore/ExploreComponents/searchbar';
 import withAuth from '../components/authComponents/withAuth';
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 interface User {
   userId: string;
@@ -25,6 +27,7 @@ const Explore: React.FC = () => {
   const [usersData, setUsersData] = useState<User[]>([]);
   const input = ''
   const option = ''
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   
   useEffect(() => {
@@ -39,8 +42,9 @@ const Explore: React.FC = () => {
         });
         {console.log(profile)}
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          console.error('Network response was not ok');
         }
+        setIsLoading(false);
 
         const data = await response.json();
         setUsersData(data.users);
@@ -60,9 +64,16 @@ const Explore: React.FC = () => {
       <h1 className="text-xl font-bold font-mt-extra text-center mb-4">
       Add Your Language Buddies
       </h1>
+      {!isLoading ?(
       <RecResultsContainer user={usersData} />
+      ):(
+        <Skeleton
+        height={320}
+        width={900}
+        baseColor="rgba(101, 173, 135, 0.3)"
+      />
+      )}
       </div>
-      <Footer />
     </section>
   );
 }; 

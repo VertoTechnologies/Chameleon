@@ -11,7 +11,7 @@ const Header: React.FC = () => {
   const profile = useProfile();
 
   if (!profile) {
-    return null; // Or show a loading spinner or placeholder
+    return null; 
   }
 
   return (

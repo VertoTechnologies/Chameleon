@@ -1,22 +1,20 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
-const initialState = {
-  userId: "",
-  name: "",
-  userDescription: "",
-  nativeLanguage: [],
-  fluentLanguagess: [],
-  learningLanguagess: [],
-  userInterests: [],
-  isOnline: false,
-  profilePic: "",
-};
 
 const useUserProfileStore = create(
   persist(
     (set) => ({
-      ...initialState,
+      userId: "",
+      name: "",
+      userDescription: "",
+      nativeLanguage: [],
+      fluentLanguagess: [],
+      learningLanguagess: [],
+      userInterests: [],
+      isOnline: Boolean,
+      profilePic: "",
+      purpose: "",
       setUserId: (userId: string) => set({ userId }),
       setName: (name: string) => set({ name }),
       setUserDescription: (userDescription: string) => set({ userDescription }),
@@ -28,7 +26,7 @@ const useUserProfileStore = create(
       setUserInterests: (userInterests: string[]) => set({ userInterests }),
       setIsOnline: (isOnline: boolean) => set({ isOnline }),
       setProfilePic: (profilePic: string) => set({ profilePic }),
-      reset: () => set(initialState),
+      setPurpose: (purpose: string) => set({ purpose })
     }),
     {
       name: "user-profile-storage", // Unique name for the storage
@@ -48,6 +46,7 @@ export const useProfile = () => {
     userInterests: state.userInterests,
     isOnline: state.isOnline,
     profilePic: state.profilePic,
+    purpose: state.purpose
   }));
 };
 

@@ -8,6 +8,7 @@ import Icebreaker from "@/app/components/icebreakerComponents/icebreaker";
 
 interface ChatProps {
   friendId: string | null;
+  chatroom: string | null;
 }
 
 interface Message {
@@ -18,7 +19,7 @@ interface Message {
   _id: string;
 }
 
-const Chat: React.FC<ChatProps> = ({ friendId }) => {
+const Chat: React.FC<ChatProps> = ({ friendId, chatroom }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const profile = useProfile();
   const userId = profile.userId;
@@ -33,11 +34,16 @@ const Chat: React.FC<ChatProps> = ({ friendId }) => {
       if (friendId && userId) {
         try {
           console.log("Fetching messages for:", { senderId: userId, receiverId: friendId });
-          const response = await fetch(`/api/chats/getmessage?senderId=${userId}&receiverId=${friendId}`);
+          const response = await fetch(`/api/chats/getmessage?chatroom=${chatroom}`);
           if (!response.ok) throw new Error("Failed to fetch messages");
           const data = await response.json();
+          //convert object
           console.log("Fetched messages:", data);
-          setMessages(data);
+          if (data && Array.isArray(data.messages)) {
+            setMessages(data.messages);
+          } else {
+            console.error("Fetched data is not in the expected format:", data);
+          }
         } catch (error) {
           console.error("Error fetching messages:", error);
         }
@@ -52,7 +58,7 @@ const Chat: React.FC<ChatProps> = ({ friendId }) => {
     }
 
     if (friendId && userId) {
-      const newEventSource = new EventSource(`/api/streamMessages?friendId=${friendId}&userId=${userId}`);
+      const newEventSource = new EventSource(`/api/streamMessages?chatroom=${chatroom}&senderId=${userId}`);
       console.log("New EventSource created:", newEventSource);
 
       newEventSource.onmessage = (event) => {
@@ -107,6 +113,7 @@ const Chat: React.FC<ChatProps> = ({ friendId }) => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
+            chatroomId: chatroom,
             senderId: userId,
             receiverId: friendId,
             message,
