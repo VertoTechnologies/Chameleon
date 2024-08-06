@@ -1,8 +1,6 @@
-// components/SearchResultsContainer.tsx
-
 'use client'
 import React from 'react';
-import UserProfile from '@/app/Explore/ExploreComponents/searchresults';
+import UserProfile from '@/app/Explore/ExploreComponents/searchbox';
 
 interface User {
   userId: string;
@@ -11,6 +9,9 @@ interface User {
   fluentLanguagess: string[],
   learningLanguagess: string[],
   profilePic: string;
+  userInterests: string[],
+  purpose:string
+
 }
 interface UserProfileProps {
   user: User[]; 

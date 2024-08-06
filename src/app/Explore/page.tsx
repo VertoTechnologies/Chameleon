@@ -1,5 +1,4 @@
 'use client'
-
 import React, { useState, useEffect } from 'react';
 import Header from '../components/headerComponents/HomeHeader';
 import Footer from '../components/footerComponents/footer';
@@ -56,13 +55,8 @@ const Explore: React.FC = () => {
     <section className="scroll-smooth overflow-y-auto h-screen scrollbar scrollbar-thumb-custom-green scrollbar-track-gray ">
       <Header />
       <Searchbar></Searchbar>
-      <div className="flex flex-col items-center p-4 bg-[rgb(101,173,135,0.2)] rounded-lg shadow-lg">
-      <h1 className="text-xl font-bold font-mt-extra text-center mb-4">
-      Add Your Language Buddies
-      </h1>
-      <RecResultsContainer user={usersData} />
-      </div>
-      <Footer />
+      
+      
     </section>
   );
 }; 
