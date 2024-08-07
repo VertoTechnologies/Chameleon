@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useProfile } from "../../stores/UserStore";
@@ -9,8 +9,6 @@ import FriendActionsDropdown from "./friendsdropdown"; // Ensure the path is cor
 interface LeftBoxProps {
   activeButton: string;
   toggleButton: (button: string) => void;
-  setSelectedChat: (chat: Chat) => void;
-
 }
 
 interface User {
@@ -38,7 +36,7 @@ interface Chat {
   users: string[];
 }
 
-const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton,setSelectedChat }) => {
+const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
   const router = useRouter();
   const [friendsList, setFriendsList] = useState<User[]>([]);
   const [communitiesList, setCommunitiesList] = useState<Chat[]>([]);
@@ -120,14 +118,6 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton,setSelecte
   };
 
   const handleCommunityClick = (chat: Chat) => {
-    console.log('Selected chat:', chat);
-    console.log('setSelectedChat:', setSelectedChat);  // Check if this is a function
-    if (typeof setSelectedChat === 'function') {
-      setSelectedChat(chat);
-    } else {
-      console.error('setSelectedChat is not a function');
-    }
-    
     router.push(`/CommunityChat?chatId=${chat._id}`);
   };
   
@@ -192,8 +182,7 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton,setSelecte
         <h2 className="text-lg font-bold mb-2">Communities</h2>
         {communitiesList.length > 0 ? (
   communitiesList.map((community) => (
-    <div key={community._id} className="flex items-center p-4 border-b-2 cursor-pointer" style={{ borderBottomColor: "#65AD87" }} onClick={() => handleCommunityClick(community)}
->
+    <div key={community._id} className="flex items-center p-4 border-b-2 cursor-pointer" style={{ borderBottomColor: "#65AD87" }} onClick={() => handleCommunityClick(community)}>
       <img src={community.groupPhoto || `/assets/extras/${community.language}.png`} alt={community.language} className="w-12 h-12 rounded-full mr-3" />
       <span className="text-lg font-medium flex-grow">{community.language}</span>
     </div>

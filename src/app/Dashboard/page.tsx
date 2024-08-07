@@ -88,7 +88,7 @@ const Page = () => {
       <div className="flex flex-grow">
         {/* Left Box or Communities */}
         {activeButton === "friends" ? (
-          <LeftBox activeButton={activeButton} toggleButton={toggleButton}   setSelectedChat={setSelectedChat} />
+          <LeftBox activeButton={activeButton} toggleButton={toggleButton}   />
         ) : (
           <Communities
             activeButton={activeButton}

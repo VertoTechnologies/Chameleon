@@ -7,6 +7,7 @@ import Footer from '@/app/components/footerComponents/footer';
 import LeftBox from '../components/friendsComponents/friends';
 import Chat from './Chatcomponents/Chat';
 import Communities from '../components/friendsComponents/FriendRequests';
+
 interface Chat {
   _id: string;
   language: string;
@@ -30,7 +31,7 @@ const ChatPage = () => {
       <div className="flex flex-grow" style={{ maxHeight: 'calc(150vh - 60px - 50px)' }}>
         {/* Left Box or Communities */}
         {activeButton === 'friends' ? (
-          <LeftBox activeButton={activeButton} toggleButton={toggleButton} setSelectedChat={setSelectedChat} />
+          <LeftBox activeButton={activeButton} toggleButton={toggleButton} />
         ) : (
           <Communities activeButton={activeButton} toggleButton={toggleButton} />
         )}

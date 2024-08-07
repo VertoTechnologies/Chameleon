@@ -1,13 +1,14 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import axios from 'axios';
 import Header from '../components/headerComponents/HomeHeader';
 import Footer from '@/app/components/footerComponents/footer';
 import LeftBox from '../components/friendsComponents/friends';
 import Communities from '../components/friendsComponents/FriendRequests';
 import ChatDetails from './ChatDetails';
+import { useProfile } from "../stores/UserStore";
 
 interface Chat {
   _id: string;
@@ -23,21 +24,27 @@ const UserChatsPage: React.FC = () => {
   const [activeButton, setActiveButton] = useState('friends');
   const searchParams = useSearchParams();
   const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
-  const friendId = searchParams?.get('friend') ?? null;
-  const userId = localStorage.getItem('userId') || '';
+  const chatId = searchParams?.get('chatId') ?? null;
+  const profile = useProfile();
+ 
+  const router = useRouter();
+
 
   const toggleButton = (button: string) => {
     setActiveButton(button);
   };
-  useEffect(() => {
-    console.log('Selected cha:', selectedChat);
-  }, [selectedChat]);
-  
+
   useEffect(() => {
     const fetchUserChats = async () => {
       try {
-        const response = await axios.get<Chat[]>(`/api/userprofile/getGroups?userId=${userId}`);
+        const response = await axios.get<Chat[]>(`/api/userprofile/getGroups?userId=${profile.userId}`);
         setChats(response.data);
+
+        // If a chatId is present, find the corresponding chat
+        if (chatId) {
+          const chat = response.data.find(c => c._id === chatId);
+          setSelectedChat(chat || null);
+        }
       } catch (err) {
         setError((err as Error).message || 'An error occurred while fetching chats.');
       } finally {
@@ -45,10 +52,10 @@ const UserChatsPage: React.FC = () => {
       }
     };
 
-    if (userId) {
+    if (profile.userId) {
       fetchUserChats();
     }
-  }, [userId]);
+  }, [profile.userId, chatId]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -61,20 +68,16 @@ const UserChatsPage: React.FC = () => {
           <LeftBox
             activeButton={activeButton}
             toggleButton={toggleButton}
-            setSelectedChat={setSelectedChat}
-           
           />
         ) : (
           <Communities
             activeButton={activeButton}
             toggleButton={toggleButton}
-            //setSelectedChat={setSelectedChat}
-          
           />
         )}
         <div className="flex-1 px-4 overflow-hidden">
           {selectedChat ? (
-            <ChatDetails chat={selectedChat} userId={userId} />
+            <ChatDetails chat={selectedChat} userId={profile.userId} />
           ) : (
             <div>Select a chat to view details.</div>
           )}
@@ -83,7 +86,6 @@ const UserChatsPage: React.FC = () => {
       <Footer />
     </section>
   );
-  
 };
 
 export default UserChatsPage;
