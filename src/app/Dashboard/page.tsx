@@ -13,6 +13,7 @@ import { IoChatbubbleSharp } from "react-icons/io5";
 import { useRouter } from "next/navigation";
 import withAuth from "../components/authComponents/withAuth";
 import Loading from "../components/loadingComponents/Loading";
+import Image from 'next/image'; // Import Image component
 
 interface UserData {
   name: string;
@@ -33,13 +34,16 @@ const Page = () => {
     console.log(profile);
   }, [profile]);
 
-
   if (!profile) {
     return <Loading />; // Or show a loading spinner or placeholder
   }
 
   const toggleButton = (button: string) => {
     setActiveButton(button);
+  };
+
+  const handleImageClick = () => {
+    router.push('/Explore'); // Replace with your target route
   };
 
   return (
@@ -60,19 +64,38 @@ const Page = () => {
         )}
 
         {/* Main Content Area */}
-        <div className="flex-grow p-4">
-          <div className="flex-col"></div>
-          <div className="text-center text-2xl font-bold mt-4">
-            Coming Soon...
+        <div className="flex-grow p-4 bg-[url('/assets/extras/dashboardbackground.png')] bg-cover bg-center">
+          {/* Add your clickable image here */}
+          <div onClick={handleImageClick}  className="absolute bottom-32 right-96  mr-24 cursor-pointer">
+            <Image
+              src="/assets/extras/cham.png" // Replace with the path to your image
+              alt="Clickable Image"
+              width={250} // Adjust width as needed
+              height={90} // Adjust height as needed
+              className="object-cover"
+            />
           </div>
+          <div onClick={handleImageClick}  className="absolute bottom-72 right-64   cursor-pointer">
+            <Image
+              src="/assets/extras/messagebubble.png" // Replace with the path to your image
+              alt="Clickable Image"
+              width={280} // Adjust width as needed
+              height={90} // Adjust height as needed
+              className="object-cover"
+            />
+             {/* Text Overlay */}
+             <div className="absolute inset-0 flex items-center justify-center text-center text-white text-md font-semibold">
+             <span className="transform translate-y-[-55%] translate-x-1">Find Chameleons Worldwide!</span>
+            </div>
+          </div>
+          {/* Content area is empty now */}
         </div>
 
-        {/* Right Box */}
-        <RightBox />
+       
       </div>
 
       {/* Footer Component */}
-      
+     
     </section>
   );
 };

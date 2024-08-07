@@ -28,13 +28,13 @@ const Header: React.FC = () => {
       
       {/* Navigation Links */}
       <div className="flex space-x-32 ml-14 "> {/* Increased space between navigation links */}
-        <Link href="/Dashboard" className="text-lg font-mt-extra text-black hover:text-gray-700">
+        <Link href="/Dashboard" className="text-xl font-mt-extra text-black hover:text-gray-700 ">
           Home
         </Link>
-        <Link href="/" className="text-lg font-mt-extra text-black hover:text-gray-700">
-          About us {/* Adjusted ml to match 92px spacing */}
+        <Link href="/Explore" className="text-xl font-mt-extra text-black hover:text-gray-700">
+          Suggestions {/* Adjusted ml to match 92px spacing */}
         </Link>
-        <Link href="/Explore" className="text-lg font-mt-extra text-black hover:text-gray-700">
+        <Link href="/Explore" className="text-xl font-mt-extra text-black hover:text-gray-700">
           Explore
         </Link>
       </div>
