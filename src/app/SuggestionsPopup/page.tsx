@@ -31,7 +31,7 @@ const Page: React.FC = () => {
         const userId=localStorage?.getItem('userId')
         setStoredUserId(userId);
 
-        const response = await fetch(`/api/users/searchAndSuggestUsers?userId=${storedUserId}`, {
+        const response = await fetch(`/api/users/suggestedUsers?userId=${storedUserId}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

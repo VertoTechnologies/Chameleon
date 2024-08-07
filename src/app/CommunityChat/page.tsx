@@ -43,7 +43,7 @@ const UserChatsPage: React.FC = () => {
   }
 
   if (selectedChat) {
-    return <ChatDetails chat={selectedChat} userId={userId} />;
+    return <ChatDetails chat={selectedChat} userId="lz9kw7vnb77snsdr" />;
   }
 
   return (

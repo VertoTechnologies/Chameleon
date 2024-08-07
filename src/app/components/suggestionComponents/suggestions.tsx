@@ -22,7 +22,7 @@ const RightBox: React.FC = () => {
   useEffect(() => {
     const fetchUsersData = async () => {
       try {
-        const response = await fetch(`/api/users/searchAndSuggestUsers?userId=${profile.userId}`, {
+        const response = await fetch(`/api/users/suggestedUsers?userId=${profile.userId}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

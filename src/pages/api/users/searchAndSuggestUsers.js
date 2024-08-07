@@ -21,16 +21,8 @@ export default async function searchAndSuggestUsers(req, res) {
         await dbConnect();
         const user = await User.findOne({userId:userId}).select('-password');
 
-        const friendships = await Friendship.find({
-            $or: [{ requester: user.userId }, { recipient: user.userId }]
-        });
+        let searches, totalCount;
 
-        const friendIds = friendships.map(friendship =>
-            friendship.requester.toString() === user.userId ? friendship.recipient : friendship.requester
-        );
-        let first3users, next3users, last3users, searches, totalCount;
-
-        if (input) {
             if (option === 'Name') {
                 searches = await User.find({
                     $and: [
@@ -86,78 +78,6 @@ export default async function searchAndSuggestUsers(req, res) {
             });
         }
             combinedUsers = searches;
-        } else {
-            if (user.purpose === 'To Teach') {
-                first3users = await User.find({
-                    $and: [
-                        { userId: { $nin: friendIds } },
-                        { userId: { $nin: user.userId } },
-                        { $or: [{ nativeLanguage: { $in: user.learningLanguagess } }, { fluentLanguagess: { $in: user.learningLanguagess } }] },
-                        { fluentLanguagess: { $in: user.fluentLanguagess } },
-                        { userInterests: { $in: user.userInterests } }
-                    ]
-                }).select('-password').limit(3);
-
-                next3users = await User.find({
-                    $and: [
-                        { userId: { $nin: friendIds } },
-                        { userId: { $nin: user.userId } },
-                        { $or: [{ nativeLanguage: { $in: user.learningLanguagess } }, { fluentLanguagess: { $in: user.learningLanguagess } }] },
-                        { userInterests: { $in: user.userInterests } }
-                    ]
-                }).select('-password').limit(3);
-
-                last3users = await User.find({
-                    $and: [
-                        { userId: { $nin: friendIds } },
-                        { userId: { $nin: user.userId } },
-                        { $or: [{ nativeLanguage: { $in: user.learningLanguagess } }, { fluentLanguagess: { $in: user.learningLanguagess } }] },
-                        { fluentLanguagess: { $in: user.fluentLanguagess } }
-                    ]
-                }).select('-password').limit(3);
-            } else {
-                first3users = await User.find({
-                    $and: [
-                        { userId: { $nin: friendIds } },
-                        { userId: { $nin: user.userId } },
-                        { nativeLanguage: { $in: user.learningLanguagess } },
-                        { learningLanguagess: user.nativeLanguage },
-                        { fluentLanguagess: { $in: user.fluentLanguagess } },
-                        { userInterests: { $in: user.userInterests } }
-                    ]
-                }).select('-password').limit(3);
-
-                next3users = await User.find({
-                    $and: [
-                        { userId: { $nin: friendIds } },
-                        { userId: { $nin: user.userId } },
-                        {
-                            $or: [
-                                { nativeLanguage: { $in: user.learningLanguagess } },
-                                { learningLanguagess: user.nativeLanguage }
-                            ]
-                        },
-                        { fluentLanguagess: { $in: user.fluentLanguagess } },
-                        { userInterests: { $in: user.userInterests } }
-                    ]
-                }).select('-password').limit(3);
-
-                last3users = await User.find({
-                    $and: [
-                        { userId: { $nin: friendIds } },
-                        { userId: { $nin: user.userId } },
-                        {
-                            $or: [
-                                { nativeLanguage: { $in: user.learningLanguagess } },
-                                { learningLanguagess: user.nativeLanguage }
-                            ]
-                        },
-                        { fluentLanguagess: { $in: user.fluentLanguagess } }
-                    ]
-                }).select('-password').limit(3);
-            }
-            combinedUsers = [...first3users, ...next3users, ...last3users];
-        }
    
         const users = Array.from(new Set(combinedUsers.map(user => user._id.toString())))
             .map(id => combinedUsers.find(user => user._id.toString() === id));
