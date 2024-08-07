@@ -209,7 +209,7 @@ const Chat: React.FC<ChatProps> = ({ friendId, chatroom }) => {
           </div>
         </div>
         <div className="flex-1 p-4 overflow-y-auto h-0 chat-messages-container">
-          <div className="flex flex-col">
+          <div className="flex flex-col ">
             {messages.map((msg) => (
               <MessageBubble
                 messageId={msg._id}

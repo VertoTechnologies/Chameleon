@@ -1,9 +1,9 @@
 // MessageInput.tsx
-'use client';
-import React, { useState } from 'react';
-import { IoIosSend } from 'react-icons/io';
-import { CiFaceSmile } from 'react-icons/ci';
-import Picker, { EmojiClickData } from 'emoji-picker-react';
+"use client";
+import React, { useState } from "react";
+import { IoIosSend } from "react-icons/io";
+import { CiFaceSmile } from "react-icons/ci";
+import Picker, { EmojiClickData } from "emoji-picker-react";
 import { RiGalleryUploadLine } from "react-icons/ri";
 import { CiImageOn } from "react-icons/ci";
 
@@ -12,7 +12,7 @@ interface MessageInputProps {
 }
 
 const MessageInput: React.FC<MessageInputProps> = ({ onSend }) => {
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [image, setImage] = useState<File | undefined>();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -20,9 +20,9 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSend }) => {
   const handleSend = () => {
     if (message.trim() || image) {
       const timestamp = new Date().toISOString(); // Get current time in ISO format
-      console.log('Sending message:', message, 'Timestamp:', timestamp); // Log message and timestamp
+      console.log("Sending message:", message, "Timestamp:", timestamp); // Log message and timestamp
       onSend(message, timestamp, image); // Pass message and image
-      setMessage('');
+      setMessage("");
       setImage(undefined);
       setImagePreview(null);
     }
@@ -48,13 +48,17 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSend }) => {
       {/* Image Preview */}
       {imagePreview && (
         <div className="flex flex-row">
-          <img src={imagePreview} alt="Preview" className="max-w-full max-h-48 rounded-lg bg-[#65AD87] p-4" />
+          <img
+            src={imagePreview}
+            alt="Preview"
+            className="max-w-full max-h-48 rounded-lg bg-[#65AD87] p-4"
+          />
           <button
-          onClick={handleSend}
-          className="text-[#65AD87] text-3xl z-10 max-w-fit"
-        >
+            onClick={handleSend}
+            className="text-[#65AD87] text-3xl z-10 max-w-fit"
+          >
             <IoIosSend />
-            </button>
+          </button>
         </div>
       )}
       {/* Input Field with Buttons */}
@@ -87,9 +91,12 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSend }) => {
           className="hidden"
           id="image-upload"
         />
-        <label htmlFor="image-upload" className="text-[#65AD87] text-3xl ml-2 cursor-pointer">
-        <CiImageOn />
-        </label>
+        <label
+          htmlFor="image-upload"
+          className="text-[#65AD87] text-3xl ml-2 cursor-pointer"
+        >
+          <CiImageOn />
+      </label>
         {/* Send Button */}
         <button
           onClick={handleSend}
