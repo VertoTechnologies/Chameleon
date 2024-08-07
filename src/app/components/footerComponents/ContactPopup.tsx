@@ -24,10 +24,10 @@ const ContactPopup: React.FC<ContactPopupProps> = ({ isOpen, onClose }) => {
         <button onClick={onClose} className="absolute top-2 right-2 text-2xl text-gray-600">
           <FaTimes />
         </button>
-        <h2 className="text-xl font-mt-extra font-bold mb-4 text-center text-green-600">Contact Us</h2>
+        <h2 className="text-xl font-inter font-bold mb-4 text-center text-green-600">Contact Us</h2>
         <div className="flex items-center mb-4">
           <FaPhoneAlt className="text-gray-700  text-2xl mr-2" />
-          <p className="text-gray-700 font-mt-extra">+1 234 567 890</p>
+          <p className="text-gray-700 font-inter">+1 234 567 890</p>
         </div>
         <div className="flex items-center mb-4">
           <FaEnvelope className="text-gray-700 text-2xl mr-2 " />

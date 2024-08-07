@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 import ProfileCard from "./ProfileCard";
 import LanguageProficiency from "./LanguageProficiency";
 import { useProfile } from "../stores/UserStore";
+import axios from "axios";
+
 
 const ViewProfile: React.FC = () => {
   interface Language {
@@ -37,17 +39,29 @@ const ViewProfile: React.FC = () => {
     setLearningLanguages(fetchedLearningLanguages);
   }, [profile.userId]);
 
-  const handleLevelChange = (
+  const handleLevelChange = async (
     languages: Language[],
     setLanguages: React.Dispatch<React.SetStateAction<Language[]>>,
     languageIndex: number,
     level: number
   ) => {
-    setLanguages((prevLanguages) =>
-      prevLanguages.map((lang, index) =>
-        index === languageIndex ? { ...lang, level } : lang
-      )
+    const updatedLanguages = languages.map((lang, index) =>
+      index === languageIndex ? { ...lang, level } : lang
     );
+    setLanguages(updatedLanguages);
+
+    // Make API call to update rank
+    const language = languages[languageIndex].language;
+    try {
+      const response = await axios.patch('/api/pages/userprofile/setRank', {
+        userId: profile.userId, // Ensure this is the correct userId
+        language,
+        newLevel: level
+      });
+      console.log('Rank updated:', response.data);
+    } catch (error) {
+      console.error('Error updating rank:', error);
+    }
   };
 
   return (
@@ -87,10 +101,16 @@ const ViewProfile: React.FC = () => {
                   setFluentLanguages,
                   languageIndex,
                   level
+                  
                 )
               }
               borderColor="border-[#DB3946]"
               lineColor="bg-gradient-to-r from-[#DB3946]"
+              color= 'white'
+              editable = {true}
+              textSize='2xl'
+              width='650px'
+              starH='9'
             />
             <LanguageProficiency
               title="Learning Languages"
@@ -105,6 +125,11 @@ const ViewProfile: React.FC = () => {
               }
               borderColor="border-[#9C3B5E]"
               lineColor="bg-gradient-to-r from-[#9C3B5E]"
+              color= 'white'
+              editable = {true}
+              textSize='2xl'
+              width='650px'
+              starH='9'
             />
           </div>
         </div>

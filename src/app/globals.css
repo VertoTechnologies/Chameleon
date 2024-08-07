@@ -3,6 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @font-face {
   font-family: 'MT Extra';
   src: url('/MTEXTRA.ttf') format('truetype');
@@ -61,6 +62,12 @@ body {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* Swipe Animation Styles */
+/* SuggestionBox.module.css */
+
+
+
+
 .sign-up-form input {
   width: 100%;
   padding: 0.5rem;
@@ -84,6 +91,80 @@ body {
   margin-left: 2rem;
   background-color: #F6EDE4;
 }
+.custom-select .select__control {
+  border: none !important;
+  border-bottom: 2px solid #65AD87 !important;
+  box-shadow: none !important;
+}
+
+/* Remove default focus outline */
+.custom-select .select__control--is-focused {
+  box-shadow: none !important;
+  outline: 0 !important;
+}
+
+/* Adjust styles on hover */
+.custom-select .select__control:hover {
+  border-bottom: 2px solid #65AD87 !important;
+}
+
+/* Style for placeholder and selected values */
+.custom-select .select__placeholder,
+.custom-select .select__single-value {
+  color: #7B7D84; /* or whatever color you prefer */
+}
+
+/* Adjust multi-value container styling */
+.custom-select .select__multi-value {
+  background-color: #e1f5ec; /* Example: a light green background for selected items */
+  border: none !important;
+}
+
+.navigation-dots {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 1rem;
+}
+
+.dot {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form-container {
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.form-enter {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+.form-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.form-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.form-exit-active {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+
+/*________________________________________*/
+
 
 .logo-container img {
   width: 200px;
@@ -131,6 +212,10 @@ body {
 
 .font-source-code-pro {
   font-family: 'Source Code Pro', monospace; /* Specific font for 'CHAMELEON' text */
+}
+
+.font-inter {
+  font-family: 'Inter', monospace; /* Specific font for 'CHAMELEON' text */
 }
 .scrollView {
   color: #8956ff; /* Example text color */

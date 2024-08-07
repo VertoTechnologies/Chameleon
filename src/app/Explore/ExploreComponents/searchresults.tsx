@@ -29,17 +29,17 @@ const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
       <div className="h-[100%] w-0.5 bg-gray-300 mx-6"></div> {/* Grey vertical line */}
       <div className="flex-grow">
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-xl font-bold font-mt-extra">{user.name}</h2>
+          <h2 className="text-xl font-bold font-inter">{user.name}</h2>
           <div className="bg-[#65AD87] text-white pl-3 rounded-full"><FriendButton id = {user.userId}></FriendButton></div>
            {/* Adjusted button */}
         </div>
         <hr className="border-t border-gray-300 my-3" />
         <div className="mb-3">
-          <p><span className="font-semibold font-mt-extra mr-6">Native Language</span> {user.nativeLanguage}</p>
+          <p><span className="font-semibold font-inter mr-6">Native Language</span> {user.nativeLanguage}</p>
           <hr className="border-t  border-gray-300 my-3" />
-          <p><span className="font-semibold font-mt-extra mr-6">Fluent Languages</span> {user.fluentLanguagess.join(' , ')}</p>
+          <p><span className="font-semibold font-inter mr-6">Fluent Languages</span> {user.fluentLanguagess.join(' , ')}</p>
           <hr className="border-t  border-gray-300 my-3" />
-          <p><span className="font-semibold font-mt-extra mr-6">Learning Languages</span> {user.learningLanguagess.join(', ')}</p>
+          <p><span className="font-semibold font-inter mr-6">Learning Languages</span> {user.learningLanguagess.join(', ')}</p>
         </div>
         <hr className="border-t  border-gray-300 my-3" /> 
       </div>

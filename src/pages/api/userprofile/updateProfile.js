@@ -1,6 +1,7 @@
 // updateProfile.js
 import dbConnect from "../../../middleware/mongodb";
 import User from "../../../models/user";
+import LanguageRank from "../../../models/rank"; 
 
 function _calculateAge(birthday) {
   // birthday is a date
@@ -40,7 +41,7 @@ function validateUpdateFields(updateData) {
 
   if (updateData.userInterests && updateData.userInterests.length < 1) {
     errors.userInterests = "User must have at least one interest";
-  }
+  } 
 
   if (updateData.nativeLanguages && updateData.nativeLanguages.length !== 1) {
     errors.nativeLanguages = "User must have one native language";
@@ -109,6 +110,25 @@ export default async function updateProfile(req, res) {
       return res.status(404).json({ message: "User not found" });
     }
 
+if(updateData.fluentLanguagess){ 
+    for (const language of updateData.fluentLanguagess) {
+      
+      await LanguageRank.findOneAndUpdate(
+        { userId: updatedUser._id, language },
+        { userId: updatedUser._id, language, level: 1, type: 'fluentLanguagess' },
+        { upsert: true, new: true }
+      );
+    }
+
+    for (const language of updateData.learningLanguagess) {
+      
+      await LanguageRank.findOneAndUpdate(
+        { userId: updatedUser._id, language },
+        { userId: updatedUser._id, language, level: 1, type: 'learningLanguagess' },
+        { upsert: true, new: true }
+      );
+    }
+  }
     res.status(200).json(updatedUser); // Send the updated user profile information
   } catch (error) {
     console.error("Error updating user profile", error);

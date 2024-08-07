@@ -57,7 +57,7 @@ const Explore: React.FC = () => {
       <Header />
       <Searchbar></Searchbar>
       <div className="flex flex-col items-center p-4 bg-[rgb(101,173,135,0.2)] rounded-lg shadow-lg">
-      <h1 className="text-xl font-bold font-mt-extra text-center mb-4">
+      <h1 className="text-xl font-bold font-inter text-center mb-4">
       Add Your Language Buddies
       </h1>
       <RecResultsContainer user={usersData} />

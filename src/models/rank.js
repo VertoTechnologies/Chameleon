@@ -1,9 +1,12 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-const RankSchema = new mongoose.Schema({
-    rankId : {type: String, required: true, unique: true},
-    userId : {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
-    rank : {type: Number, required: true},
+const LanguageRankSchema = new mongoose.Schema({
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    language: { type: String, required: true },
+    level: { type: Number, required: true },
+    type: { type: String, enum: ['learning', 'fluent'], required: true }, // Distinguishes between learning and fluent languages
 });
 
-export default mongoose.models.Rank || mongoose.model('Rank', RankSchema);
+const LanguageRank = mongoose.models.LanguageRank || mongoose.model('LanguageRank', LanguageRankSchema);
+
+export default LanguageRank;

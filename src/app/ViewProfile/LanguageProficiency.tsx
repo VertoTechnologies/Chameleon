@@ -11,15 +11,20 @@ interface LanguageProficiencyProps {
     onLevelChange: (languageIndex: number, level: number) => void;
     borderColor: string;
     lineColor: string;
-}
+    color: string;
+    editable: boolean;
+    textSize: string;
+    width: string;
+    starH: string;
+}   
 
-const LanguageProficiency: React.FC<LanguageProficiencyProps> = ({ title, languages, onLevelChange, borderColor, lineColor }) => {
+const LanguageProficiency: React.FC<LanguageProficiencyProps> = ({ title, languages, onLevelChange, borderColor, lineColor, color, editable, textSize, width, starH  }) => {
     return (
-        <div className="bg-white p-4 rounded-lg mb-4 ">
-            <h3 className="text-xl mb-4 font-bold">{title}</h3>
+        <div className={`bg-${color} pt-4 px-4 rounded-lg font-inter`}>
+            <h3 className={`text-${textSize} mb-4 font-inter font-medium`}>{title}</h3>
             <div className="space-y-4">
                 {languages.map(({ language, level }, languageIndex) => (
-                    <div key={languageIndex} className={`flex items-center justify-between p-4 bg-white rounded-lg w-[650px] shadow-md border-l-8 ${borderColor}`}>
+                    <div key={languageIndex} className={`flex items-center justify-between p-4 bg-white rounded-[20px] w-[${width}] shadow-lg border-l-8 ${borderColor}`} >
                         <div className="flex flex-col">
                             <span className="text-lg font-medium">{language}</span>
                             <div className={`h-1 mt-2 bg-gradient-to-r ${lineColor} to-transparent w-full`}></div>
@@ -28,8 +33,8 @@ const LanguageProficiency: React.FC<LanguageProficiencyProps> = ({ title, langua
                             {[...Array(5)].map((_, starIndex) => (
                                 <svg
                                     key={starIndex}
-                                    onClick={() => onLevelChange(languageIndex, starIndex + 1)}
-                                    className={`w-6 h-6 cursor-pointer ${starIndex < level ? 'text-yellow-400' : 'text-gray-300'}`}
+                                    onClick={() => editable && onLevelChange(languageIndex, starIndex + 1)}
+                                    className={`w-${starH} h-${starH} cursor-pointer ${starIndex < level ? 'text-yellow-400' : 'text-gray-300'}`}
                                     fill="currentColor"
                                     viewBox="0 0 20 20"
                                 >

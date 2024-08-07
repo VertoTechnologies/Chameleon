@@ -46,7 +46,7 @@ const ProfileCard: React.FC = () => {
       <div className="border-t border-gray-300 my-4 w-full"></div>
       <div className="">
         <div className="flex justify-between items-center">
-          <h2 className="text-4xl mb-2 flex-grow text-center font-mt-extra">
+          <h2 className="text-4xl mb-2 flex-grow text-center font-inter">
             {profile?.name}
           </h2>
           <div onClick={handleEditFile}>
@@ -57,12 +57,12 @@ const ProfileCard: React.FC = () => {
         <div>
             <p>Here {profile.purpose === 'both' ? 'to teach and learn' : profile.purpose}</p>
         </div>
-        <h3 className="font-bold text-xl mb-2 pt-10 font-mt-extra">
+        <h3 className="font-bold text-xl mb-2 pt-10 font-inter">
           Description
         </h3>
         <p className="text-black mb-4">{profile?.userDescription}</p>
         <div>
-          <h3 className="font-bold text-xl mb-2 pt-10 font-mt-extra">
+          <h3 className="font-bold text-xl mb-2 pt-10 font-inter">
             Interests
           </h3>
           {profile?.userInterests.join(", ")}
