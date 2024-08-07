@@ -1,5 +1,4 @@
 "use client";
-
 import Link from "next/link";
 import React, { useState } from "react";
 import axios from "axios";
@@ -9,6 +8,7 @@ import useEmailStore from "../stores/emailStore";
 
 const Login: React.FC = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false); // Add state for button disabled and loading
   const setUserEmail = useEmailStore((state) => state.setUserEmail);
   const userEmail = useEmailStore((state) => state.userEmail);
   const router = useRouter();
@@ -56,6 +56,7 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    setIsSubmitting(true); // Disable button and show spinner
 
     try {
       const response = await fetch("/api/userprofile/userLogin", {
@@ -77,14 +78,14 @@ const Login: React.FC = () => {
     } catch (error: any) {
       console.error("Login Error:", error);
       setErrorMessage(error.message); // Set error message
-
-      // Handle error (e.g., show an error message)
+      setIsSubmitting(false); // Re-enable button if there's an error
     }
   };
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
+
   return (
     <div className="sign-up-form bg-white rounded-2xl px-10 py-10 w-full max-w-lg h-auto lg:w-1/2 lg:h-3/4 mx-auto my-10">
       <h1 className="mb-4 font-source-code text-3xl font-bold">Sign In</h1>
@@ -119,12 +120,7 @@ const Login: React.FC = () => {
             </div>
           </label>
           <div className="flex-col justify-between items-center mb-4">
-            {/* <Link href="/ResetPassword" className="text-purple-500 text-xxs">
-              Forgot Password?
-            </Link> */}
-            
-              <div className="text-red-500 text-sm">{errorMessage && (errorMessage) }</div>
-           
+            <div className="text-red-500 text-sm">{errorMessage && errorMessage}</div>
             <Link
               href="/Login"
               onClick={() => navigateToOtp()}
@@ -136,8 +132,13 @@ const Login: React.FC = () => {
           <button
             className="w-full p-3 rounded-3xl bg-[#65AD87] hover:bg-[#65AD87] text-white px-1 py-2 text-xs"
             type="submit"
+            disabled={isSubmitting} // Disable button when submitting
           >
-            Sign In
+            {isSubmitting ? (
+              <i className="bi bi-arrow-repeat animate-spin"></i> // Show spinner
+            ) : (
+              "Sign In"
+            )}
           </button>
         </div>
       </form>

@@ -75,7 +75,8 @@ export default async function signUp(req, res) {
 
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return res.status(400).json({ message: 'Validation failed', errors: error.errors });
+      const errorMessages = error.errors.map(err => err.message);
+      return res.status(400).json({ message: errorMessages[0] });
     }
     console.error("Error creating user", error);
     res.status(500).json({ message: 'Error creating user' });

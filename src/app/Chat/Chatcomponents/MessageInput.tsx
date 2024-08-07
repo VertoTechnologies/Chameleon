@@ -5,6 +5,7 @@ import { IoIosSend } from 'react-icons/io';
 import { CiFaceSmile } from 'react-icons/ci';
 import Picker, { EmojiClickData } from 'emoji-picker-react';
 import { RiGalleryUploadLine } from "react-icons/ri";
+import { CiImageOn } from "react-icons/ci";
 
 interface MessageInputProps {
   onSend: (message: string, timestamp: string, image?: File) => void; // Updated to include image
@@ -87,7 +88,7 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSend }) => {
           id="image-upload"
         />
         <label htmlFor="image-upload" className="text-[#65AD87] text-3xl ml-2 cursor-pointer">
-          <RiGalleryUploadLine />
+        <CiImageOn />
         </label>
         {/* Send Button */}
         <button

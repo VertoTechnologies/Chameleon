@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { useRouter } from "next/navigation";
 
@@ -20,6 +20,8 @@ const SignUp: React.FC = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
     useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null); // Add state for error message
+  const [isSubmitting, setIsSubmitting] = useState(false); // Add state for button disabled and loading
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
@@ -28,6 +30,9 @@ const SignUp: React.FC = () => {
   const toggleConfirmPasswordVisibility = () => {
     setIsConfirmPasswordVisible(!isConfirmPasswordVisible);
   };
+
+  useEffect(() => {}, [errorMessage]);
+  useEffect(() => {}, [isSubmitting]);
 
   const [formData, setFormData] = useState<IFormData>({
     name: "",
@@ -62,9 +67,12 @@ const SignUp: React.FC = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault(); // Prevent default form submission behavior
+    setIsSubmitting(true); // Disable button and show spinner
 
     if (!validatePasswords()) {
-      alert("Passwords do not match");
+      setErrorMessage("Passwords do not match"); // Set error message for password mismatch
+      setIsSubmitting(false); // Enable button and hide spinner
+
       return;
     }
 
@@ -78,7 +86,8 @@ const SignUp: React.FC = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Network response was not ok");
       }
 
       const data = await response.json();
@@ -99,9 +108,12 @@ const SignUp: React.FC = () => {
       // Handle success (e.g., redirect to a login page or show a success message)
       localStorage?.setItem("userId", data.userId);
       router.push("/SetupProfile?userId=" + data.userId);
-    } catch (error) {
+    } catch (error: any) {
       // Handle error (e.g., show an error message)
       console.error("Sign Up Error:", error);
+      setIsSubmitting(false); // Enable button and hide spinner
+
+      setErrorMessage(error.message); // Set error message from backend
     }
   };
 
@@ -176,11 +188,20 @@ const SignUp: React.FC = () => {
               ></i>
             </div>
           </label>
+          <div className="text-red-500 text-sm mb-2 w-fit">
+            {errorMessage && errorMessage}
+          </div>{" "}
+          {/* Display error message */}
           <button
-            className="w-full p-3 rounded-3xl bg-[#65AD87] hover:bg-[#65AD87] text-white px-1 py-2 text-sm"
+            className="w-full p-3 rounded-3xl bg-[#65AD87] hover:bg-[#65AD87] text-white px-1 py-2 text-xs"
             type="submit"
+            disabled={isSubmitting} // Disable button when submitting
           >
-            Sign Up
+            {isSubmitting ? (
+              <i className="bi bi-arrow-repeat animate-spin"></i> // Show spinner
+            ) : (
+              "Sign Up"
+            )}
           </button>
         </div>
       </form>
