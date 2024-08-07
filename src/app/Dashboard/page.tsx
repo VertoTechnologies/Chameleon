@@ -47,7 +47,7 @@ const Page = () => {
   };
 
   return (
-    <section className="overflow-y-auto h-screen scroll-px-14 scrollbar scrollbar-thumb-custom-green scrollbar-track-gray">
+    <section className="h-screen ">
       {/* Header Component */}
       <Header />
 

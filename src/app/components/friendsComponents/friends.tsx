@@ -141,7 +141,7 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
   };
 
   return (
-    <div className="w-1/4 h-screen overflow-y-auto custom-scrollbar" style={{ backgroundColor: "rgba(101, 173, 135, 0.2)" }}>
+    <div className="w-1/4 h-[630px]  overflow-y-auto custom-scrollbar" style={{ backgroundColor: "rgba(101, 173, 135, 0.2)" }}>
       {alertMessage && (
         <div className={`fixed top-0 left-0 right-0 p-4 text-center z-50 ${alertType === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
           {alertMessage}
