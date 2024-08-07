@@ -10,7 +10,7 @@ interface RequestsProps {
 
 const FriendRequests: React.FC<RequestsProps> = ({ activeButton, toggleButton }) => {
   return (
-    <div className="w-1/4 h-[640px] overflow-y-auto custom-scrollbar" style={{ backgroundColor: 'rgba(101, 173, 135, 0.2)', boxShadow: '5px 4px 10px rgba(5, 5, 0, 0.5)' }}>
+    <div className="w-1/4 h-[650px] overflow-y-auto custom-scrollbar" style={{ backgroundColor: 'rgba(101, 173, 135, 0.2)', boxShadow: '5px 4px 10px rgba(5, 5, 0, 0.5)' }}>
       {/* Toggle Buttons */}
       <div className="p-4 flex mt-4 ml-7">
         <button

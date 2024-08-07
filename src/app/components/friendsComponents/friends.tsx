@@ -128,10 +128,7 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
   const offlineFriends = friendsList.filter((friend) => !friend.isOnline);
 
   return (
-    <div
-      className="w-1/4 h-[600px] overflow-y-auto custom-scrollbar"
-      style={{ backgroundColor: "rgba(101, 173, 135, 0.2)" }}
-    >
+    <div className="w-1/4 h-[630px]  overflow-y-auto custom-scrollbar" style={{ backgroundColor: "rgba(101, 173, 135, 0.2)" }}>
       {alertMessage && (
         <div
           className={`fixed top-0 left-0 right-0 p-4 text-center z-50 ${
