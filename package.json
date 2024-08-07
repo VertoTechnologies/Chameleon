@@ -22,6 +22,7 @@
     "bcryptjs": "^2.4.3",
     "bootstrap-icons": "^1.11.3",
     "class-variance-authority": "^0.7.0",
+    "cloudinary": "^2.4.0",
     "cmdk": "^1.0.0",
     "date-fns": "^3.6.0",
     "emoji-picker-react": "^4.11.1",
@@ -32,6 +33,7 @@
     "mongodb": "^6.8.0",
     "mongoose": "^8.5.0",
     "mongosh": "^2.2.10",
+    "multiparty": "^4.2.3",
     "next": "14.2.4",
     "next-auth": "^4.24.7",
     "nodemailer": "^6.9.14",
@@ -52,6 +54,7 @@
     "zustand": "^4.5.4"
   },
   "devDependencies": {
+    "@types/multiparty": "^0.0.36",
     "@types/node": "^20",
     "@types/nodemailer": "^6.4.15",
     "@types/react": "^18",

@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 interface MessageBubbleProps {
   messageId: string;
   message: string;
+  image?: string;
   isOwnMessage?: boolean;
   timestamp?: string;
   onEdit: (messageId: string, newMessage: string) => void;
@@ -13,6 +14,7 @@ interface MessageBubbleProps {
 const MessageBubble: React.FC<MessageBubbleProps> = ({
   messageId,
   message,
+  image,
   isOwnMessage,
   timestamp,
   onEdit,
@@ -64,16 +66,21 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
       >
         {isEditing ? (
           <div>
+            {image && (
+              <img
+                src={image}
+                alt="Image"
+                className="max-w-full max-h-48 rounded-lg mb-2"
+              />
+            )}
             <input
               type="text"
-              
               value={editedMessage}
               onChange={(e) => setEditedMessage(e.target.value)}
               className={`bg-[#65AD87] w-full rounded-lg text-white border-none outline-none`}
               style={{
                 backgroundColor: isOwnMessage ? "#65AD87" : "#f1f1f1",
                 width: inputWidth,
-                
               }}
             />
             <div>
@@ -86,7 +93,6 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
                   {formattedTimestamp}
                 </div>
               )}
-
               <div className="flex justify-end mt-2">
                 <button
                   onClick={handleEdit}
@@ -104,8 +110,15 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
             </div>
           </div>
         ) : (
-          <div>
-            {currMessage}
+          <>
+            {image && (
+              <img
+                src={image}
+                alt="Image"
+                className="max-w-full max-h-48 rounded-lg mb-2"
+              />
+            )}
+            <div>{currMessage}</div>
             {timestamp && (
               <div
                 className={`text-xs text-gray-500 mt-1 ${
@@ -115,7 +128,6 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
                 {formattedTimestamp}
               </div>
             )}
-
             {isOwnMessage && (
               <div className="flex justify-end mt-2">
                 <button
@@ -132,7 +144,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
                 </button>
               </div>
             )}
-          </div>
+          </>
         )}
         {showDeleteConfirm && (
           <div className="fixed inset-1 flex items-center justify-center bg-gray-800 bg-opacity-35 z-50">
@@ -145,10 +157,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
                 >
                   Cancel
                 </button>
-                <button
-                  onClick={handleDelete}
-                  className="text-xs text-red-500"
-                >
+                <button onClick={handleDelete} className="text-xs text-red-500">
                   Delete
                 </button>
               </div>
