@@ -269,7 +269,7 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
           loading && (
             <div className="p-3 border-2 border-transparent">
               <Skeleton
-                height={420}
+                height={160}
                 width={320}
                 enableAnimation={true}
                 baseColor="rgba(101, 173, 135, 0.2)"
@@ -310,16 +310,7 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
           </>
         ) : (
           loading && (
-            <div className="p-3 border-2 border-transparent">
-              <Skeleton
-                height={420}
-                width={320}
-                enableAnimation={true}
-                baseColor="rgba(101, 173, 135, 0.2)"
-                highlightColor="rgba(101, 173, 135, 0.4)"
-                direction="ltr"
-              />
-            </div>
+          <></>
           )
         )}
       </div>
@@ -350,16 +341,16 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
             ))
           : loading && (
               <>
-                <div className="p-3 border-2 border-transparent">
-                  <Skeleton
-                    height={420}
-                    width={320}
-                    enableAnimation={true}
-                    baseColor="rgba(101, 173, 135, 0.2)"
-                    highlightColor="rgba(101, 173, 135, 0.4)"
-                    direction="ltr"
-                  />
-                </div>
+                  <div className="p-3 border-2 border-transparent">
+              <Skeleton
+                height={160}
+                width={320}
+                enableAnimation={true}
+                baseColor="rgba(101, 173, 135, 0.2)"
+                highlightColor="rgba(101, 173, 135, 0.4)"
+                direction="ltr"
+              />
+            </div>
               </>
             )}
       </div>
