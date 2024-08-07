@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useProfile } from "../../stores/UserStore";
@@ -6,6 +6,7 @@ import { getFriendsList } from "./FriendApiCalls";
 import FriendActionsDropdown from "./friendsdropdown"; // Ensure the path is correct
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import axios from "axios";
 
 interface LeftBoxProps {
   activeButton: string;
@@ -30,9 +31,17 @@ interface User {
   learningLanguagess?: string[];
 }
 
+interface Chat {
+  _id: string;
+  language: string;
+  groupPhoto: string;
+  users: string[];
+}
+
 const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
   const router = useRouter();
   const [friendsList, setFriendsList] = useState<User[]>([]);
+  const [communitiesList, setCommunitiesList] = useState<Chat[]>([]);
   const profile = useProfile();
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const [alertType, setAlertType] = useState<"success" | "error" | null>(null);
@@ -88,6 +97,27 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
     fetchFriendList();
   }, [profile.userId]);
 
+  useEffect(() => {
+    const fetchCommunitiesList = async () => {
+      const userId = profile.userId;
+      if (!userId) {
+        console.error("User ID is undefined");
+        return;
+      }
+
+      try {
+        const response = await axios.get<Chat[]>(
+          `/api/userprofile/getGroups?userId=${userId}`
+        );
+        setCommunitiesList(response.data);
+      } catch (error) {
+        console.error("Error fetching communities:", error);
+      }
+    };
+
+    fetchCommunitiesList();
+  }, [profile.userId]);
+
   const getChatRoom = async (userId1: string, userId2: string) => {
     // Call the getChatRoom API
     const response = await fetch(
@@ -123,12 +153,23 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
     }
   };
 
+  const handleCommunityClick = (communityId: string) => {
+    router.push(`/Community?communityId=${encodeURIComponent(communityId)}`);
+  };
+
+  const handleLeaveCommunity = (communityId: string) => {
+    console.log(`Leave community with ID: ${communityId}`);
+  };
+
   // Separate online and offline friends
   const onlineFriends = friendsList.filter((friend) => friend.isOnline);
   const offlineFriends = friendsList.filter((friend) => !friend.isOnline);
 
   return (
-    <div className="w-1/4 h-[630px]  overflow-y-auto custom-scrollbar" style={{ backgroundColor: "rgba(101, 173, 135, 0.2)" }}>
+    <div
+      className="w-1/4 h-[600px] overflow-y-auto custom-scrollbar"
+      style={{ backgroundColor: "rgba(101, 173, 135, 0.2)" }}
+    >
       {alertMessage && (
         <div
           className={`fixed top-0 left-0 right-0 p-4 text-center z-50 ${
@@ -240,42 +281,87 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
         )}
 
         {/* Offline Friends Section */}
-        <div className="mt-4">
-          {offlineFriends.length > 0 ? (
-            <>
-              {offlineFriends.map((user) => (
-                <div
-                  key={user.userId}
-                  className="flex items-center p-4 border-b-2 cursor-pointer"
-                  style={{ borderBottomColor: "#65AD87" }}
+        {offlineFriends.length > 0 ? (
+          <>
+            {offlineFriends.map((user) => (
+              <div
+                key={user.userId}
+                className="flex items-center p-4 border-b-2 cursor-pointer"
+                style={{ borderBottomColor: "#65AD87" }}
+              >
+                <img
+                  src={user.profilePic || "/assets/extras/profilepicture.png"}
+                  alt={user.name}
+                  className="w-12 h-12 rounded-full mr-3 border-4 border-gray-500"
+                  onClick={() => handleFriendClick(user.userId)}
+                />
+                <span
+                  className="text-lg font-medium flex-grow"
+                  onClick={() => handleFriendClick(user.userId)}
                 >
-                  <img
-                    src={user.profilePic || "/assets/extras/profilepicture.png"}
-                    alt={user.name}
-                    className="w-12 h-12 rounded-full mr-3"
-                    onClick={() => handleFriendClick(user.userId)}
-                  />
-                  <span
-                    className="text-lg font-medium flex-grow"
-                    onClick={() => handleFriendClick(user.userId)}
-                  >
-                    {user.name}
-                  </span>
-                  <FriendActionsDropdown
-                    onBlock={() => handleBlockFriend(user.userId)}
-                    onRemove={() => handleRemoveFriend(user.userId)}
+                  {user.name}
+                </span>
+                <FriendActionsDropdown
+                  onBlock={() => handleBlockFriend(user.userId)}
+                  onRemove={() => handleRemoveFriend(user.userId)}
+                />
+              </div>
+            ))}
+          </>
+        ) : (
+          loading && (
+            <div className="p-3 border-2 border-transparent">
+              <Skeleton
+                height={420}
+                width={320}
+                enableAnimation={true}
+                baseColor="rgba(101, 173, 135, 0.2)"
+                highlightColor="rgba(101, 173, 135, 0.4)"
+                direction="ltr"
+              />
+            </div>
+          )
+        )}
+      </div>
+
+      {/* Community Section */}
+      <div className="mt-4 ml-6 mr-3">
+        <h2 className="text-2xl font-semibold">Communities</h2>
+        {communitiesList.length > 0
+          ? communitiesList.map((community) => (
+              <div
+                key={community._id}
+                className="flex items-center p-4 border-b-2 cursor-pointer"
+                style={{ borderBottomColor: "#65AD87" }}
+                onClick={() => handleCommunityClick(community._id)}
+              >
+                <img
+                  src={
+                    community.groupPhoto ||
+                    `/assets/extras/${community.language}.png`
+                  }
+                  alt={community.language}
+                  className="w-12 h-12 rounded-full mr-3"
+                />
+                <span className="text-lg font-medium flex-grow">
+                  {community.language}
+                </span>
+              </div>
+            ))
+          : loading && (
+              <>
+                <div className="p-3 border-2 border-transparent">
+                  <Skeleton
+                    height={420}
+                    width={320}
+                    enableAnimation={true}
+                    baseColor="rgba(101, 173, 135, 0.2)"
+                    highlightColor="rgba(101, 173, 135, 0.4)"
+                    direction="ltr"
                   />
                 </div>
-              ))}
-            </>
-          ) : (
-            friendsList.length === 0 && !loading && (
-              <div className="p-3 text-center text-gray-500">
-                No friends added yet
-              </div>
-            )
-          )}
-        </div>
+              </>
+            )}
       </div>
     </div>
   );
