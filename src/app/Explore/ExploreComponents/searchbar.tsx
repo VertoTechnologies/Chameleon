@@ -5,6 +5,7 @@ import { useProfile } from '@/app/stores/UserStore';
 import UserProfile from './searchbox';
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import RecResultsContainer from '../../components/suggestionComponents/recommendationComponent'
 import { FaUser, FaLanguage, FaGlobe, FaBook, FaCheck } from 'react-icons/fa';
 
 // Define the User type
@@ -161,12 +162,12 @@ const SearchResults: React.FC<{
 // Main Component
 const SearchSection: React.FC = () => {
   const profile = useProfile();
-  const id = profile.userId;
   const [input, setInput] = useState<string>('');
   const [usersData, setUsersData] = useState<User[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
   const [option, setOption] = useState<string>('Name');
+  const [isSearchClicked, setIsSearchClicked] = useState<boolean>(false);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setInput(event.target.value);
@@ -178,8 +179,8 @@ const SearchSection: React.FC = () => {
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
     if (event.key === 'Enter') {
-      event.preventDefault(); // Prevent default form submission
-      fetchUsersData(); // Trigger the search
+      event.preventDefault();
+      fetchUsersData();
     }
   };
 
@@ -206,6 +207,7 @@ const SearchSection: React.FC = () => {
   };
 
   const buttonClicked = (): void => {
+    setIsSearchClicked(true);
     fetchUsersData();
     setCurrentPage(1);
   };
@@ -225,22 +227,27 @@ const SearchSection: React.FC = () => {
   }, [currentPage]);
 
   return (
-    <section id='about' >
+    <div>
       <SearchBar 
-        handleInputChange={handleInputChange}
-        handleKeyDown={handleKeyDown}
-        buttonClicked={buttonClicked}
-        handleSelectChange={handleSelectChange}
+        handleInputChange={handleInputChange} 
+        handleKeyDown={handleKeyDown} 
+        buttonClicked={buttonClicked} 
+        handleSelectChange={handleSelectChange} 
       />
-      <SearchResults 
-        usersData={usersData} 
-        handlePrevPage={handlePrevPage} 
-        handleNextPage={handleNextPage} 
-        currentPage={currentPage} 
-        totalCount={totalCount} 
-      />
-    </section>
+      {isSearchClicked ? (
+        <SearchResults 
+          usersData={usersData} 
+          handlePrevPage={handlePrevPage} 
+          handleNextPage={handleNextPage} 
+          currentPage={currentPage} 
+          totalCount={totalCount} 
+        />
+      ) : (
+        <div className="flex flex-col items-center p-4 bg-[rgb(101,173,135,0.2)] rounded-lg shadow-lg ">
+           <RecResultsContainer user={usersData} />
+        </div>
+      )}
+    </div>
   );
 };
-
 export default SearchSection;
