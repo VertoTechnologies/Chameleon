@@ -1,5 +1,6 @@
 import dbConnect from "../../../middleware/mongodb";
 import LanguageRank from "../../../models/rank"; // Assuming you have this model
+import User from '../../../models/user';
 
 export default async function setRank(req, res) {
   if (req.method !== "PATCH") {
@@ -15,7 +16,7 @@ export default async function setRank(req, res) {
   try {
     await dbConnect();
 
-    const user = await findOne({userId: userId})
+    const user = await User.findOne({userId: userId})
     console.log(user)
     console.log(language)
 

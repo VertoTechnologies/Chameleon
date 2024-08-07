@@ -115,7 +115,7 @@ if(updateData.fluentLanguagess){
       
       await LanguageRank.findOneAndUpdate(
         { userId: updatedUser._id, language },
-        { userId: updatedUser._id, language, level: 1, type: 'fluentLanguagess' },
+        { userId: updatedUser._id, language, level: 1, type: 'fluent' },
         { upsert: true, new: true }
       );
     }
@@ -124,7 +124,7 @@ if(updateData.fluentLanguagess){
       
       await LanguageRank.findOneAndUpdate(
         { userId: updatedUser._id, language },
-        { userId: updatedUser._id, language, level: 1, type: 'learningLanguagess' },
+        { userId: updatedUser._id, language, level: 1, type: 'learning' },
         { upsert: true, new: true }
       );
     }

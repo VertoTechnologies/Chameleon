@@ -16,11 +16,12 @@ interface LanguageProficiencyProps {
     textSize: string;
     width: string;
     starH: string;
+    num: number
 }   
 
-const LanguageProficiency: React.FC<LanguageProficiencyProps> = ({ title, languages, onLevelChange, borderColor, lineColor, color, editable, textSize, width, starH  }) => {
+const LanguageProficiency: React.FC<LanguageProficiencyProps> = ({ title, languages, onLevelChange, borderColor, lineColor, color, editable, textSize, width, starH, num  }) => {
     return (
-        <div className={`bg-${color} pt-4 px-4 rounded-lg font-inter`}>
+        <div className={`bg-${color} pt-4 px-4 pb-${num} mb-${num} rounded-lg font-inter`}>
             <h3 className={`text-${textSize} mb-4 font-inter font-medium`}>{title}</h3>
             <div className="space-y-4">
                 {languages.map(({ language, level }, languageIndex) => (

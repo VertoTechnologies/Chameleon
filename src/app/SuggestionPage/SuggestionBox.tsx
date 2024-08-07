@@ -23,15 +23,23 @@ interface User {
     userInterests: string[];
     profilePic: string;
     purpose: string;
+    learningLanguageRanks: Language[];
+    fluentLanguageRanks: Language[];
 }
+
+// const useUserLanguages = (initialLanguage: Language[]) => {
+//     const [lang, set] = useState(initialLanguage);
+//     const handleLanguageChange = () => {
+//             // handle language change logic
+//     }
+//     return [lang, handleLanguageChange];
+// }
 
 const SuggestionBox = () => {
     const profile = useProfile();
     const [usersData, setUsersData] = useState<User[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [swipeDirection, setSwipeDirection] = useState<'left' | 'right' | null>(null);
-    const [fluentLanguages, setFluentLanguages] = useState<Language[]>([]);
-    const [learningLanguages, setLearningLanguages] = useState<Language[]>([]);
 
     const sendEmailNotification = async (toEmail: string, fromUserName: string) => {
         const emailText = `Ready to Connect with People?<br>${fromUserName} wants to be your New Language Buddy! Add them back and learn together.`;
@@ -46,19 +54,6 @@ const SuggestionBox = () => {
             console.error('Error sending email notification:', error);
             // Optionally set an alert message for email error
         }
-    }
-
-    const handleLevelChange = (
-        languages: Language[],
-        setLanguages: React.Dispatch<React.SetStateAction<Language[]>>,
-        languageIndex: number,
-        level: number
-    ) => {
-        setLanguages((prevLanguages) =>
-            prevLanguages.map((lang, index) =>
-                index === languageIndex ? { ...lang, level } : lang
-            )
-        );
     }
 
     useEffect(() => {
@@ -80,9 +75,16 @@ const SuggestionBox = () => {
             } catch (error) {
                 console.error('Error fetching user data:', error);
             }
+        
         };
 
         fetchUsersData();
+        
+        // const getUsersRank = async () => {
+        //     try {
+        //         const response = await fetch(`/api/userprofile/getRank?userId=${profile.userId}`)
+        //     }
+        // }
     }, [profile.fluentLanguagess]);
 
     // Function for handling swipe to the right
@@ -132,22 +134,6 @@ const handleSwipeLeft = async () => {
 
     const currentUser = usersData[currentIndex];
 
-    useEffect(() => {
-        if (currentUser) {
-            setFluentLanguages(
-                currentUser.fluentLanguagess.map((lang) => ({
-                    language: lang,
-                    level: 1, // or any other default level
-                }))
-            );
-            setLearningLanguages(
-                currentUser.learningLanguagess.map((lang) => ({
-                    language: lang,
-                    level: 1, // or any other default level
-                }))
-            );
-        }
-    }, [currentUser]);
 
     return (
         <div className='px-16 py-4 h-[570px] font-inter'>
@@ -207,16 +193,11 @@ const handleSwipeLeft = async () => {
                             </div>
 
                             {/* Fluent Languages */}
+                            {currentUser.learningLanguageRanks.length > 0 ? (       
                             <LanguageProficiency
                                 title="Fluent Languages"
-                                languages={fluentLanguages}
-                                onLevelChange={(languageIndex, level) =>
-                                    handleLevelChange(
-                                        fluentLanguages,
-                                        setFluentLanguages,
-                                        languageIndex,
-                                        level
-                                    )
+                                languages={currentUser.fluentLanguageRanks}
+                                onLevelChange={() =>{}
                                 }
                                 borderColor="border-[#DB3946]"
                                 lineColor="bg-gradient-to-r from-[#DB3946]"
@@ -225,28 +206,31 @@ const handleSwipeLeft = async () => {
                                 textSize='xl'
                                 width='500px'
                                 starH='8'
-                            />
+                                num={0}
+                            />) : (
+                                <p className="text-xl font-medium text-gray-500">Sad, no learning languages</p>
+                            )}
 
                             {/* Learning Languages */}
-                            <LanguageProficiency
-                                title="Learning Languages"
-                                languages={learningLanguages}
-                                onLevelChange={(languageIndex, level) =>
-                                    handleLevelChange(
-                                        learningLanguages,
-                                        setLearningLanguages,
-                                        languageIndex,
-                                        level
-                                    )
-                                }
-                                borderColor="border-[#9C3B5E]"
-                                lineColor="bg-gradient-to-r from-[#9C3B5E]"
-                                color='none'
-                                editable={false}
-                                textSize='xl'
-                                width='500px'
-                                starH='8'
-                            />
+                            {currentUser.learningLanguageRanks.length > 0 ? (
+                                <LanguageProficiency
+                                    title="Learning Languages"
+                                    languages={currentUser.learningLanguageRanks}
+                                    onLevelChange={() => {}
+                                    }
+                                    borderColor="border-[#9C3B5E]"
+                                    lineColor="bg-gradient-to-r from-[#9C3B5E]"
+                                    color='none'
+                                    editable={false}
+                                    textSize='xl'
+                                    width='500px'
+                                    starH='8'
+                                    num={0}
+                                />
+                            ) : (
+                                <p className="text-xl font-medium text-gray-500">Sad, no learning languages</p>
+                            )}
+                            
                         </div>
                     </div>
                     <div className='flex absolute justify-center bottom-[-50px] left-1/2 transform -translate-x-[50%] space-x-14 mt-4'>

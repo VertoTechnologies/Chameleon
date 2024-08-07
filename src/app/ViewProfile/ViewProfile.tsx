@@ -53,7 +53,7 @@ const ViewProfile: React.FC = () => {
     // Make API call to update rank
     const language = languages[languageIndex].language;
     try {
-      const response = await axios.patch('/api/pages/userprofile/setRank', {
+      const response = await axios.patch('/api/userprofile/setRank', {
         userId: profile.userId, // Ensure this is the correct userId
         language,
         newLevel: level
@@ -73,7 +73,7 @@ const ViewProfile: React.FC = () => {
         <div className="pr-36">
           {" "}
           {/* Reduced margin-left */}
-          <div className="bg-white py-4 mr-36 pr-36 rounded-xl shadow-lg w-[700px] max-h-[600px] overflow-y-auto  custom-scrollbar ">
+          <div className="bg-white py-4 mr-36 pr-36 rounded-xl shadow-lg w-[700px] max-h-[600px] overflow-x-hidden overflow-y-auto hide-scrollbar ">
           <div className="absolute bottom-0 right-32 p-3">
               <Image
                 src="/assets/extras/dots.png" // Make sure this path is correct
@@ -84,10 +84,10 @@ const ViewProfile: React.FC = () => {
             </div>
 
             <div className="p-4 rounded-lg bg-white">
-              <h3 className="text-xl mb-2 font-bold">Native Language</h3>
-              <div className="py-4 px-4 bg-white rounded-lg shadow-md border-l-8 border-[#F49345] w-[650px]">
+              <h3 className="text-2xl mb-2 font-inter">Native Language</h3>
+              <div className="py-4 px-4 bg-white rounded-[20px] shadow-md border-l-8 border-[#F49345] w-[650px]">
                 <div className="flex flex-col">
-                  <span className="text-lg">{profile?.nativeLanguage}</span>
+                  <span className="text-lg font-inter">{profile?.nativeLanguage}</span>
                   <div className="h-1 mt-4 bg-gradient-to-r from-[#F49345] to-transparent w-full"></div>
                 </div>
               </div>
@@ -111,6 +111,7 @@ const ViewProfile: React.FC = () => {
               textSize='2xl'
               width='650px'
               starH='9'
+              num={4}
             />
             <LanguageProficiency
               title="Learning Languages"
@@ -130,6 +131,7 @@ const ViewProfile: React.FC = () => {
               textSize='2xl'
               width='650px'
               starH='9'
+              num={4}
             />
           </div>
         </div>
