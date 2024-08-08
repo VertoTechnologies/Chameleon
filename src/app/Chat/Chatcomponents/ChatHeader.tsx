@@ -56,7 +56,7 @@ const viewFriendProfile = () => {
       {/* Left side: Profile picture and friend name */}
       <div className="flex items-center space-x-3">
         <img
-          src="/assets/extras/profilepicture.png"
+          src={profilePic || "/assets/extras/profilepicture.png"}
           className="w-10 h-10 rounded-full border border-gray-300 ml-2"
         />
         <span className="text-mtextra text-lg font-bold align-middle ml-2 cursor-pointer">

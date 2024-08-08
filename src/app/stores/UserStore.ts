@@ -31,7 +31,7 @@ const useUserProfileStore = create(
       setlearningLanguagess: (learningLanguagess: string[]) =>
         set({ learningLanguagess }),
       setUserInterests: (userInterests: string[]) => set({ userInterests }),
-      setIsOnline: (isOnline: Boolean) => set({ isOnline }),
+      setIsOnline: (isOnline: boolean) => set({ isOnline }),
       setProfilePic: (profilePic: string) => set({ profilePic }),
       setPurpose: (purpose: string) => set({ purpose }),
       setLearningLanguageRanks: (learningLanguageRanks: Language[])=>set({ learningLanguageRanks }),

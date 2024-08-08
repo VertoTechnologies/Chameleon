@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { useEffect, useState, useRef } from "react";
 import ChatHeader from "./ChatHeader";
 import MessageBubble from "./MessageBubble";
@@ -8,6 +8,7 @@ import Icebreaker from "@/app/components/icebreakerComponents/icebreaker";
 
 interface ChatProps {
   friendId: string | null;
+  chatroom: string | null;
 }
 
 interface Message {
@@ -16,9 +17,10 @@ interface Message {
   message: string;
   timestamp: string;
   _id: string;
+  imageUrl?: string;
 }
 
-const Chat: React.FC<ChatProps> = ({ friendId }) => {
+const Chat: React.FC<ChatProps> = ({ friendId, chatroom }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const profile = useProfile();
   const userId = profile.userId;
@@ -27,17 +29,32 @@ const Chat: React.FC<ChatProps> = ({ friendId }) => {
   const [first, setFirst] = useState<Boolean>(true);
 
   useEffect(() => {
-    console.log("useEffect triggered with friendId:", friendId, "and userId:", userId);
+    console.log(
+      "useEffect triggered with friendId:",
+      friendId,
+      "and userId:",
+      userId
+    );
 
     const fetchMessages = async () => {
       if (friendId && userId) {
         try {
-          console.log("Fetching messages for:", { senderId: userId, receiverId: friendId });
-          const response = await fetch(`/api/chats/getmessage?senderId=${userId}&receiverId=${friendId}`);
+          console.log("Fetching messages for:", {
+            senderId: userId,
+            receiverId: friendId,
+          });
+          const response = await fetch(
+            `/api/chats/getmessage?chatroom=${chatroom}`
+          );
           if (!response.ok) throw new Error("Failed to fetch messages");
           const data = await response.json();
+          //convert object
           console.log("Fetched messages:", data);
-          setMessages(data);
+          if (data && Array.isArray(data.messages)) {
+            setMessages(data.messages);
+          } else {
+            console.error("Fetched data is not in the expected format:", data);
+          }
         } catch (error) {
           console.error("Error fetching messages:", error);
         }
@@ -52,7 +69,9 @@ const Chat: React.FC<ChatProps> = ({ friendId }) => {
     }
 
     if (friendId && userId) {
-      const newEventSource = new EventSource(`/api/streamMessages?friendId=${friendId}&userId=${userId}`);
+      const newEventSource = new EventSource(
+        `/api/streamMessages?chatroom=${chatroom}&senderId=${userId}`
+      );
       console.log("New EventSource created:", newEventSource);
 
       newEventSource.onmessage = (event) => {
@@ -88,7 +107,7 @@ const Chat: React.FC<ChatProps> = ({ friendId }) => {
   useEffect(() => {
     console.log("Messages updated:", messages);
     first
-      ? bottomRef.current?.scrollIntoView({ behavior: "auto" })   // Auto Scroll to bottom on first render
+      ? bottomRef.current?.scrollIntoView({ behavior: "auto" }) // Auto Scroll to bottom on first render
       : bottomRef.current?.scrollIntoView({ behavior: "smooth" }); // Smooth Scroll to bottom on messages update
   }, [messages]);
 
@@ -96,26 +115,78 @@ const Chat: React.FC<ChatProps> = ({ friendId }) => {
     console.log("EventSource updated:", eventSource);
   }, [eventSource]);
 
-  const handleSend = async (message: string, timestamp: string) => {
+  const handleEditMessage = async (messageId: string, newMessage: string) => {
+    try {
+      const response = await fetch("/api/chats/editmessage", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ messageId, newMessage,chatroomId: chatroom }),
+      });
+
+      if (response.ok) {
+        console.log("Message Edited Successfully");
+      } else {
+        console.error("Error editing message");
+      }
+      setMessages((prevMessages) =>
+        prevMessages.map((msg) =>
+          msg._id === messageId ? { ...msg, message: newMessage } : msg
+        )
+      );
+    } catch (error) {
+      console.error("Error editing message:", error);
+    }
+  };
+
+  const handleDeleteMessage = async (messageId: string) => {
+    try {
+      const response = await fetch("/api/chats/deletemessage", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ messageId, chatroomId: chatroom }),
+      });
+
+      if (response.ok) {
+        console.log("Message Deleted Successfully");
+      } else {
+        console.error("Error deleting message");
+      }
+
+      setMessages((prevMessages) =>
+        prevMessages.filter((msg) => msg._id !== messageId)
+      );
+    } catch (error) {
+      console.error("Error deleting message:", error);
+    }
+  };
+  const handleSend = async (
+    message: string,
+    timestamp: string,
+    image?: File
+  ) => {
     if (friendId && userId) {
       try {
-        setFirst(false);
-        console.log("Sending message:", { senderId: userId, receiverId: friendId, message, timestamp });
+        const formData = new FormData();
+        formData.append("senderId", userId);
+        formData.append("receiverId", friendId);
+        formData.append("message", message);
+        formData.append("timestamp", timestamp);
+        if (image) {
+          formData.append("image", image);
+        }
+        console.log("Sending message:", formData);
+
         const response = await fetch("/api/chats/sendmessage", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            senderId: userId,
-            receiverId: friendId,
-            message,
-            timestamp,
-          }),
+          body: formData,
         });
+
         if (!response.ok) throw new Error("Failed to send message");
         const newMessage = await response.json();
-        console.log("Message sent successfully:", newMessage);
         setMessages((prevMessages) => [...prevMessages, newMessage]);
       } catch (error) {
         console.error("Error sending message:", error);
@@ -124,8 +195,12 @@ const Chat: React.FC<ChatProps> = ({ friendId }) => {
   };
 
   return (
-    <div className="flex flex-col h-[600px] rounded-lg shadow-lg relative bg-cover bg-center  overflow-y-auto custom-scrollbar" style={{ backgroundImage: "url('/assets/extras/Background.png')" }}>
-      <div className="absolute inset-0 bg-[rgba(101,173,135,0.3)]"></div> {/* Overlay */}
+    <div
+      className="flex flex-col h-[630px] rounded-lg shadow-lg relative bg-cover bg-center  overflow-y-auto custom-scrollbar"
+      style={{ backgroundImage: "url('/assets/extras/Background.png')" }}
+    >
+      <div className="absolute inset-0 bg-[rgba(101,173,135,0.3)]"></div>{" "}
+      {/* Overlay */}
       <div className="relative flex flex-col h-full">
         <ChatHeader friendId={friendId} />
         <div className="flex justify-center">
@@ -134,9 +209,17 @@ const Chat: React.FC<ChatProps> = ({ friendId }) => {
           </div>
         </div>
         <div className="flex-1 p-4 overflow-y-auto h-0 chat-messages-container">
-          <div className="flex flex-col">
+          <div className="flex flex-col ">
             {messages.map((msg) => (
-              <MessageBubble key={msg._id} message={msg.message} isOwnMessage={msg.senderId === userId} timestamp={msg.timestamp} />
+              <MessageBubble
+                messageId={msg._id}
+                message={msg.message}
+                isOwnMessage={msg.senderId === userId}
+                timestamp={msg.timestamp}
+                image={msg.imageUrl}
+                onEdit={handleEditMessage}
+                onDelete={handleDeleteMessage}
+              />
             ))}
             <div ref={bottomRef} />
           </div>

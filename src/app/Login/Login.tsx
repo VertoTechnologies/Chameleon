@@ -1,14 +1,14 @@
 "use client";
-
 import Link from "next/link";
 import React, { useState } from "react";
-import axios from 'axios'; 
+import axios from "axios";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { useRouter } from "next/navigation";
-import useEmailStore from '../stores/emailStore';
+import useEmailStore from "../stores/emailStore";
 
 const Login: React.FC = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false); // Add state for button disabled and loading
   const setUserEmail = useEmailStore((state) => state.setUserEmail);
   const userEmail = useEmailStore((state) => state.userEmail);
   const router = useRouter();
@@ -17,6 +17,7 @@ const Login: React.FC = () => {
     email: "",
     password: "",
   });
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -26,7 +27,6 @@ const Login: React.FC = () => {
     }));
   };
 
-
   const navigateToOtp = async () => {
     const email = formData.email;
     if (/^\S+@\S+\.\S+$/.test(email)) {
@@ -34,13 +34,13 @@ const Login: React.FC = () => {
       setOtp(OTP.toString());
 
       try {
-        await axios.post('/api/notifications/sendPasswordResetEmail', {
+        await axios.post("/api/notifications/sendPasswordResetEmail", {
           toEmail: userEmail,
           OTP,
         });
-        router.push('/ResetPassword')
+        router.push("/ResetPassword");
       } catch (error) {
-        console.error('Error sending email notification:', error);
+        console.error("Error sending email notification:", error);
         // Optionally set an alert message for email error
       }
     } else {
@@ -56,6 +56,7 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    setIsSubmitting(true); // Disable button and show spinner
 
     try {
       const response = await fetch("/api/userprofile/userLogin", {
@@ -74,15 +75,17 @@ const Login: React.FC = () => {
       } else {
         throw new Error(data.message || "Login failed");
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Login Error:", error);
-      // Handle error (e.g., show an error message)
+      setErrorMessage(error.message); // Set error message
+      setIsSubmitting(false); // Re-enable button if there's an error
     }
   };
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
+
   return (
     <div className="sign-up-form bg-white rounded-2xl px-10 py-10 w-full max-w-lg h-auto lg:w-1/2 lg:h-3/4 mx-auto my-10">
       <h1 className="mb-4 font-source-code text-3xl font-bold">Sign In</h1>
@@ -116,23 +119,26 @@ const Login: React.FC = () => {
               ></i>
             </div>
           </label>
-          <div className="flex justify-between items-center mb-4">
-            <label className="flex text-xxs text-gray-400">
-              <input type="checkbox" className="mr-2 text-xxs" />
-              Remember me
-            </label>
-            {/* <Link href="/ResetPassword" className="text-purple-500 text-xxs">
+          <div className="flex-col justify-between items-center mb-4">
+            <div className="text-red-500 text-sm">{errorMessage && errorMessage}</div>
+            <Link
+              href="/Login"
+              onClick={() => navigateToOtp()}
+              className="text-purple-500 text-xxs"
+            >
               Forgot Password?
-            </Link> */}
-            <Link href='/Login' onClick={()=> navigateToOtp()} className="text-purple-500 text-xxs">Forgot Password?
-
             </Link>
           </div>
           <button
             className="w-full p-3 rounded-3xl bg-[#65AD87] hover:bg-[#65AD87] text-white px-1 py-2 text-xs"
             type="submit"
+            disabled={isSubmitting} // Disable button when submitting
           >
-            Sign In
+            {isSubmitting ? (
+              <i className="bi bi-arrow-repeat animate-spin"></i> // Show spinner
+            ) : (
+              "Sign In"
+            )}
           </button>
         </div>
       </form>

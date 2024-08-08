@@ -13,7 +13,7 @@ import { IoChatbubbleSharp } from "react-icons/io5";
 import { useRouter } from "next/navigation";
 import withAuth from "../components/authComponents/withAuth";
 import Loading from "../components/loadingComponents/Loading";
-
+import Image from 'next/image'; // Import Image component
 
 interface UserData {
   name: string;
@@ -28,52 +28,26 @@ const Page = () => {
   const router = useRouter(); // Initialize useRouter
   const [activeButton, setActiveButton] = useState("friends");
 
-  const [onlineUsers, setOnlineUsers] = useState<
-   UserData[]
-  >([]);
-
   useEffect(() => {
     if (!profile) return;
     useUserProfileStore.setState(profile);
     console.log(profile);
-
-    const fetchOnlineUsers = async () => {
-      try {
-        if (!profile?.userId) return;
-        const response = await fetch(
-          `/api/users/onlineusers?userId=${profile.userId}`
-        );
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const data = await response.json();
-        setOnlineUsers(data);
-      } catch (error) {
-        console.error("Error fetching online users:", error);
-      }
-    };
-
-    fetchOnlineUsers();
   }, [profile]);
 
-
-
-  const handleChatClick = (event: React.MouseEvent<HTMLSpanElement>, userData: UserData) => {
-    router.push(`/Chat?friend=${userData.userId}`); // Navigate to the chat page of the clicked user
-
-  };
-  
-  
   if (!profile) {
-    return <Loading/>; // Or show a loading spinner or placeholder
+    return <Loading />; // Or show a loading spinner or placeholder
   }
 
   const toggleButton = (button: string) => {
     setActiveButton(button);
   };
 
+  const handleImageClick = () => {
+    router.push('/Explore'); // Replace with your target route
+  };
+
   return (
-    <section className="overflow-y-auto h-screen scroll-px-14 scrollbar scrollbar-thumb-custom-green scrollbar-track-gray">
+    <section className="h-screen ">
       {/* Header Component */}
       <Header />
 
@@ -90,20 +64,38 @@ const Page = () => {
         )}
 
         {/* Main Content Area */}
-        <div className="flex-grow p-4">
-          <div className="flex-col"></div>
-          <h1 className="text-mtextra text-xl font-bold mb-2">Online</h1>
-
-          {/* Online Users Section */}
-         
+        <div className="flex-grow p-4 bg-[url('/assets/extras/dashboardbackground.png')] bg-cover bg-center">
+          {/* Add your clickable image here */}
+          <div onClick={handleImageClick}  className="absolute bottom-32 right-96  mr-24 cursor-pointer">
+            <Image
+              src="/assets/extras/cham.png" // Replace with the path to your image
+              alt="Clickable Image"
+              width={250} // Adjust width as needed
+              height={90} // Adjust height as needed
+              className="object-cover"
+            />
+          </div>
+          <div onClick={handleImageClick}  className="absolute bottom-72 right-64   cursor-pointer">
+            <Image
+              src="/assets/extras/messagebubble.png" // Replace with the path to your image
+              alt="Clickable Image"
+              width={280} // Adjust width as needed
+              height={90} // Adjust height as needed
+              className="object-cover"
+            />
+             {/* Text Overlay */}
+             <div className="absolute inset-0 flex items-center justify-center text-center text-white text-md font-semibold">
+             <span className="transform translate-y-[-55%] translate-x-1">Find Chameleons Worldwide!</span>
+            </div>
+          </div>
+          {/* Content area is empty now */}
         </div>
 
-        {/* Right Box */}
-        <RightBox />
+       
       </div>
 
       {/* Footer Component */}
-      
+     
     </section>
   );
 };

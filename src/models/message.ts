@@ -5,6 +5,7 @@ export interface IMessage extends Document {
   receiverId: string;
   message: string;
   timestamp: Date;
+  imageUrl?: string;
 }
 
 const messageSchema: Schema<IMessage> = new mongoose.Schema({
@@ -18,11 +19,14 @@ const messageSchema: Schema<IMessage> = new mongoose.Schema({
   },
   message: {
     type: String,
-    required: true,
+    required: false,
   },
   timestamp: {
     type: Date,
     default: Date.now,
+  },
+  imageUrl: {
+    type: String,
   },
 });
 

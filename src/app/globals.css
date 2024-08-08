@@ -17,7 +17,7 @@
 }
 
 body {
-  font-family: 'MT Extra', Arial, sans-serif;
+  font-family:  Arial, sans-serif;
 
 }
 
@@ -53,7 +53,7 @@ body {
 }
 
 .form{
-  font-family: 'MT EXTRA';
+  font-family: Arial, sans-serif;
 }
 
 .form-container {
@@ -198,16 +198,11 @@ body {
   font-style: normal;
 }
 
-@font-face {
-  font-family: 'MT Extra';
-  src: url('/fonts/MTExtra-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
+
 
 /* Apply fonts to elements */
 body {
-  font-family: 'MT Extra', sans-serif; /* Default font for all text */
+  font-family:  sans-serif; /* Default font for all text */
 }
 
 .font-source-code-pro {
