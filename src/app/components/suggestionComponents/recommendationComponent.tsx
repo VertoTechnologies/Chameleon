@@ -5,25 +5,21 @@ import UserProfile from '@/app/Explore/ExploreComponents/searchbox';
 interface User {
   userId: string;
   name: string;
-  nativeLanguage: string,
-  fluentLanguagess: string[],
-  learningLanguagess: string[],
+  nativeLanguage: string;
+  fluentLanguagess: string[];
+  learningLanguagess: string[];
   profilePic: string;
-  userInterests: string[],
-  purpose:string
-
+  userInterests: string[];
+  purpose: string;
 }
+
 interface UserProfileProps {
-  user: User[]; 
+  user: User[];
 }
-
-
 
 const ITEMS_PER_PAGE = 6; // Number of items to show per page
 
-const RecommendationResultsContainer: React.FC<UserProfileProps> = ({ user }) => {
-  
-
+const RecommendationResultsContainer: React.FC<UserProfileProps> = ({ user = [] }) => {
   return (
     <div className="max-w-full px-4 py-6">
       <div className="grid gap-4">
@@ -31,7 +27,6 @@ const RecommendationResultsContainer: React.FC<UserProfileProps> = ({ user }) =>
           <UserProfile key={item.userId} user={item} />
         ))}
       </div>
-    
     </div>
   );
 };
