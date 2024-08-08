@@ -24,8 +24,10 @@ const UserChatsPage: React.FC = () => {
   const [activeButton, setActiveButton] = useState('friends');
   const searchParams = useSearchParams();
   const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
+  const [currUser, setCurrUser] = useState<string>('');
   const chatId = searchParams?.get('chatId') ?? null;
   const profile = useProfile();
+
  
   const router = useRouter();
 
@@ -52,10 +54,21 @@ const UserChatsPage: React.FC = () => {
       }
     };
 
+    const fetchUser = async ()=>{
+      try{
+        const reponse = await axios.get(`/api/userprofile/viewProfile?userId=${profile.userId}`);3
+        setCurrUser(reponse.data._id);
+      }catch(err){
+        setError((err as Error).message || 'An error occurred while fetching user.');
+      }
+    }
+
     if (profile.userId) {
       fetchUserChats();
+      fetchUser();
+      console.log(currUser);
     }
-  }, [profile.userId, chatId]);
+  }, [profile.userId, chatId,currUser]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -77,7 +90,7 @@ const UserChatsPage: React.FC = () => {
         )}
         <div className="flex-1 px-4 overflow-hidden">
           {selectedChat ? (
-            <ChatDetails chat={selectedChat} userId={profile.userId} />
+            <ChatDetails chat={selectedChat} userId={currUser} />
           ) : (
             <div>Select a chat to view details.</div>
           )}

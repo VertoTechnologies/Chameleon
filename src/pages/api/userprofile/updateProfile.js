@@ -1,7 +1,8 @@
 // updateProfile.js
 import dbConnect from "../../../middleware/mongodb";
 import User from "../../../models/user";
-import LanguageRank from "../../../models/rank"; 
+import LanguageRank from "../../../models/rank";
+import Chat from "../../../models/Chat";
 
 function _calculateAge(birthday) {
   // birthday is a date
@@ -41,7 +42,7 @@ function validateUpdateFields(updateData) {
 
   if (updateData.userInterests && updateData.userInterests.length < 1) {
     errors.userInterests = "User must have at least one interest";
-  } 
+  }
 
   if (updateData.nativeLanguages && updateData.nativeLanguages.length !== 1) {
     errors.nativeLanguages = "User must have one native language";
@@ -71,11 +72,9 @@ export default async function updateProfile(req, res) {
 
   // Validate the input
   if (!userId || Object.keys(updateData).length === 0) {
-    return res
-      .status(400)
-      .json({
-        message: "Missing required fields or no data provided for update",
-      });
+    return res.status(400).json({
+      message: "Missing required fields or no data provided for update",
+    });
   }
 
   const validationErrors = validateUpdateFields(updateData);
@@ -110,25 +109,44 @@ export default async function updateProfile(req, res) {
       return res.status(404).json({ message: "User not found" });
     }
 
-if(updateData.fluentLanguagess){ 
-    for (const language of updateData.fluentLanguagess) {
-      
-      await LanguageRank.findOneAndUpdate(
-        { userId: updatedUser._id, language },
-        { userId: updatedUser._id, language, level: 1, type: 'fluent' },
-        { upsert: true, new: true }
-      );
+    if (updateData.fluentLanguagess) {
+      for (const language of updateData.fluentLanguagess) {
+        await LanguageRank.findOneAndUpdate(
+          { userId: updatedUser._id, language },
+          { userId: updatedUser._id, language, level: 1, type: "fluent" },
+          { upsert: true, new: true }
+        );
+      }
+
+      for (const language of updateData.learningLanguagess) {
+        await LanguageRank.findOneAndUpdate(
+          { userId: updatedUser._id, language },
+          { userId: updatedUser._id, language, level: 1, type: "learning" },
+          { upsert: true, new: true }
+        );
+      }
     }
 
-    for (const language of updateData.learningLanguagess) {
-      
-      await LanguageRank.findOneAndUpdate(
-        { userId: updatedUser._id, language },
-        { userId: updatedUser._id, language, level: 1, type: 'learning' },
-        { upsert: true, new: true }
-      );
+    // If learningLanguages are updated, handle the chat groups
+    if (updateData.learningLanguagess) {
+      for (const language of updateData.learningLanguagess) {
+        let chat = await Chat.findOne({ language });
+
+        if (!chat) {
+          chat = await Chat.create({
+            language,
+            users: [updatedUser._id],
+            groupPhoto: updateData.groupPhoto || "", // Add group photo if provided
+          });
+          console.log(language + " chat create");
+        } else {
+          if (!chat.users.includes(updatedUser._id)) {
+            chat.users.push(updatedUser._id);
+            await chat.save();
+          }
+        }
+      }
     }
-  }
     res.status(200).json(updatedUser); // Send the updated user profile information
   } catch (error) {
     console.error("Error updating user profile", error);

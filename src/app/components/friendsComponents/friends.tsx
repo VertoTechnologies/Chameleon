@@ -154,7 +154,7 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
   };
 
   const handleCommunityClick = (communityId: string) => {
-    router.push(`/Community?communityId=${encodeURIComponent(communityId)}`);
+    router.push(`/CommunityChat?chatId=${encodeURIComponent(communityId)}`);
   };
 
   const handleLeaveCommunity = (communityId: string) => {
