@@ -21,6 +21,11 @@ export interface IUser extends Document {
   isOnline : boolean;
 }
 
+const userLanguageRankSchema: Schema<any> = new mongoose.Schema({
+  languages: [String],
+  rank: { type: mongoose.Schema.Types.ObjectId, ref: 'LanguageRank' }
+})
+
 // Define the User schema using the interface
 const userSchema: Schema<IUser> = new mongoose.Schema({
   userId: {
@@ -62,7 +67,7 @@ const userSchema: Schema<IUser> = new mongoose.Schema({
     type: String,
     required: false,
   },
-  fluentLanguagess:{
+  fluentLanguagess: {
     type: [String],
     required: false,
   },

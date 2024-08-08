@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import { HiDotsHorizontal } from "react-icons/hi";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { Button } from "@/components/ShadcnComponents/button";
+import Link from "next/link";
 
 interface ChatHeaderProps {
   friendId: string | null;
@@ -25,6 +26,10 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ friendId }) => {
       console.error("Friend ID is not available");
     }
   };
+
+const viewFriendProfile = () => {
+  
+}
 
   useEffect(() => {
     const fetchUser = async (id: string) => {
@@ -54,8 +59,8 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ friendId }) => {
           src={profilePic || "/assets/extras/profilepicture.png"}
           className="w-10 h-10 rounded-full border border-gray-300 ml-2"
         />
-        <span className="text-mtextra text-lg font-bold align-middle ml-2">
-          {friendName || "Loading..."}
+        <span className="text-mtextra text-lg font-bold align-middle ml-2 cursor-pointer">
+        <Link href='/ViewProfile'>{friendName || "Loading..."}</Link>
         </span>
       </div>
 

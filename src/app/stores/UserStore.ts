@@ -1,6 +1,11 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
+export interface Language {
+  language: string;
+  level: number;
+}
+
 
 const useUserProfileStore = create(
   persist(
@@ -13,8 +18,10 @@ const useUserProfileStore = create(
       learningLanguagess: [],
       userInterests: [],
       isOnline: Boolean,
-      profilePic: "",
+      profilePic: "", 
       purpose: "",
+      learningLanguageRanks: [],
+      fluentLanguageRanks: [],
       setUserId: (userId: string) => set({ userId }),
       setName: (name: string) => set({ name }),
       setUserDescription: (userDescription: string) => set({ userDescription }),
@@ -26,7 +33,9 @@ const useUserProfileStore = create(
       setUserInterests: (userInterests: string[]) => set({ userInterests }),
       setIsOnline: (isOnline: boolean) => set({ isOnline }),
       setProfilePic: (profilePic: string) => set({ profilePic }),
-      setPurpose: (purpose: string) => set({ purpose })
+      setPurpose: (purpose: string) => set({ purpose }),
+      setLearningLanguageRanks: (learningLanguageRanks: Language[])=>set({ learningLanguageRanks }),
+      setFluentLanguageRanks: (fluentLanguageRanks: Language[])=>set({ fluentLanguageRanks })
     }),
     {
       name: "user-profile-storage", // Unique name for the storage
@@ -46,7 +55,9 @@ export const useProfile = () => {
     userInterests: state.userInterests,
     isOnline: state.isOnline,
     profilePic: state.profilePic,
-    purpose: state.purpose
+    purpose: state.purpose,
+    learningLanguageRanks: state.learningLanguageRanks,
+    fluentLanguageRanks: state.fluentLanguageRanks
   }));
 };
 
