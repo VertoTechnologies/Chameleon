@@ -3,7 +3,7 @@ import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import ProfileCard from "./ProfileCard";
 import LanguageProficiency from "./LanguageProficiency";
-import { useProfile } from "../stores/UserStore";
+import useUserProfileStore, { useProfile } from "../stores/UserStore";
 import axios from "axios";
 
 
@@ -15,29 +15,10 @@ const ViewProfile: React.FC = () => {
 
   const profile = useProfile();
 
-  const [fluentLanguages, setFluentLanguages] = useState<Language[]>([]);
-  const [learningLanguages, setLearningLanguages] = useState<Language[]>([]);
+  const setFluentLanguages = useUserProfileStore((state: any) => state.setFluentLanguageRanks)
+  const setLearningLanguages = useUserProfileStore((state: any) => state.setLearningLanguageRanks)
 
-  useEffect(() => {
-    if (!profile) return;
 
-    const fetchedFluentLanguages = profile.fluentLanguagess.map(
-      (language: string) => ({
-        language,
-        level: 1, // Set an initial level if needed
-      })
-    );
-
-    const fetchedLearningLanguages = profile.learningLanguagess.map(
-      (language: string) => ({
-        language,
-        level: 1, // Set an initial level if needed
-      })
-    );
-
-    setFluentLanguages(fetchedFluentLanguages);
-    setLearningLanguages(fetchedLearningLanguages);
-  }, [profile.userId]);
 
   const handleLevelChange = async (
     languages: Language[],
@@ -94,10 +75,10 @@ const ViewProfile: React.FC = () => {
             </div>
             <LanguageProficiency
               title="Fluent Languages"
-              languages={fluentLanguages}
+              languages={profile.fluentLanguageRanks}
               onLevelChange={(languageIndex, level) =>
                 handleLevelChange(
-                  fluentLanguages,
+                  profile.fluentLanguageRanks,
                   setFluentLanguages,
                   languageIndex,
                   level
@@ -115,10 +96,10 @@ const ViewProfile: React.FC = () => {
             />
             <LanguageProficiency
               title="Learning Languages"
-              languages={learningLanguages}
+              languages={profile.learningLanguageRanks}
               onLevelChange={(languageIndex, level) =>
                 handleLevelChange(
-                  learningLanguages,
+                  profile.learningLanguageRanks,
                   setLearningLanguages,
                   languageIndex,
                   level
