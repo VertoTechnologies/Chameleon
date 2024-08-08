@@ -1,7 +1,4 @@
-"use client";
-
 import React, { useState } from "react";
-import "bootstrap-icons/font/bootstrap-icons.css";
 import { useRouter } from "next/navigation";
 import AddPic from "../SetupProfile/AddPic";
 import { Button } from "@/components/ShadcnComponents/button";
@@ -18,7 +15,11 @@ import ReactSelect from "react-select";
 import { interests, languages } from "../../constants/enums";
 import { useProfile } from "../stores/UserStore";
 
-const Popup: React.FC = () => {
+interface PopupProps {
+  onClose: () => void;
+}
+
+const Popup: React.FC<PopupProps> = ({ onClose }) => {
   const router = useRouter();
   const profile = useProfile();
 
@@ -127,7 +128,7 @@ const Popup: React.FC = () => {
   };
 
   const handleCancel = () => {
-    router.back();
+    router.push('/ViewProfile');
   };
 
   const languageOptions = languages.map((language) => ({
@@ -140,14 +141,27 @@ const Popup: React.FC = () => {
   }));
 
   return (
-    <div className=" bg-red-200 rounded-xl px-10 py-10 max-h-[600px] overflow-y-auto mx-auto w-[85%]">
-      <h1 className="mb-4 font-source-code text-3xl font-bold text-center">Edit Profile</h1>
+    
+      <form onSubmit={handleSubmit} className="relative inset-0 bg-white  mt-16 rounded-xl px-10 py-10 max-h-[600px] overflow-y-auto w-[80%] mx-auto my-auto">
+        {/* Top Images inside the form */}
+        <h1 className="mb-4 text-2xl font-bold text-center">Edit Profile</h1>
       <div className="flex flex-col items-center mb-6">
         <AddPic onImageChange={onImageChange} oldImage={formData.profilePic} />
       </div>
-      <form onSubmit={handleSubmit}>
+        <img
+          id="topLeftImage"
+          src="/assets/extras/vtop.png"
+          alt="Top Left"
+          className="absolute top-5 left-8 w-44 h-44"
+        />
+        <img
+          id="topRightImage"
+          src="/assets/extras/tright.png"
+          alt="Top Right"
+          className="absolute top-5 right-8 w-44 h-44"
+        />
         <div className="grid grid-cols-2 gap-4 px-10">
-          <label className="block mb-2 font-light text-gray-400 text-sm col-span-1">
+          <label className="block mb-2 font-light text-black text-sm col-span-1">
             Native Language
             <Select
               defaultValue={formData.nativeLanguage}
@@ -155,7 +169,7 @@ const Popup: React.FC = () => {
                 handleSelectChange("nativeLanguage", value)
               }
             >
-              <SelectTrigger className="w-full">
+              <SelectTrigger className="w-full rounded-lg border border-gray-300">
                 <SelectValue placeholder="Select your native language" />
               </SelectTrigger>
               <SelectContent>
@@ -168,7 +182,7 @@ const Popup: React.FC = () => {
             </Select>
           </label>
 
-          <label className="block mb-2 font-light text-gray-400 text-sm col-span-1">
+          <label className="block mb-2  text-black text-md col-span-1">
             Fluent Languages
             <ReactSelect
               isMulti
@@ -178,7 +192,7 @@ const Popup: React.FC = () => {
                 value: lang,
                 label: lang,
               }))}
-              className="basic-multi-select text-gray-400"
+              className="basic-multi-select text-black rounded-lg border border-gray-300"
               classNamePrefix="select"
               onChange={(selectedOptions) =>
                 handleMultiSelectChange(
@@ -189,7 +203,7 @@ const Popup: React.FC = () => {
             />
           </label>
 
-          <label className="block mb-2 font-light text-gray-400 text-sm col-span-1">
+          <label className="block mb-2  text-black text-md col-span-1">
             Learning Languages
             <ReactSelect
               isMulti
@@ -199,7 +213,7 @@ const Popup: React.FC = () => {
                 value: lang,
                 label: lang,
               }))}
-              className="basic-multi-select text-gray-400"
+              className="basic-multi-select text-gray-400 rounded-lg border border-gray-300"
               classNamePrefix="select"
               onChange={(selectedOptions) =>
                 handleMultiSelectChange(
@@ -210,7 +224,7 @@ const Popup: React.FC = () => {
             />
           </label>
 
-          <label className="block mb-2 font-light text-gray-400 text-sm col-span-1">
+          <label className="block mb-2  text-black text-md col-span-1">
             Interests
             <ReactSelect
               isMulti
@@ -220,7 +234,7 @@ const Popup: React.FC = () => {
                 value: interest,
                 label: interest,
               }))}
-              className="basic-multi-select text-gray-400"
+              className="basic-multi-select text-black rounded-lg border border-gray-300"
               classNamePrefix="select"
               onChange={(selectedOptions) =>
                 handleMultiSelectChange(
@@ -230,97 +244,96 @@ const Popup: React.FC = () => {
               }
             />
           </label>
-          
-          <label className="block mb-2 font-mt-extra  text-gray-400 text-sm col-span-2">
+
+          <label className="block mb-2  text-black text-md  col-span-2">
             Description
             <textarea
               name="userDescription"
               placeholder="Tell us about yourself"
               value={formData.userDescription}
               onChange={handleChange}
-              className="w-full px-2 py-4 border rounded focus:outline-none focus:border-[#65AD87]"
+              className="w-full px-2 py-2 border rounded-lg focus:outline-none focus:border-[#65AD87] mb-4"
               required
             />
           </label>
 
           <div className="col-span-2">
-  <p className='mt-6'>What are you here for?</p>
-  <div className="border-t-2 border-[#65AD87] my-4 w-full mb-8"></div>
-  <div className="px-10">
-    <RadioGroup name="purpose" onChange={handleOnChange} defaultValue="">
-      <div className="flex justify-between items-center space-x-2">
-        <div className="flex items-center space-x-2">
-          <RadioGroupItem value="To Learn" id="learn" />
-          <Label htmlFor="learn">To Learn</Label>
-        </div>
-        
-        
-      </div>
-      <div className="flex justify-between items-center space-x-2 mt-4">
-      <div className="flex items-center space-x-2">
-          <RadioGroupItem value="To Teach" id="teach" />
-          <Label htmlFor="teach">To Teach</Label>
-        </div>
-      </div>
-      <div className="flex justify-between items-center space-x-2 mt-4">
-        <div className="flex items-center space-x-2">
-          <RadioGroupItem value="Both" id="both" />
-          <Label htmlFor="both">Both</Label>
-        </div>
-      </div>
-    </RadioGroup>
-  </div>
-</div>
+            <p className="mt-3 text-md ">What are you here for?</p>
+            <div className="border-t-2 border-[#65AD87] my-4 w-full mb-8"></div>
+            <div className="px-10">
+              <RadioGroup name="purpose" onChange={handleOnChange} defaultValue="">
+                <div className="flex flex-col space-y-2">
+                  <label className="flex items-center space-x-2">
+                    <RadioGroupItem value="To Learn" id="learn" />
+                    <Label htmlFor="learn">To Learn</Label>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <RadioGroupItem value="To Teach" id="teach" />
+                    <Label htmlFor="teach">To Teach</Label>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <RadioGroupItem value="Both" id="both" />
+                    <Label htmlFor="both">Both</Label>
+                  </label>
+                </div>
+              </RadioGroup>
+            </div>
+          </div>
 
-<div className="col-span-2">
-  <p className='mt-10'>What are your preferred learning/teaching methods?</p>
-  <div className="border-t-2 border-[#65AD87] my-4 w-full mb-8"></div>
-  <div className="px-10">
-    <RadioGroup name="learningMethods" onChange={handleOnChange} defaultValue="">
-      <div className="flex justify-between items-center space-x-2">
-        <div className="flex items-center space-x-2">
-          <RadioGroupItem value="Conversation" id="conversation" />
-          <Label htmlFor="conversation">Conversation</Label>
-        </div>
-        <div className="flex items-center space-x-2 pr-3">
-          <RadioGroupItem value="Lessons" id="lessons" />
-          <Label htmlFor="lessons">Lessons</Label>
-        </div>
-      </div>
-      <div className="flex justify-between items-center space-x-2 mt-4">
-        <div className="flex items-center space-x-2">
-          <RadioGroupItem value="Both" id="bothMethods" />
-          <Label htmlFor="bothMethods">Both</Label>
-        </div>
-      </div>
-    </RadioGroup>
-  </div>
-</div>
-
+          <div className="col-span-2">
+            <p className="mt-3 text-md ">What are your preferred learning methods?</p>
+            <div className="border-t-2 border-[#65AD87] my-4 w-full mb-8"></div>
+            <div className="px-10">
+              <RadioGroup name="method" onChange={handleOnChange} defaultValue="">
+                <div className="flex flex-col space-y-2">
+                  <label className="flex items-center space-x-2">
+                    <RadioGroupItem value="Conversation" id="conversation" />
+                    <Label htmlFor="conversation">Conversation</Label>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <RadioGroupItem value="Writing" id="writing" />
+                    <Label htmlFor="writing">Writing</Label>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <RadioGroupItem value="Reading" id="reading" />
+                    <Label htmlFor="reading">Reading</Label>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <RadioGroupItem value="Listening" id="listening" />
+                    <Label htmlFor="listening">Listening</Label>
+                  </label>
+                </div>
+              </RadioGroup>
+            </div>
+          </div>
         </div>
 
-        {errorMessage && (
-          <div className="text-red-500 text-sm mt-2">{errorMessage}</div>
-        )}
-<div className="right-2 ml-96">
-        <div className="flex justify-center space-x-4 mt-4">
+        {errorMessage && <p className="text-red-500 text-center mt-4">{errorMessage}</p>}
+
+        <div className="flex justify-between items-center mt-6">
+          <img src="/assets/extras/vbottoml.png" alt="Left Image" className="w-44 h-44" />
+
+          <div className="flex flex-grow justify-end">
           <Button
             type="submit"
-            disabled={isSubmitting}
-            className="bg-[#65AD87] text-white py-2 px-4 rounded hover:bg-[#519d72] transition-colors duration-300"
+            variant="outline"
+            className="w-[120px] mr-2 rounded-full bg-[#65AD87] hover:bg-[#65AD87] text-white"
           >
             Save
           </Button>
           <Button
+            variant="outline"
             onClick={handleCancel}
-            className="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 transition-colors duration-300"
+            className="w-[120px] rounded-full bg-[#65AD87] hover:bg-[#65AD87] text-white"
           >
             Cancel
           </Button>
-        </div>
+          </div>
+
+          <img src="/assets/extras/vbottom.png" alt="Right Image" className="w-44 h-44 bottom-2" />
         </div>
       </form>
-    </div>
+    
   );
 };
 

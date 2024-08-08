@@ -5,14 +5,17 @@ import ProfileCard from "./ProfileCard";
 import LanguageProficiency from "./LanguageProficiency";
 import { useProfile } from "../stores/UserStore";
 
-const ViewProfile: React.FC = () => {
+interface ViewProfileProps {
+  onEditClick: () => void;
+}
+
+const ViewProfile: React.FC<ViewProfileProps> = ({ onEditClick }) => {
   interface Language {
     language: string;
     level: number;
   }
 
   const profile = useProfile();
-
   const [fluentLanguages, setFluentLanguages] = useState<Language[]>([]);
   const [learningLanguages, setLearningLanguages] = useState<Language[]>([]);
 
@@ -22,14 +25,14 @@ const ViewProfile: React.FC = () => {
     const fetchedFluentLanguages = profile.fluentLanguagess.map(
       (language: string) => ({
         language,
-        level: 1, // Set an initial level if needed
+        level: 1,
       })
     );
 
     const fetchedLearningLanguages = profile.learningLanguagess.map(
       (language: string) => ({
         language,
-        level: 1, // Set an initial level if needed
+        level: 1,
       })
     );
 
@@ -53,16 +56,12 @@ const ViewProfile: React.FC = () => {
   return (
     <div className="min-h-sm flex items-center justify-center pr-36">
       <div className="max-w-screen grid grid-cols-1 md:grid-cols-2 text-lg">
-        {" "}
-        {/* Adjusted gap */}
-        <ProfileCard />
+        <ProfileCard onEditClick={onEditClick} /> {/* Pass the handler */}
         <div className="pr-36">
-          {" "}
-          {/* Reduced margin-left */}
-          <div className="bg-white py-4 mr-36 pr-36 rounded-xl shadow-lg w-[700px] max-h-[600px] overflow-y-auto  custom-scrollbar ">
-          <div className="absolute bottom-0 right-32 p-3">
+          <div className="bg-white py-4 mr-36 pr-36 rounded-xl shadow-lg w-[700px] max-h-[600px] overflow-y-auto custom-scrollbar">
+            <div className="absolute bottom-0 right-32 p-3">
               <Image
-                src="/assets/extras/dots.png" // Make sure this path is correct
+                src="/assets/extras/dots.png"
                 alt="Decoration"
                 width={50}
                 height={48}
