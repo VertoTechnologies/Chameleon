@@ -1,6 +1,6 @@
 import dbConnect from "../../../middleware/mongodb";
 import User from "../../../models/user";
-import Chat from '../../../models/Chatc:\Users\hp\OneDrive\Desktop\Chameleon\src\models\Chat.ts';
+import Chat from '../../../models/Chat';
 
 
 export default async function getGroups(req, res) {
