@@ -9,6 +9,8 @@ import LeftBox from '../components/friendsComponents/friends';
 import Communities from '../components/friendsComponents/FriendRequests';
 import ChatDetails from './ChatDetails';
 import { useProfile } from "../stores/UserStore";
+import withAuth from '../components/authComponents/withAuth';
+import Loading from '../loading'; // Import the loading component
 
 interface Chat {
   _id: string;
@@ -70,7 +72,9 @@ const UserChatsPage: React.FC = () => {
     }
   }, [profile.userId, chatId,currUser]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div>
+    <Loading />
+  </div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
@@ -90,15 +94,14 @@ const UserChatsPage: React.FC = () => {
         )}
         <div className="flex-1 px-4 overflow-hidden">
           {selectedChat ? (
-            <ChatDetails chat={selectedChat} userId={currUser} />
+            <ChatDetails chat={selectedChat} userId={profile.userId} objectId_user={currUser} />
           ) : (
             <div>Select a chat to view details.</div>
           )}
         </div>
       </div>
-      <Footer />
     </section>
   );
 };
 
-export default UserChatsPage;
+export default withAuth(UserChatsPage);
