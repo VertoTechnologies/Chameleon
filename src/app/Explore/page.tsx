@@ -16,7 +16,10 @@ interface User {
   nativeLanguage: string,
   fluentLanguagess: string[],
   learningLanguagess: string[],
-  profilePic: string
+  profilePic: string;
+  userInterests: string[],
+  purpose:string
+
 }
 
 
