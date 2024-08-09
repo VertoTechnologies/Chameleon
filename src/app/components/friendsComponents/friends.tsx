@@ -167,8 +167,8 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
 
   return (
     <div
-      className="w-1/4 h-[600px] overflow-y-auto custom-scrollbar"
-      style={{ backgroundColor: "rgba(101, 173, 135, 0.2)" }}
+      className="w-1/4 h-[630px] overflow-y-auto custom-scrollbar"
+      style={{ backgroundColor: "rgba(101, 173, 135, 0.2)",  boxShadow: '5px 4px 10px rgba(5, 5, 0, 0.5)' }}
     >
       {alertMessage && (
         <div
@@ -235,7 +235,45 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
           Requests
         </button>
       </div>
-
+      {/* Community Section */}
+      <div className="mt-4 ml-6 mr-3">
+        <h2 className="text-2xl font-semibold">Communities</h2>
+        {communitiesList.length > 0
+          ? communitiesList.map((community) => (
+              <div
+                key={community._id}
+                className="flex items-center p-4 border-b-2 cursor-pointer"
+                style={{ borderBottomColor: "#65AD87" }}
+                onClick={() => handleCommunityClick(community._id)}
+              >
+                <img
+                  src={
+                    community.groupPhoto ||
+                    `/assets/extras/${community.language}.png`
+                  }
+                  alt={community.language}
+                  className="w-12 h-12 rounded-full mr-3"
+                />
+                <span className="text-lg font-medium flex-grow">
+                  {community.language}
+                </span>
+              </div>
+            ))
+          : loading && (
+              <>
+                  <div className="p-3 border-2 border-transparent">
+              <Skeleton
+                height={160}
+                width={320}
+                enableAnimation={true}
+                baseColor="rgba(101, 173, 135, 0.2)"
+                highlightColor="rgba(101, 173, 135, 0.4)"
+                direction="ltr"
+              />
+            </div>
+              </>
+            )}
+      </div>
       {/* Online Friends Section */}
       <div className="mt-4 ml-6 mr-3">
         {onlineFriends.length > 0 ? (
@@ -315,45 +353,7 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
         )}
       </div>
 
-      {/* Community Section */}
-      <div className="mt-4 ml-6 mr-3">
-        <h2 className="text-2xl font-semibold">Communities</h2>
-        {communitiesList.length > 0
-          ? communitiesList.map((community) => (
-              <div
-                key={community._id}
-                className="flex items-center p-4 border-b-2 cursor-pointer"
-                style={{ borderBottomColor: "#65AD87" }}
-                onClick={() => handleCommunityClick(community._id)}
-              >
-                <img
-                  src={
-                    community.groupPhoto ||
-                    `/assets/extras/${community.language}.png`
-                  }
-                  alt={community.language}
-                  className="w-12 h-12 rounded-full mr-3"
-                />
-                <span className="text-lg font-medium flex-grow">
-                  {community.language}
-                </span>
-              </div>
-            ))
-          : loading && (
-              <>
-                  <div className="p-3 border-2 border-transparent">
-              <Skeleton
-                height={160}
-                width={320}
-                enableAnimation={true}
-                baseColor="rgba(101, 173, 135, 0.2)"
-                highlightColor="rgba(101, 173, 135, 0.4)"
-                direction="ltr"
-              />
-            </div>
-              </>
-            )}
-      </div>
+      
     </div>
   );
 };
