@@ -6,8 +6,12 @@ import LanguageProficiency from "./LanguageProficiency";
 import useUserProfileStore, { useProfile } from "../stores/UserStore";
 import axios from "axios";
 
+interface ViewProfileProps {
+  onEditClick: () => void;
+}
 
-const ViewProfile: React.FC = () => {
+
+const ViewProfile: React.FC<ViewProfileProps> = ({ onEditClick }) => {
   interface Language {
     language: string;
     level: number;
@@ -50,7 +54,7 @@ const ViewProfile: React.FC = () => {
       <div className="max-w-screen grid grid-cols-1 md:grid-cols-2 text-lg">
         {" "}
         {/* Adjusted gap */}
-        <ProfileCard />
+        <ProfileCard onEditClick={onEditClick} /> 
         <div className="pr-36">
           {" "}
           {/* Reduced margin-left */}

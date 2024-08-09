@@ -196,7 +196,7 @@ const Chat: React.FC<ChatProps> = ({ friendId, chatroom }) => {
 
   return (
     <div
-      className="flex flex-col h-[630px] rounded-lg shadow-lg relative bg-cover bg-center  overflow-y-auto custom-scrollbar"
+      className="flex flex-col h-[630px] rounded-lg shadow-lg relative bg-cover bg-center  overflow-y-auto custom-scrollbar "
       style={{ backgroundImage: "url('/assets/extras/Background.png')" }}
     >
       <div className="absolute inset-0 bg-[rgba(101,173,135,0.3)]"></div>{" "}

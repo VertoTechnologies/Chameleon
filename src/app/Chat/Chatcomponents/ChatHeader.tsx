@@ -51,6 +51,10 @@ const viewFriendProfile = () => {
     }
   }, [friendId]);
 
+ const openUserProfile = () => {
+  router.push(`/ViewFriendProfile?friend=${friendId}`);
+ }
+
   return (
     <div className="bg-[#F4F4F4] p-4 flex items-center justify-between border-b">
       {/* Left side: Profile picture and friend name */}
@@ -59,8 +63,9 @@ const viewFriendProfile = () => {
           src={profilePic || "/assets/extras/profilepicture.png"}
           className="w-10 h-10 rounded-full border border-gray-300 ml-2"
         />
-        <span className="text-mtextra text-lg font-bold align-middle ml-2 cursor-pointer">
-        <Link href='/ViewProfile'>{friendName || "Loading..."}</Link>
+        <span className="text-mtextra text-lg font-bold align-middle ml-2 cursor-pointer" onClick={openUserProfile}>
+        {friendName || "Loading..."}
+          
         </span>
       </div>
 

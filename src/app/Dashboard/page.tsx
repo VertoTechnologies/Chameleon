@@ -49,7 +49,7 @@ const Page = () => {
   };
 
   return (
-    <section className="h-screen ">
+    <section className="h-screen bg-[#E7EEEA]">
       {/* Header Component */}
       <Header />
 

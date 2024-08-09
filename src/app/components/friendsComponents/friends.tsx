@@ -204,10 +204,7 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
             backgroundColor: activeButton === "friends" ? "#65AD87" : "white",
             borderRadius: "30px",
             marginRight: "-15px",
-            boxShadow:
-              activeButton === "friends"
-                ? "5px 4px 10px rgba(5, 5, 0, 0.5)"
-                : "none",
+            boxShadow: "5px 4px 10px rgba(5, 5, 0, 0.5)",
           }}
           onClick={() => toggleButton("friends")}
         >
@@ -225,10 +222,7 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
             zIndex: 1,
             position: "relative",
             left: "-15px",
-            boxShadow:
-              activeButton === "community"
-                ? "5px 4px 10px rgba(5, 5, 0, 0.5)"
-                : "none",
+            boxShadow: "5px 4px 10px rgba(5, 5, 0, 0.5)"
           }}
           onClick={() => toggleButton("community")}
         >
@@ -244,7 +238,7 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
               <div
                 key={user.userId}
                 className="flex items-center p-4 border-b-2 cursor-pointer"
-                style={{ borderBottomColor: "#65AD87" }}
+                style={{ borderBottomColor: "#9CCEB4" }}
               >
                 <img
                   src={user.profilePic || "/assets/extras/profilepicture.png"}
@@ -287,7 +281,7 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
               <div
                 key={user.userId}
                 className="flex items-center p-4 border-b-2 cursor-pointer"
-                style={{ borderBottomColor: "#65AD87" }}
+                style={{ borderBottomColor: "#9CCEB4" }}
               >
                 <img
                   src={user.profilePic || "/assets/extras/profilepicture.png"}
@@ -323,7 +317,7 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
               <div
                 key={community._id}
                 className="flex items-center p-4 border-b-2 cursor-pointer"
-                style={{ borderBottomColor: "#65AD87" }}
+                style={{ borderBottomColor: "#9CCEB4" }}
                 onClick={() => handleCommunityClick(community._id)}
               >
                 <img
