@@ -75,6 +75,7 @@ const RemoveFriendButton: React.FC<RemoveFriendButtonProps> = ({ id }) => {
           </button>
         </div>
       )}
+      
       <button
         className="ml-auto mr-4 text-white px-6 py-2 rounded-full"
         style={{ backgroundColor: '#65AD87', borderRadius: '30px' }}

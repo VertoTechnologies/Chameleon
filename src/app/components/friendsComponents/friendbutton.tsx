@@ -12,21 +12,6 @@ const FriendButton = ({ id }: any) => {
 
   const profile = useProfile();
 
-  const sendEmailNotification = async (toEmail: string, fromUserName: string) => {
-    const emailText = `Ready to Connect with People?<br>${fromUserName} wants to be your New Language Buddy! Add them back and learn together.`;
-
-
-    try {
-      await axios.post('/api/notifications/sendfriendrequestemail', {
-        toEmail,
-        fromUserName,
-        emailText
-      });
-    } catch (error) {
-      console.error('Error sending email notification:', error);
-      // Optionally set an alert message for email error
-    }
-  };
 
   const handleAddFriend = async () => {
     try {
@@ -38,7 +23,7 @@ const FriendButton = ({ id }: any) => {
       const senderName = profile.name; // Adjust according to your profile data
      
       // Send email notification
-      await sendEmailNotification(recipientEmail, senderName);
+      
       console.log("recipients email her:" ,recipientEmail);
       setAlertMessage('Friend request sent');
       setAlertType('success');

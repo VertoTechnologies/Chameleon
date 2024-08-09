@@ -93,18 +93,7 @@ const SignUp: React.FC = () => {
       const data = await response.json();
 
       console.log("Sign Up Success:", data.message);
-      await fetch("/api/notifications/sendfriendrequestemail", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          toEmail: formData.email,
-          fromUserName: formData.name,
-          emailText: `Congratulations ${formData.name} on becoming a Chameleon! <p> You're now part of a global community where language meets cultutral exchange .Dive in and start connecting with language enthusiasts from arount the world.<br> Thank you for signing up! </p>`,
-        }),
-      });
-
+      
       // Handle success (e.g., redirect to a login page or show a success message)
       localStorage?.setItem("userId", data.userId);
       router.push("/SetupProfile?userId=" + data.userId);

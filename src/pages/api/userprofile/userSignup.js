@@ -3,7 +3,7 @@ import User from '../../../models/user';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { z } from 'zod';
-
+import nodemailer from 'nodemailer';
 // Function to generate a unique user ID
 function generateUniqueKey() {
   let uniqueKey = Date.now().toString(36); 
@@ -29,7 +29,51 @@ const signUpSchema = z.object({
     return age >= 18;
   }, { message: "User must be at least 18 years old" })
 });
+// Function to send email
+async function sendWelcomeEmail(toEmail, fromUserName) {
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    secure: true, 
+    port: 465,
+    auth: {
+      user: process.env.EMAIL_USER, 
+      pass: process.env.EMAIL_PASS, 
+    },
+  });
 
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: toEmail,
+    subject: 'Welcome to Chameleon!',
+    html: `<!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <title>Welcome to Chameleon!</title>
+    </head>
+    <body>
+      <div style="font-family: Helvetica, Arial, sans-serif; min-width: 1000px; overflow: auto; line-height: 2;">
+         <div style="margin: 50px auto; width: 70%; padding: 20px 0;">
+          <div style="border-bottom: 1px solid #eee;">
+            <a href="" style="font-size: 1.4em; color: #00466a; text-decoration: none; font-weight: 600;">Chameleon</a>
+          </div>
+          <p style="font-size: 1.1em;">Hi ${fromUserName},</p>
+          <p style="font-size: 1em;">Congratulations on becoming a Chameleon! You're now part of a global community where language meets cultural exchange. Dive in and start connecting with language enthusiasts from around the world.</p>
+          <p style="font-size: 0.9em;">Thank you for signing up!<br />The Chameleon Team</p>
+          <hr style="border: none; border-top: 1px solid #eee;" />
+        </div>
+         </div>
+    </body>
+    </html>`,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log('Welcome email sent successfully');
+  } catch (error) {
+    console.error('Error sending welcome email:', error);
+  }
+}
 // Sign up API handler
 export default async function signUp(req, res) {
   if (req.method !== 'POST') {
@@ -69,7 +113,7 @@ export default async function signUp(req, res) {
       process.env.JWT_SECRET, 
       { expiresIn: '1h' }
     );
-
+    await sendWelcomeEmail(email, name);
     res.status(201).json({ message: 'User created successfully', userId: user.userId, jwtToken: token });
     console.log("User created");
 
