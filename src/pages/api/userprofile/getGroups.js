@@ -26,7 +26,7 @@ export default async function getGroups(req, res) {
     // Find all chats that include the current user's userId and populate user details
     const userChats = await Chat.find({ users: user._id }).populate({
       path: 'users',
-      select: 'name profilePicture', // Select only the fields you need
+      select: 'name profilePic', // Select only the fields you need
     });
 
     res.status(200).json(userChats); // Send the list of user chats with populated user details

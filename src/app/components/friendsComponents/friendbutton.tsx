@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // Import axios for API requests
 import { addFriend, handleFriendRequest, getPendingFriendRequests } from './FriendApiCalls';
 import { useProfile } from '../../stores/UserStore';
@@ -57,17 +57,37 @@ const FriendButton = ({ id }: any) => {
     setAlertMessage(null);
     setAlertType(null);
   };
+  useEffect(() => {
+    if (alertMessage) {
+      const timer = setTimeout(() => {
+        closeAlert();
+      }, 4000); // Close alert after 4 seconds
+
+      return () => clearTimeout(timer); // Clear timeout if the component is unmounted
+    }
+  }, [alertMessage]);
 
   return (
     <div>
       {/* Display the alert message at the top with a close button */}
       {alertMessage && (
-        <div className={`fixed top-0 left-0 right-0 p-4 text-center z-50 ${alertType === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+        <div
+          className={`fixed top-9 left-1/2 transform -translate-x-1/2 p-4 text-center z-50 rounded-lg shadow-lg ${
+            alertType === "success"
+              ? "bg-green-100 text-green-800"
+              : "bg-red-100 text-red-800"
+          }`}
+          style={{ minWidth: "300px" }}
+        >
           {alertMessage}
           <button
             onClick={closeAlert}
             className="absolute top-2 right-2 text-xl font-bold"
-            style={{ background: 'transparent', border: 'none', cursor: 'pointer' }}
+            style={{
+              background: "transparent",
+              border: "none",
+              cursor: "pointer",
+            }}
           >
             &times;
           </button>

@@ -26,6 +26,7 @@ interface Message {
     name: string;
     userId?: string;
     _id: string;
+    profilePic: string;
   };
   photo: string;
   createdAt: string;
@@ -137,9 +138,9 @@ const ChatDetails: React.FC<{ chat: Chat; userId: string; objectId_user: string 
   return (
     <div
       className="flex flex-col h-[630px] rounded-lg shadow-lg relative bg-cover bg-center"
-      style={{ backgroundImage: "url('/assets/extras/Background.png')" }}
+      style={{ backgroundImage: "url('/assets/extras/bga2.png')" }}
     >
-      <div className="absolute inset-0 bg-[rgba(101,173,135,0.3)]"></div>
+      <div className="absolute inset-0 bg-[rgba(124,181,151,0.3)]"></div>
       <div className="relative flex flex-col h-full">
       <ChatHeader language={chat.language} profilePic={chat.groupPhoto} users={groupUsers} />
         <div className="flex-1 p-4 overflow-y-auto flex flex-col">
@@ -152,7 +153,7 @@ const ChatDetails: React.FC<{ chat: Chat; userId: string; objectId_user: string 
                 isOwnMessage={msg.sender.userId === userId || msg.sender._id === objectId_user || msg.sender._id === userId || msg.sender.userId === objectId_user || msg.sender.name === profile.name}
                 timestamp={msg.createdAt}
                 senderName={msg.sender.name}
-                senderPicture={msg.photo}
+                senderPicture={msg.sender.profilePic}
               />
             ))}
             <div ref={bottomRef} />

@@ -13,7 +13,7 @@ const Header = () => {
           <Image src="/assets/extras/Logo Mark.png" alt="logo" width={100} height={50} />
         </Link>
         <div className="cursor-pointer ml-4">
-          <span className="ml-2 font-source-code-pro text-2xl font-medium tracking-wider mr-10">CHAMELEON</span>
+          <span className="ml-2 font-source-code-pro text-2xl font-medium tracking-wider mr-10 ">CHAMELEON</span>
         </div>
       </div>
 

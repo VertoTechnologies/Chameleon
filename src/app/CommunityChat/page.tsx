@@ -78,7 +78,7 @@ const UserChatsPage: React.FC = () => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <section className="flex flex-col min-h-screen">
+    <section className="flex flex-col min-h-screen ">
       <Header />
       <div className="flex flex-grow" style={{ maxHeight: 'calc(150vh - 60px - 50px)' }}>
         {activeButton === 'friends' ? (

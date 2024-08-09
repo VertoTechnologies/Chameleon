@@ -3,7 +3,7 @@
 import React from 'react';
 
 interface GroupInfoPopupProps {
-  users: { name: string; profilePicture?: string }[]; // Assuming users have a name and optional profile picture
+  users: { name: string; profilePic?: string }[]; // Assuming users have a name and optional profile picture
   onClose: () => void;
 }
 
@@ -28,7 +28,7 @@ const GroupInfoPopup: React.FC<GroupInfoPopupProps> = ({ users, onClose }) => {
           {users.map((user, index) => (
             <li key={index} className="mb-2 flex items-center space-x-3">
               <img
-                src={user.profilePicture || "/assets/extras/profilepicture.png"}
+                src={user.profilePic || "/assets/extras/profilepicture.png"}
                 alt={user.name}
                 className="w-8 h-8 rounded-full border border-gray-300"
               />
