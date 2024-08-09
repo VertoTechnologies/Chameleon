@@ -60,7 +60,9 @@ const Icebreaker: React.FC<IcebreakerProps> = ({ userId, friendId }) => {
 
   return (
     <div>
-     
+      {timerDuration !== null && !visible && (
+        <Timer duration={timerDuration} />
+      )}
       {visible && icebreaker && (
         <div className="absolute top-16 left-1/2 transform -translate-x-1/2 w-full max-w-md px-4 py-2 mt-3 z-50">
           <div className="relative bg-blue-100 border border-blue-300 rounded-2xl shadow-md w-full">
