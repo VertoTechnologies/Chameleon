@@ -60,7 +60,7 @@ const ViewFriendProfile: React.FC<ViewProps>  = ({userId}) => {
     }, [userId]);
 
     return (
-        <div className="min-h-screen bg-[#A3CEB7] flex items-center justify-center pt-16">
+        <div className="min-h-sm flex items-center justify-center pr-36 pt-10">
             <div className="max-w-screen grid grid-cols-1 md:grid-cols-2 text-lg">
                 <div className="max-w-96 bg-white rounded-xl overflow-hidden shadow-lg p-6 relative ml-64 w-full">
                     <div className="flex flex-col items-center mb-4 w-full">
@@ -101,14 +101,6 @@ const ViewFriendProfile: React.FC<ViewProps>  = ({userId}) => {
                 </div>
                 <div className="pr-36 w-full">
                     <div className="bg-white py-4 mr-36 pr-36 rounded-xl shadow-lg w-[700px] max-h-[600px] overflow-x-hidden overflow-y-auto hide-scrollbar">
-                        <div className="absolute bottom-0 right-32 p-3">
-                            <Image
-                                src="/assets/extras/dots.png"
-                                alt="Decoration"
-                                width={50}
-                                height={48}
-                            />
-                        </div>
                         <div className="p-4 rounded-lg bg-white">
                             <h3 className="text-2xl mb-2 font-inter">Native Language</h3>
                             <div className="py-4 px-4 bg-white rounded-[20px] shadow-md border-l-8 border-[#F49345] w-[650px]">
