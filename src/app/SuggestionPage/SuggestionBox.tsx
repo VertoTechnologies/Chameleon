@@ -143,7 +143,7 @@ const SuggestionBox = () => {
   const currentUser = usersData[currentIndex];
 
   return (
-    <div className="px-16 py-4 h-[570px] font-inter">
+    <div className="px-16 py-4 h-[570px] font-mt-extra">
       {usersData.length > 0 ? (
         <div
           className={`relative bg-[#7EBA9A] h-[570px] rounded-[50px] flex ${
@@ -173,24 +173,24 @@ const SuggestionBox = () => {
                 />
               </div>
               <div className=" w-full text-center">
-                <h2 className="text-3xl mb-2 font-inter pt-4">
+                <h2 className="text-3xl mb-2 font-mt-extra pt-4">
                   {currentUser.name}
                 </h2>
                 <div className="border-2 border-[#FDD0AC] mt-4 mb-1 w-full"></div>
-                <p className="font-inter">Here to learn</p>
+                <p className="font-mt-extra">Here to learn</p>
               </div>
               <div className="w-full text-left">
-                <h3 className="font-semibold text-2xl mb-2 pt-5 font-inter">
+                <h3 className="font-semibold text-2xl mb-2 pt-5 font-mt-extra">
                   Description
                 </h3>
-                <p className="text-black mb-4 text-l font-inter">
+                <p className="text-black mb-4 text-l font-mt-extra">
                   {currentUser.userDescription}
                 </p>
                 <div>
-                  <h3 className="font-semibold text-2xl mb-2 pt-8 font-inter">
+                  <h3 className="font-semibold text-2xl mb-2 pt-8 font-mt-extra">
                     Interests
                   </h3>
-                  <p className="text-l font-inter">
+                  <p className="text-l font-mt-extra">
                     {currentUser.userInterests.join(", ")}
                   </p>
                 </div>
@@ -203,12 +203,12 @@ const SuggestionBox = () => {
             <div className="flex flex-col justify-center items-start space-t-8">
               {/* Native Language */}
               <div className="p-3 rounded-lg">
-                <h3 className="text-xl mb-2 font-inter font-medium ">
+                <h3 className="text-xl mb-2 font-mt-extra font-medium ">
                   Native Language
                 </h3>
                 <div className="py-3 px-3 bg-white rounded-[20px] shadow-md border-l-8 border-[#F49345] w-[500px]">
                   <div className="flex flex-col">
-                    <span className="text-lg font-medium font-inter">
+                    <span className="text-lg font-medium font-mt-extra">
                       {currentUser.nativeLanguage}
                     </span>
                     <div className="h-1 mt-4 bg-gradient-to-r from-[#F49345] to-transparent w-full"></div>
@@ -288,7 +288,7 @@ const SuggestionBox = () => {
         </div>
       ) : (
         <div className="p-3 border-2 border-white">
-          <p className="text-2xl font-inter">No more suggestions</p>
+          <p className="text-2xl font-mt-extra">No more suggestions</p>
         </div>
       )}
     </div>

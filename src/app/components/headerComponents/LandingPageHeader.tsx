@@ -19,13 +19,13 @@ const Header = () => {
 
       {/* Navigation Links */}
       <div className="flex space-x-16 ml-8 mr-8">
-        <Link href="/" className="text-lg font-inter text-black hover:text-gray-700">
+        <Link href="/" className="text-lg font-mt-extra text-black hover:text-gray-700">
           Home
         </Link>
-        <Link href="/#about" className="text-lg font-inter text-black hover:text-gray-700">
+        <Link href="/#about" className="text-lg font-mt-extra text-black hover:text-gray-700">
           About Us
         </Link>
-        <Link href="/#offer" className="text-lg font-inter text-black hover:text-gray-700">
+        <Link href="/#offer" className="text-lg font-mt-extra text-black hover:text-gray-700">
           What We Offer
         </Link>
       </div>
