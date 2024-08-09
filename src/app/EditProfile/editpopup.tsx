@@ -142,7 +142,7 @@ const Popup: React.FC<PopupProps> = ({ onClose }) => {
 
   return (
     
-      <form onSubmit={handleSubmit} className="relative inset-0 bg-white  mt-16 rounded-xl px-10 py-10 max-h-[600px] overflow-y-auto w-[80%] mx-auto my-auto">
+      <form onSubmit={handleSubmit} className="relative inset-0 bg-white  mt-16 rounded-xl px-10 py-10 max-h-[600px] overflow-y-auto w-[70%] mx-auto my-auto">
         {/* Top Images inside the form */}
         <h1 className="mb-4 text-2xl font-bold text-center">Edit Profile</h1>
       <div className="flex flex-col items-center mb-6">
