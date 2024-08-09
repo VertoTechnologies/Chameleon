@@ -181,7 +181,7 @@ const Call = () => {
 
   return (
     <div
-      className="flex flex-col h-[640px] rounded-lg shadow-lg relative bg-cover bg-center items-center justify-center"
+      className="flex flex-col h-[630px] rounded-lg shadow-lg relative bg-cover bg-center items-center justify-center"
       style={{ backgroundImage: "url('/assets/extras/Background.png')" }}
     >
       <div className="absolute inset-0 bg-[rgba(101,173,135,0.3)]"></div>
