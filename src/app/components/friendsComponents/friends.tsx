@@ -128,7 +128,7 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
   const offlineFriends = friendsList.filter((friend) => !friend.isOnline);
 
   return (
-    <div className="w-1/4 h-[630px]  overflow-y-auto custom-scrollbar" style={{ backgroundColor: "rgba(101, 173, 135, 0.2)" }}>
+    <div className="w-1/4 h-[630px]  overflow-y-auto custom-scrollbar" style={{ backgroundColor: "rgba(101, 173, 135, 0.2)",boxShadow: '5px 4px 10px rgba(5, 5, 0, 0.5)'  }}>
       {alertMessage && (
         <div
           className={`fixed top-0 left-0 right-0 p-4 text-center z-50 ${
@@ -152,48 +152,47 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
         </div>
       )}
 
-      <div className="p-4 flex mt-4 ml-7">
-        <button
-          className={`px-10 py-2 rounded-full border-none ${
-            activeButton === "friends"
-              ? "bg-custom-green text-white shadow-2xl"
-              : "bg-white text-black shadow"
-          }`}
-          style={{
-            backgroundColor: activeButton === "friends" ? "#65AD87" : "white",
-            borderRadius: "30px",
-            marginRight: "-15px",
-            boxShadow:
-              activeButton === "friends"
-                ? "5px 4px 10px rgba(5, 5, 0, 0.5)"
-                : "none",
-          }}
-          onClick={() => toggleButton("friends")}
-        >
-          Friends
-        </button>
-        <button
-          className={`px-9 py-2 rounded-full border-none ${
-            activeButton === "community"
-              ? "bg-custom-green text-white shadow-2xl"
-              : "bg-white text-black shadow"
-          }`}
-          style={{
-            backgroundColor: activeButton === "community" ? "#65AD87" : "white",
-            borderRadius: "30px",
-            zIndex: 1,
-            position: "relative",
-            left: "-15px",
-            boxShadow:
-              activeButton === "community"
-                ? "5px 4px 10px rgba(5, 5, 0, 0.5)"
-                : "none",
-          }}
-          onClick={() => toggleButton("community")}
-        >
-          Requests
-        </button>
-      </div>
+<div className="p-4 flex mt-4 ml-7">
+  <button
+    className={`px-10 py-2 rounded-full border-none ${
+      activeButton === "friends"
+        ? "bg-custom-green text-white shadow-2xl"
+        : "bg-white text-black"
+    }`}
+    style={{
+      backgroundColor: activeButton === "friends" ? "#65AD87" : "white",
+      borderRadius: "30px",
+      marginRight: "-15px",
+      boxShadow: activeButton === "friends"
+        ? "5px 4px 10px rgba(5, 5, 0, 0.5)"
+        : "3px 3px 8px rgba(5, 5, 0, 0.3)", // Shadow even when not toggled
+    }}
+    onClick={() => toggleButton("friends")}
+  >
+    Friends
+  </button>
+  <button
+    className={`px-9 py-2 rounded-full border-none ${
+      activeButton === "community"
+        ? "bg-custom-green text-white shadow-2xl"
+        : "bg-white text-black"
+    }`}
+    style={{
+      backgroundColor: activeButton === "community" ? "#65AD87" : "white",
+      borderRadius: "30px",
+      zIndex: 1,
+      position: "relative",
+      left: "-15px",
+      boxShadow: activeButton === "community"
+        ? "5px 4px 10px rgba(5, 5, 0, 0.5)"
+        : "3px 3px 8px rgba(5, 5, 0, 0.3)", // Shadow even when not toggled
+    }}
+    onClick={() => toggleButton("community")}
+  >
+    Requests
+  </button>
+</div>
+
 
       {/* Online Friends Section */}
       <div className="mt-4 ml-6 mr-3">
