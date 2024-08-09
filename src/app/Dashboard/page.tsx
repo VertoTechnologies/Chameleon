@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import withAuth from "../components/authComponents/withAuth";
 import Loading from "../components/loadingComponents/Loading";
 import Image from 'next/image'; // Import Image component
+import useSuggestionStore from "../stores/SuggestionStore";
 
 interface UserData {
   name: string;
@@ -27,6 +28,7 @@ const Page = () => {
   );
   const router = useRouter(); // Initialize useRouter
   const [activeButton, setActiveButton] = useState("friends");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!profile) return;
@@ -37,7 +39,7 @@ const Page = () => {
   if (!profile) {
     return <Loading />; // Or show a loading spinner or placeholder
   }
-
+  
   const toggleButton = (button: string) => {
     setActiveButton(button);
   };

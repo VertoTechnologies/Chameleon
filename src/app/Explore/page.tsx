@@ -4,7 +4,7 @@ import Header from '../components/headerComponents/HomeHeader';
 import Footer from '../components/footerComponents/footer';
 import RecResultsContainer from '../components/suggestionComponents/recommendationComponent'
 import { useProfile } from '../stores/UserStore';
-import useFriendStore from '../stores/friendStore';
+import useFriendStore from '../stores/SuggestionStore';
 import Searchbar from '@/app/Explore/ExploreComponents/searchbar';
 import withAuth from '../components/authComponents/withAuth';
 import Skeleton from "react-loading-skeleton";
@@ -62,13 +62,6 @@ const Explore: React.FC = () => {
     <section className="scroll-smooth overflow-y-auto h-screen scrollbar scrollbar-thumb-custom-green scrollbar-track-gray ">
       <Header />
       <Searchbar></Searchbar>
-      <div className="flex flex-col items-center p-4 bg-[rgb(101,173,135,0.2)] rounded-lg shadow-lg">
-      <h1 className="text-xl font-bold font-inter text-center mb-4">
-      Add Your Language Buddies
-      </h1>
-      <RecResultsContainer user={usersData} />
-      </div>
-      <Footer />
     </section>
   );
 }; 
