@@ -7,7 +7,11 @@ import ChatHeader from './CommunityComponents/Cheader';
 import MessageInput from './CommunityComponents/Input';
 import MessageBubble from './CommunityComponents/MessageBubble';
 import { useProfile } from '../stores/UserStore';
-
+interface User {
+  _id: string;
+  name: string;
+  profilePic: string;
+}
 interface Chat {
   _id: string;
   language: string;
@@ -32,8 +36,31 @@ const ChatDetails: React.FC<{ chat: Chat; userId: string; objectId_user: string 
   const [error, setError] = useState<string | null>(null);
   const [socket, setSocket] = useState<any>(null);
   const bottomRef = React.useRef<HTMLDivElement>(null);
+  const [groupUsers, setGroupUsers] = useState<User[]>([]); // State for group users
   const profile = useProfile();
+  useEffect(() => {
+    const fetchGroupUsers = async () => {
+      try {
+        // Fetch user chats which include user details
+        const response = await axios.get(`/api/userprofile/getGroups?userId=${userId}`);
+        const userChats = response.data;
 
+        // Find the current chat in the userChats array
+        const currentChat = userChats.find((chatItem: Chat) => chatItem._id === chat._id);
+
+        if (currentChat) {
+          console.log('Users fetched for the group:', currentChat.users); // Logging fetched users
+          setGroupUsers(currentChat.users);
+        } else {
+          console.error('Chat not found in user chats');
+        }
+      } catch (err) {
+        console.error('Error fetching group users:', err);
+      }
+    };
+
+    fetchGroupUsers();
+  }, [chat._id, userId]);
   useEffect(() => {
     const socketInstance = io({
       path: '/api/socket',
@@ -114,7 +141,7 @@ const ChatDetails: React.FC<{ chat: Chat; userId: string; objectId_user: string 
     >
       <div className="absolute inset-0 bg-[rgba(101,173,135,0.3)]"></div>
       <div className="relative flex flex-col h-full">
-        <ChatHeader language={chat.language} profilePic={chat.groupPhoto} />
+      <ChatHeader language={chat.language} profilePic={chat.groupPhoto} users={groupUsers} />
         <div className="flex-1 p-4 overflow-y-auto flex flex-col">
           <div className="flex flex-col flex-grow">
             {messages.map((msg) => (

@@ -1,15 +1,32 @@
 // src/components/ChatHeader.tsx
 "use client";
-import React from 'react';
+import React, { useState } from 'react';
 import { HiDotsHorizontal } from "react-icons/hi";
-import "bootstrap-icons/font/bootstrap-icons.css";
+import GroupInfoPopup from './Groupinfo';
+
+interface User {
+  _id: string;
+  name: string;
+  profilePic: string;
+}
 
 interface ChatHeaderProps {
   language: string;
   profilePic?: string;
+  users: User[]; // Updated to pass user details
 }
 
-const ChatHeader: React.FC<ChatHeaderProps> = ({ language, profilePic }) => {
+const ChatHeader: React.FC<ChatHeaderProps> = ({ language, profilePic, users }) => {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  const handlePopupOpen = () => {
+    setIsPopupOpen(true);
+  };
+
+  const handlePopupClose = () => {
+    setIsPopupOpen(false);
+  };
+
   return (
     <div className="bg-[#F4F4F4] p-4 flex items-center justify-between border-b">
       {/* Left side: Profile picture and community language */}
@@ -26,12 +43,14 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ language, profilePic }) => {
 
       {/* Right side: Icons */}
       <div className="flex space-x-4">
-        {/* Removed call icon */}
         <HiDotsHorizontal
           className="text-[#65AD87] text-3xl cursor-pointer mr-1 mt-1"
           title="More Options"
+          onClick={handlePopupOpen}
         />
       </div>
+
+      {isPopupOpen && <GroupInfoPopup users={users} onClose={handlePopupClose} />}
     </div>
   );
 };

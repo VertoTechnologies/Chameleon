@@ -237,7 +237,7 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
       </div>
 {/* Community Section */}
 <div className="mt-4 ml-6 mr-3">
-        <h2 className="text-2xl font-semibold">Communities</h2>
+        <h2 className="text-xl font-semibold">Communities</h2>
         {communitiesList.length > 0
           ? communitiesList.map((community) => (
               <div
@@ -276,6 +276,7 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
       </div>
       {/* Online Friends Section */}
       <div className="mt-4 ml-6 mr-3">
+      <h2 className="text-xl font-semibold">Friends</h2>
         {onlineFriends.length > 0 ? (
           <>
             {onlineFriends.map((user) => (
