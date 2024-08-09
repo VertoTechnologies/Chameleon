@@ -16,10 +16,7 @@ interface User {
   nativeLanguage: string,
   fluentLanguagess: string[],
   learningLanguagess: string[],
-  profilePic: string;
-  userInterests: string[],
-  purpose:string
-
+  profilePic: string
 }
 
 
@@ -62,13 +59,8 @@ const Explore: React.FC = () => {
     <section className="scroll-smooth overflow-y-auto h-screen scrollbar scrollbar-thumb-custom-green scrollbar-track-gray ">
       <Header />
       <Searchbar></Searchbar>
-      <div className="flex flex-col items-center p-4 bg-[rgb(101,173,135,0.2)] rounded-lg shadow-lg">
-      <h1 className="text-xl font-bold font-inter text-center mb-4">
-      Add Your Language Buddies
-      </h1>
-      <RecResultsContainer user={usersData} />
-      </div>
-      <Footer />
+      
+      
     </section>
   );
 }; 
