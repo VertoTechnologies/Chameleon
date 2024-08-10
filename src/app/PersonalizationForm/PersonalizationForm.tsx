@@ -78,7 +78,7 @@ const PersonalizationForm: React.FC = () => {
   return (
     <div className="bg-white rounded-l-2xl p-10">
       <form onSubmit={handleSubmit}>
-        <p className='mt-6'>What are you here for?</p>
+        <p className='mt-6 left-3 text-start'>What are you here for?</p>
         <div className="border-t-2 border-[#65AD87] my-4 w-full mb-8"></div>
         <div className="px-10">
           <RadioGroup name="purpose" onChange={handleChange} defaultValue="">
