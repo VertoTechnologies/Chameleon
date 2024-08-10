@@ -53,18 +53,29 @@ const RemoveFriendButton: React.FC<RemoveFriendButtonProps> = ({ id }) => {
 
   return (
     <div>
-        {alertMessage && (
-        <div className={`fixed top-0 left-0 right-0 p-4 text-center z-50 ${alertType === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+         {alertMessage && (
+        <div
+          className={`fixed top-0 left-0 right-0 p-4 text-center z-50 ${
+            alertType === "success"
+              ? "bg-green-100 text-green-800"
+              : "bg-red-100 text-red-800"
+          }`}
+        >
           {alertMessage}
           <button
             onClick={closeAlert}
             className="absolute top-2 right-2 text-xl font-bold"
-            style={{ background: 'transparent', border: 'none', cursor: 'pointer' }}
+            style={{
+              background: "transparent",
+              border: "none",
+              cursor: "pointer",
+            }}
           >
             &times;
           </button>
-        </div> 
+        </div>
       )}
+      
       <button
         className="ml-auto mr-4 text-white px-6 py-2 rounded-full"
         style={{ backgroundColor: '#65AD87', borderRadius: '30px' }}

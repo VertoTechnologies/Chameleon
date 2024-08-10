@@ -21,8 +21,8 @@ interface LanguageProficiencyProps {
 
 const LanguageProficiency: React.FC<LanguageProficiencyProps> = ({ title, languages, onLevelChange, borderColor, lineColor, color, editable, textSize, width, starH, num  }) => {
     return (
-        <div className={`bg-${color} pt-4 px-4 pb-${num} mb-${num} rounded-lg font-inter`}>
-            <h3 className={`text-${textSize} mb-4 font-inter font-medium`}>{title}</h3>
+        <div className={`bg-${color} pt-4 px-4 pb-${num} mb-${num} rounded-lg font-mt-extra`}>
+            <h3 className={`text-${textSize} mb-4 font-mt-extra font-medium`}>{title}</h3>
             <div className="space-y-4">
                 {languages.map(({ language, level }, languageIndex) => (
                     <div key={languageIndex} className={`flex items-center justify-between p-4 bg-white rounded-[20px] w-[${width}] shadow-lg border-l-8 ${borderColor}`} >

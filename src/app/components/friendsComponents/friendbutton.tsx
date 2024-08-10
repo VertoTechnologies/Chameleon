@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // Import axios for API requests
 import { addFriend, handleFriendRequest, getPendingFriendRequests } from './FriendApiCalls';
 import { useProfile } from '../../stores/UserStore';
@@ -12,21 +12,6 @@ const FriendButton = ({ id }: any) => {
 
   const profile = useProfile();
 
-  const sendEmailNotification = async (toEmail: string, fromUserName: string) => {
-    const emailText = `Ready to Connect with People?<br>${fromUserName} wants to be your New Language Buddy! Add them back and learn together.`;
-
-
-    try {
-      await axios.post('/api/notifications/sendfriendrequestemail', {
-        toEmail,
-        fromUserName,
-        emailText
-      });
-    } catch (error) {
-      console.error('Error sending email notification:', error);
-      // Optionally set an alert message for email error
-    }
-  };
 
   const handleAddFriend = async () => {
     try {
@@ -38,7 +23,7 @@ const FriendButton = ({ id }: any) => {
       const senderName = profile.name; // Adjust according to your profile data
      
       // Send email notification
-      await sendEmailNotification(recipientEmail, senderName);
+      
       console.log("recipients email her:" ,recipientEmail);
       setAlertMessage('Friend request sent');
       setAlertType('success');
@@ -57,17 +42,37 @@ const FriendButton = ({ id }: any) => {
     setAlertMessage(null);
     setAlertType(null);
   };
+  useEffect(() => {
+    if (alertMessage) {
+      const timer = setTimeout(() => {
+        closeAlert();
+      }, 4000); // Close alert after 4 seconds
+
+      return () => clearTimeout(timer); // Clear timeout if the component is unmounted
+    }
+  }, [alertMessage]);
 
   return (
     <div>
       {/* Display the alert message at the top with a close button */}
       {alertMessage && (
-        <div className={`fixed top-0 left-0 right-0 p-4 text-center z-50 ${alertType === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+        <div
+          className={`fixed top-9 left-1/2 transform -translate-x-1/2 p-4 text-center z-50 rounded-lg shadow-lg ${
+            alertType === "success"
+              ? "bg-green-100 text-green-800"
+              : "bg-red-100 text-red-800"
+          }`}
+          style={{ minWidth: "300px" }}
+        >
           {alertMessage}
           <button
             onClick={closeAlert}
             className="absolute top-2 right-2 text-xl font-bold"
-            style={{ background: 'transparent', border: 'none', cursor: 'pointer' }}
+            style={{
+              background: "transparent",
+              border: "none",
+              cursor: "pointer",
+            }}
           >
             &times;
           </button>

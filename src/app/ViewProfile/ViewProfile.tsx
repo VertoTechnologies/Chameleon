@@ -69,10 +69,10 @@ const ViewProfile: React.FC<ViewProfileProps> = ({ onEditClick }) => {
             </div>
 
             <div className="p-4 rounded-lg bg-white">
-              <h3 className="text-2xl mb-2 font-inter">Native Language</h3>
+              <h3 className="text-2xl mb-2 font-mt-extra">Native Language</h3>
               <div className="py-4 px-4 bg-white rounded-[20px] shadow-md border-l-8 border-[#F49345] w-[650px]">
                 <div className="flex flex-col">
-                  <span className="text-lg font-inter">{profile?.nativeLanguage}</span>
+                  <span className="text-lg font-mt-extra">{profile?.nativeLanguage}</span>
                   <div className="h-1 mt-4 bg-gradient-to-r from-[#F49345] to-transparent w-full"></div>
                 </div>
               </div>

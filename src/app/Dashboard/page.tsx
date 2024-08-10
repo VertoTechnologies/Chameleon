@@ -45,7 +45,7 @@ const Page = () => {
   };
 
   const handleImageClick = () => {
-    router.push('/Explore'); // Replace with your target route
+    router.push('/SuggestionPage'); // Replace with your target route
   };
 
   return (

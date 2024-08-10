@@ -2,7 +2,6 @@ import dbConnect from "../../../middleware/mongodb";
 import User from "../../../models/user";
 import Chat from '../../../models/Chat';
 
-
 export default async function getGroups(req, res) {
   if (req.method !== "GET") {
     return res.status(405).json({ message: "Method not allowed" });
@@ -24,10 +23,13 @@ export default async function getGroups(req, res) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Find all chats that include the current user's userId
-    const userChats = await Chat.find({ users: user._id });
+    // Find all chats that include the current user's userId and populate user details
+    const userChats = await Chat.find({ users: user._id }).populate({
+      path: 'users',
+      select: 'name profilePic', // Select only the fields you need
+    });
 
-    res.status(200).json(userChats); // Send the list of user chats
+    res.status(200).json(userChats); // Send the list of user chats with populated user details
   } catch (error) {
     console.error("Error fetching user chats", error);
     res.status(500).json({ message: "Error fetching user chats" });

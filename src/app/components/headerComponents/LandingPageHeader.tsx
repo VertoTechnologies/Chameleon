@@ -13,19 +13,19 @@ const Header = () => {
           <Image src="/assets/extras/Logo Mark.png" alt="logo" width={100} height={50} />
         </Link>
         <div className="cursor-pointer ml-4">
-          <span className="ml-2 font-source-code-pro text-2xl font-medium tracking-wider mr-10">CHAMELEON</span>
+          <span className="ml-2 font-source-code-pro text-2xl font-medium tracking-wider mr-10 ">CHAMELEON</span>
         </div>
       </div>
 
       {/* Navigation Links */}
       <div className="flex space-x-16 ml-8 mr-8">
-        <Link href="/" className="text-lg font-inter text-black hover:text-gray-700">
+        <Link href="/" className="text-lg font-mt-extra text-black hover:text-gray-700">
           Home
         </Link>
-        <Link href="/#about" className="text-lg font-inter text-black hover:text-gray-700">
+        <Link href="/#about" className="text-lg font-mt-extra text-black hover:text-gray-700">
           About Us
         </Link>
-        <Link href="/#offer" className="text-lg font-inter text-black hover:text-gray-700">
+        <Link href="/#offer" className="text-lg font-mt-extra text-black hover:text-gray-700">
           What We Offer
         </Link>
       </div>

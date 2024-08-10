@@ -15,7 +15,7 @@ const Header: React.FC = () => {
   }
 
   return (
-    <nav className=" bg-[#E7EEEA] flex items-center justify-between max-w-container px-4 py-4 relative z-30">
+    <nav className=" bg-[#E7EEEA] flex items-center justify-between max-w-container px-4 py-4 relative z-30 ">
       {/* Logo and Brand Name */}
       <div className="flex items-center">
         <Link href="/">
@@ -28,13 +28,13 @@ const Header: React.FC = () => {
       
       {/* Navigation Links */}
       <div className="flex space-x-32 ml-14 "> {/* Increased space between navigation links */}
-        <Link href="/Dashboard" className="text-lg font-inter text-black hover:text-gray-700">
+        <Link href="/Dashboard" className="text-lg font text-black hover:text-gray-700">
           Home
         </Link>
-        <Link href="/SuggestionPage" className="text-lg font-inter text-black hover:text-gray-700">
+        <Link href="/SuggestionPage" className="text-lg font text-black hover:text-gray-700">
          Suggestions {/* Adjusted ml to match 92px spacing */}
         </Link>
-        <Link href="/Explore" className="text-lg font-inter text-black hover:text-gray-700">
+        <Link href="/Explore" className="text-lg font text-black hover:text-gray-700">
           Explore
         </Link>
       </div>

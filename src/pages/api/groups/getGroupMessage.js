@@ -35,7 +35,7 @@ export default async function getGroupMessage(req, res) {
         sender: {
           userId: sender.userId,
           name: sender.name,
-          photo: sender.photo
+          profilePic: sender.profilePic
         }
       };
     }));
