@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 const Header = () => {
   return (
-    <nav className="flex items-center justify-between scroll-smooth max-w-container px-4 py-5 relative z-30">
+    <nav className="flex items-center justify-between scroll-smooth max-w-container px-4 py-5 relative z-30 bg-[#E7EEEA]">
       {/* Logo and Brand Name */}
       <div className="flex items-center">
         <Link href="/">

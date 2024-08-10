@@ -204,10 +204,7 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
             backgroundColor: activeButton === "friends" ? "#65AD87" : "white",
             borderRadius: "30px",
             marginRight: "-15px",
-            boxShadow:
-              activeButton === "friends"
-                ? "5px 4px 10px rgba(5, 5, 0, 0.5)"
-                : "none",
+            boxShadow: "5px 4px 10px rgba(5, 5, 0, 0.5)",
           }}
           onClick={() => toggleButton("friends")}
         >
@@ -225,10 +222,7 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
             zIndex: 1,
             position: "relative",
             left: "-15px",
-            boxShadow:
-              activeButton === "community"
-                ? "5px 4px 10px rgba(5, 5, 0, 0.5)"
-                : "none",
+            boxShadow: "5px 4px 10px rgba(5, 5, 0, 0.5)"
           }}
           onClick={() => toggleButton("community")}
         >
@@ -283,7 +277,7 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
               <div
                 key={user.userId}
                 className="flex items-center p-4 border-b-2 cursor-pointer"
-                style={{ borderBottomColor: "#65AD87" }}
+                style={{ borderBottomColor: "#9CCEB4" }}
               >
                 <img
                   src={user.profilePic || "/assets/extras/profilepicture.png"}
@@ -326,7 +320,7 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
               <div
                 key={user.userId}
                 className="flex items-center p-4 border-b-2 cursor-pointer"
-                style={{ borderBottomColor: "#65AD87" }}
+                style={{ borderBottomColor: "#9CCEB4" }}
               >
                 <img
                   src={user.profilePic || "/assets/extras/profilepicture.png"}
@@ -354,7 +348,45 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
         )}
       </div>
 
-      
+      {/* Community Section */}
+      <div className="mt-4 ml-6 mr-3">
+        <h2 className="text-2xl font-semibold">Communities</h2>
+        {communitiesList.length > 0
+          ? communitiesList.map((community) => (
+              <div
+                key={community._id}
+                className="flex items-center p-4 border-b-2 cursor-pointer"
+                style={{ borderBottomColor: "#9CCEB4" }}
+                onClick={() => handleCommunityClick(community._id)}
+              >
+                <img
+                  src={
+                    community.groupPhoto ||
+                    `/assets/extras/${community.language}.png`
+                  }
+                  alt={community.language}
+                  className="w-12 h-12 rounded-full mr-3"
+                />
+                <span className="text-lg font-medium flex-grow">
+                  {community.language}
+                </span>
+              </div>
+            ))
+          : loading && (
+              <>
+                  <div className="p-3 border-2 border-transparent">
+              <Skeleton
+                height={160}
+                width={320}
+                enableAnimation={true}
+                baseColor="rgba(101, 173, 135, 0.2)"
+                highlightColor="rgba(101, 173, 135, 0.4)"
+                direction="ltr"
+              />
+            </div>
+              </>
+            )}
+      </div>
     </div>
   );
 };

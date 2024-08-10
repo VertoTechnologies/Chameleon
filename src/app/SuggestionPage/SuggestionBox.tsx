@@ -1,31 +1,30 @@
-"use client";
+'use client'
 
-import React, { useEffect, useState } from "react";
-import Image from "next/image";
-import LanguageProficiency from "../ViewProfile/LanguageProficiency";
-import { useProfile } from "../stores/UserStore";
-import styles from "./SuggestionBox.module.css";
-import axios from "axios";
-import { addFriend } from "../components/friendsComponents/FriendApiCalls";
-import Skeleton from "react-loading-skeleton";
+import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
+import LanguageProficiency from '../ViewProfile/LanguageProficiency';
+import { useProfile } from '../stores/UserStore';
+import styles from './SuggestionBox.module.css';
+import axios from 'axios';
+import { addFriend } from '../components/friendsComponents/FriendApiCalls';
 
 interface Language {
-  language: string;
-  level: number;
+    language: string;
+    level: number;
 }
 
 interface User {
-  userId: string;
-  name: string;
-  userDescription: string;
-  nativeLanguage: string;
-  fluentLanguagess: string[];
-  learningLanguagess: string[];
-  userInterests: string[];
-  profilePic: string;
-  purpose: string;
-  learningLanguageRanks: Language[];
-  fluentLanguageRanks: Language[];
+    userId: string;
+    name: string;
+    userDescription: string;
+    nativeLanguage: string;
+    fluentLanguagess: string[];
+    learningLanguagess: string[];
+    userInterests: string[];
+    profilePic: string;
+    purpose: string;
+    learningLanguageRanks: Language[];
+    fluentLanguageRanks: Language[];
 }
 
 // const useUserLanguages = (initialLanguage: Language[]) => {
@@ -36,111 +35,105 @@ interface User {
 //     return [lang, handleLanguageChange];
 // }
 
-const SuggestionBox = () => {
-  const profile = useProfile();
-  const [usersData, setUsersData] = useState<User[]>([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [swipeDirection, setSwipeDirection] = useState<"left" | "right" | null>(
-    null
-  );
-  const [loading, setLoading] = useState(true);
+const SuggestionBox: React.FC = () => {
+    const profile = useProfile();
+    const [usersData, setUsersData] = useState<User[]>([]);
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [swipeDirection, setSwipeDirection] = useState<'left' | 'right' | null>(null);
 
-  const sendEmailNotification = async (
-    toEmail: string,
-    fromUserName: string
-  ) => {
-    const emailText = `Ready to Connect with People?<br>${fromUserName} wants to be your New Language Buddy! Add them back and learn together.`;
+    const sendEmailNotification = async (toEmail: string, fromUserName: string) => {
+        const emailText = `Ready to Connect with People?<br>${fromUserName} wants to be your New Language Buddy! Add them back and learn together.`;
 
-    try {
-      await axios.post("/api/notifications/sendfriendrequestemail", {
-        toEmail,
-        fromUserName,
-        emailText,
-      });
-    } catch (error) {
-      console.error("Error sending email notification:", error);
-      // Optionally set an alert message for email error
-    }
-  };
-
-  useEffect(() => {
-    const fetchUsersData = async () => {
-      try {
-        const response = await fetch(
-          `/api/users/suggestedUsers?userId=${profile.userId}`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
+        try {
+            await axios.post('/api/notifications/sendfriendrequestemail', {
+                toEmail,
+                fromUserName,
+                emailText
+            });
+        } catch (error) {
+            console.error('Error sending email notification:', error);
+            // Optionally set an alert message for email error
         }
+    }
 
-        const data = await response.json();
-        setUsersData(data.users);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-      setLoading(false);
-    };
+    useEffect(() => {
+        const fetchUsersData = async () => {
+            try {
+                const response = await fetch(`/api/users/suggestedUsers?userId=${profile.userId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
 
-    fetchUsersData();
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
 
-    // const getUsersRank = async () => {
-    //     try {
-    //         const response = await fetch(`/api/userprofile/getRank?userId=${profile.userId}`)
-    //     }
-    // }
-  }, [profile.fluentLanguagess]);
+                const data = await response.json();
+                setUsersData(data.users);
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+            }
+        
+        };
 
-  // Function for handling swipe to the right
-  const handleSwipeRight = () => {
+        fetchUsersData();
+        
+        // const getUsersRank = async () => {
+        //     try {
+        //         const response = await fetch(`/api/userprofile/getRank?userId=${profile.userId}`)
+        //     }
+        // }
+    }, [profile.fluentLanguagess]);
+
+    // Function for handling swipe to the right
+const handleSwipeRight = () => {
     // Update the swipe direction and current index immediately
-    setSwipeDirection("right");
+    setSwipeDirection('right');
     setTimeout(() => {
-      setCurrentIndex((prevIndex) => {
-        const totalUsers = usersData.length;
-        return (prevIndex + 1) % totalUsers;
-      });
-      setSwipeDirection(null);
+        setCurrentIndex((prevIndex) => {
+            const totalUsers = usersData.length;
+            return (prevIndex + 1) % totalUsers;
+        });
+        setSwipeDirection(null);
     }, 500); // Duration of the swipe animation
-  };
+};
 
-  // Function for handling swipe to the left
-  const handleSwipeLeft = async () => {
+// Function for handling swipe to the left
+const handleSwipeLeft = async () => {
     // Update the swipe direction and current index immediately
-    setSwipeDirection("left");
+    setSwipeDirection('left');
     setTimeout(() => {
-      setCurrentIndex((prevIndex) => {
-        const totalUsers = usersData.length;
-        return prevIndex === 0 ? totalUsers - 1 : prevIndex - 1;
-      });
-      setSwipeDirection(null);
+        setCurrentIndex((prevIndex) => {
+            const totalUsers = usersData.length;
+            return prevIndex === 0 ? totalUsers - 1 : prevIndex - 1;
+        });
+        setSwipeDirection(null);
     }, 500); // Duration of the swipe animation
 
     // Perform the friend request and email notification in the background
     try {
-      const response = await addFriend(profile.userId, currentUser.userId);
-      console.log("Friend request sent:", response);
-      alert("Request Sent");
+        const response = await addFriend(profile.userId, currentUser.userId);
+        console.log('Friend request sent:', response);
+        alert("Request Sent");
 
-      const recipientEmail = response.recipientEmail;
-      const senderName = profile.name; // Adjust according to your profile data
+        const recipientEmail = response.recipientEmail;
+        const senderName = profile.name; // Adjust according to your profile data
 
-      // Send email notification
-      await sendEmailNotification(recipientEmail, senderName);
-      console.log("Recipient's email:", recipientEmail);
+        // Send email notification
+        await sendEmailNotification(recipientEmail, senderName);
+        console.log("Recipient's email:", recipientEmail);
     } catch (error) {
-      console.error("Error sending friend request:", error);
-      alert("Request Failed");
+        console.error('Error sending friend request:', error);
+        alert("Request Failed");
     }
-  };
+};
+
+
 
   const currentUser = usersData[currentIndex];
+
 
   return (
     <div className="px-16 py-4 h-[570px] font-mt-extra">
@@ -173,24 +166,24 @@ const SuggestionBox = () => {
                 />
               </div>
               <div className=" w-full text-center">
-                <h2 className="text-3xl mb-2 font-mt-extra pt-4">
+                <h2 className="text-3xl mb-2 font-inter pt-4">
                   {currentUser.name}
                 </h2>
                 <div className="border-2 border-[#FDD0AC] mt-4 mb-1 w-full"></div>
-                <p className="font-mt-extra">Here to learn</p>
+                <p className="font-inter">Here to learn</p>
               </div>
               <div className="w-full text-left">
-                <h3 className="font-semibold text-2xl mb-2 pt-5 font-mt-extra">
+                <h3 className="font-semibold text-2xl mb-2 pt-5 font-inter">
                   Description
                 </h3>
-                <p className="text-black mb-4 text-l font-mt-extra">
+                <p className="text-black mb-4 text-l font-inter">
                   {currentUser.userDescription}
                 </p>
                 <div>
-                  <h3 className="font-semibold text-2xl mb-2 pt-8 font-mt-extra">
+                  <h3 className="font-semibold text-2xl mb-2 pt-8 font-inter">
                     Interests
                   </h3>
-                  <p className="text-l font-mt-extra">
+                  <p className="text-l font-inter">
                     {currentUser.userInterests.join(", ")}
                   </p>
                 </div>
@@ -216,26 +209,24 @@ const SuggestionBox = () => {
                 </div>
               </div>
 
-              {/* Fluent Languages */}
-              {currentUser.learningLanguageRanks.length > 0 ? (
-                <LanguageProficiency
-                  title="Fluent Languages"
-                  languages={currentUser.fluentLanguageRanks}
-                  onLevelChange={() => {}}
-                  borderColor="border-[#DB3946]"
-                  lineColor="bg-gradient-to-r from-[#DB3946]"
-                  color="none"
-                  editable={false}
-                  textSize="xl"
-                  width="500px"
-                  starH="8"
-                  num={0}
-                />
-              ) : (
-                <p className="text-xl font-medium text-gray-500">
-                  Sad, no learning languages
-                </p>
-              )}
+                            {/* Fluent Languages */}
+                            {currentUser.learningLanguageRanks.length > 0 ? (       
+                            <LanguageProficiency
+                                title="Fluent Languages"
+                                languages={currentUser.fluentLanguageRanks}
+                                onLevelChange={() =>{}
+                                }
+                                borderColor="border-[#DB3946]"
+                                lineColor="bg-gradient-to-r from-[#DB3946]"
+                                color='none'
+                                editable={false}
+                                textSize='xl'
+                                width='500px'
+                                starH='8'
+                                num={0}
+                            />) : (
+                                <p className="text-xl font-medium text-gray-500">Sad, no learning languages</p>
+                            )}
 
               {/* Learning Languages */}
               {currentUser.learningLanguageRanks.length > 0 ? (
@@ -298,5 +289,5 @@ const SuggestionBox = () => {
 export default SuggestionBox;
 
 function capitalize(word: string) {
-  return word.charAt(0).toUpperCase() + word.slice(1);
+    return word.charAt(0).toUpperCase() + word.slice(1);
 }

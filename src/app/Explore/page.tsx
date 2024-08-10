@@ -4,7 +4,7 @@ import Header from '../components/headerComponents/HomeHeader';
 import Footer from '../components/footerComponents/footer';
 import RecResultsContainer from '../components/suggestionComponents/recommendationComponent'
 import { useProfile } from '../stores/UserStore';
-import useFriendStore from '../stores/friendStore';
+import useFriendStore from '../stores/SuggestionStore';
 import Searchbar from '@/app/Explore/ExploreComponents/searchbar';
 import withAuth from '../components/authComponents/withAuth';
 import Skeleton from "react-loading-skeleton";
