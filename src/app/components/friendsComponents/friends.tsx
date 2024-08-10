@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useProfile } from "../../stores/UserStore";
 import { getFriendsList } from "./FriendApiCalls";
+import DropDown from '../../CommunityChat/CommunityComponents/DropDown'
 import FriendActionsDropdown from "./friendsdropdown"; // Ensure the path is correct
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -157,8 +158,25 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
     router.push(`/CommunityChat?chatId=${encodeURIComponent(communityId)}`);
   };
 
-  const handleLeaveCommunity = (communityId: string) => {
-    console.log(`Leave community with ID: ${communityId}`);
+  const leaveGroup = async (communityId: string, userId: string) => {
+    try {
+      const response = await fetch('/api/groups/leaveGroup', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ chatId: communityId, userId }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to leave the community');
+      }
+  
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      throw error;
+    }
   };
 
   // Separate online and offline friends
@@ -242,8 +260,7 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
               >
                 <img
                   src={
-                    community.groupPhoto ||
-                    `/assets/extras/${community.language}.png`
+                    community.groupPhoto || ''
                   }
                   alt={community.language}
                   className="w-12 h-12 rounded-full mr-3"
@@ -251,6 +268,9 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
                 <span className="text-lg font-medium flex-grow">
                   {community.language}
                 </span>
+                <DropDown
+                  onLeave={() => leaveGroup(community._id, profile.userId)}
+                />
               </div>
             ))
           : loading && (
@@ -346,46 +366,6 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
           <></>
           )
         )}
-      </div>
-
-      {/* Community Section */}
-      <div className="mt-4 ml-6 mr-3">
-        <h2 className="text-2xl font-semibold">Communities</h2>
-        {communitiesList.length > 0
-          ? communitiesList.map((community) => (
-              <div
-                key={community._id}
-                className="flex items-center p-4 border-b-2 cursor-pointer"
-                style={{ borderBottomColor: "#9CCEB4" }}
-                onClick={() => handleCommunityClick(community._id)}
-              >
-                <img
-                  src={
-                    community.groupPhoto ||
-                    `/assets/extras/${community.language}.png`
-                  }
-                  alt={community.language}
-                  className="w-12 h-12 rounded-full mr-3"
-                />
-                <span className="text-lg font-medium flex-grow">
-                  {community.language}
-                </span>
-              </div>
-            ))
-          : loading && (
-              <>
-                  <div className="p-3 border-2 border-transparent">
-              <Skeleton
-                height={160}
-                width={320}
-                enableAnimation={true}
-                baseColor="rgba(101, 173, 135, 0.2)"
-                highlightColor="rgba(101, 173, 135, 0.4)"
-                direction="ltr"
-              />
-            </div>
-              </>
-            )}
       </div>
     </div>
   );

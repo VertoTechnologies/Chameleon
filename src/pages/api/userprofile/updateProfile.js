@@ -130,13 +130,13 @@ export default async function updateProfile(req, res) {
     // If learningLanguages are updated, handle the chat groups
     if (updateData.learningLanguagess) {
       for (const language of updateData.learningLanguagess) {
-        let chat = await Chat.findOne({ language });
+        let chat = await Chat.findOne({ language }); 
 
         if (!chat) {
           chat = await Chat.create({
             language,
             users: [updatedUser._id],
-            groupPhoto: updateData.groupPhoto || "", // Add group photo if provided
+            groupPhoto: `/assets/extras/${language}.png`, // Add group photo if provided
           });
           console.log(language + " chat create");
         } else {

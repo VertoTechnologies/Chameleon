@@ -228,6 +228,7 @@ const handleSwipeLeft = async () => {
                                 width='500px'
                                 starH='8'
                                 num={0}
+                                cursor=''
                             />) : (
                                 <p className="text-xl font-medium text-gray-500">Sad, no learning languages</p>
                             )}
@@ -246,6 +247,7 @@ const handleSwipeLeft = async () => {
                   width="500px"
                   starH="8"
                   num={0}
+                  cursor=''
                 />
               ) : (
                 <p className="text-xl font-medium text-gray-500">

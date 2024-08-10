@@ -25,11 +25,12 @@ const ioHandler = async (req, res) => {
             const sender = await User.findById(message.sender);
             return {
               ...message.toObject(),
+              profilePic: sender.profilePic,
               sender: {
                 userId: sender.userId,
                 name: sender.name,
                 _id: sender._id,  // Ensure _id is included
-                photo: sender.photo // Ensure photo is included
+                
               }
             };
           }));
@@ -40,7 +41,7 @@ const ioHandler = async (req, res) => {
         }
       });
 
-      socket.on("sendMessage", async ({ chatId, userId, text, photo }) => {
+      socket.on("sendMessage", async ({ chatId, userId, text, profilePic }) => {
         await dbConnect();
 
         try {
@@ -55,13 +56,13 @@ const ioHandler = async (req, res) => {
             socket.emit("error", { message: "Sender not found" });
             return;
           }
-          console.log("sender", sender);
+          console.log("sender", sender.profilePic);
 
           const newMessage = new GroupMessage({
             Chat: chat._id,
             sender: sender._id,
             text,
-            photo,
+            profilePic: sender.profilePic,
           });
 
           await newMessage.save();
@@ -69,11 +70,12 @@ const ioHandler = async (req, res) => {
 
           io.in(chatId).emit("receiveMessage", {
             ...populatedMessage.toObject(),
+            profilePic: sender.profilePic,
             sender: {
               userId: sender.userId,
               name: sender.name,
               _id: sender._id,
-              photo: sender.photo
+              
             }
           });
         } catch (error) {

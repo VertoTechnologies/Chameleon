@@ -8,9 +8,9 @@ export default async function groupMessage(req, res) {
     return res.status(405).json({ message: "Method not allowed" });
   }
 
-  const { chatId, userId, text, photo } = req.body;
+  const { chatId, userId, text } = req.body;
 
-  if (!chatId || !userId || (!text && !photo)) {
+  if (!chatId || !userId || (!text)) {
     return res.status(400).json({ message: "Missing required fields" });
   }
 
@@ -31,19 +31,20 @@ export default async function groupMessage(req, res) {
       Chat: chat._id,
       sender: sender._id,
       text,
-      photo,
+      profilePic: sender.profilePic,
     });
 
     await newMessage.save();
-    const populatedMessage = await newMessage.populate("sender", "name userId _id photo");
+    const populatedMessage = await newMessage.populate("sender", "name userId _id profilePic");
 
     res.status(201).json({
       ...populatedMessage.toObject(),
+      profilePic: sender.profilePic,  
       sender: {
         userId: sender.userId,
         name: sender.name,
         _id: sender._id,
-        photo: sender.photo
+        profilePic: sender.profilePic
       }
     });
   } catch (error) {

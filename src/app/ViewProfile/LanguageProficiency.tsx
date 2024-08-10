@@ -16,10 +16,11 @@ interface LanguageProficiencyProps {
     textSize: string;
     width: string;
     starH: string;
-    num: number
+    num: number;
+    cursor: string
 }   
 
-const LanguageProficiency: React.FC<LanguageProficiencyProps> = ({ title, languages, onLevelChange, borderColor, lineColor, color, editable, textSize, width, starH, num  }) => {
+const LanguageProficiency: React.FC<LanguageProficiencyProps> = ({ title, languages, onLevelChange, borderColor, lineColor, color, editable, textSize, width, starH, num, cursor  }) => {
     return (
         <div className={`bg-${color} pt-4 px-4 pb-${num} mb-${num} rounded-lg font-mt-extra`}>
             <h3 className={`text-${textSize} mb-4 font-mt-extra font-medium`}>{title}</h3>
@@ -35,7 +36,7 @@ const LanguageProficiency: React.FC<LanguageProficiencyProps> = ({ title, langua
                                 <svg
                                     key={starIndex}
                                     onClick={() => editable && onLevelChange(languageIndex, starIndex + 1)}
-                                    className={`w-${starH} h-${starH} cursor-pointer ${starIndex < level ? 'text-yellow-400' : 'text-gray-300'}`}
+                                    className={`w-${starH} h-${starH} cursor-${cursor} ${starIndex < level ? 'text-yellow-400' : 'text-gray-300'}`}
                                     fill="currentColor"
                                     viewBox="0 0 20 20"
                                 >

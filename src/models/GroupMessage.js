@@ -15,7 +15,7 @@ const messageSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
-  photo: {
+  profilePic: {
     type: String,
     default: ''
   },

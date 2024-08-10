@@ -97,6 +97,7 @@ const ViewProfile: React.FC<ViewProfileProps> = ({ onEditClick }) => {
               width='650px'
               starH='9'
               num={4}
+              cursor="pointer"
             />
             <LanguageProficiency
               title="Learning Languages"
@@ -117,6 +118,7 @@ const ViewProfile: React.FC<ViewProfileProps> = ({ onEditClick }) => {
               width='650px'
               starH='9'
               num={4}
+              cursor="pointer"
             />
           </div>
         </div>

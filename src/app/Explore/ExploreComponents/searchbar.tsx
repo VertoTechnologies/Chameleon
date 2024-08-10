@@ -27,8 +27,9 @@ const SearchBar: React.FC<{
   handleKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void; 
   buttonClicked: () => void; 
   handleSelectChange: (value: string) => void;
-}> = ({ handleInputChange, handleKeyDown, buttonClicked, handleSelectChange }) => {
-  const inputRef = useRef<HTMLInputElement>(null);
+  inputRef: React.RefObject<HTMLInputElement>;
+}> = ({ handleInputChange, handleKeyDown, buttonClicked, handleSelectChange, inputRef }) => {
+  
   const [selectedFilters, setSelectedFilters] = useState<string[]>(['Native Language']); // Allow multiple filters
 
   // Handle filter selection, allowing multiple filters
@@ -130,7 +131,7 @@ const SearchResults: React.FC<{
   const totalPages = Math.ceil(totalCount / itemsPerPage);
 
   return (
-    <div className="flex flex-col items-center p-4 bg-[rgb(101,173,135,0.2)] rounded-lg shadow-lg ">
+    <div className="flex flex-col items-center p-4 bg-[rgb(101,173,135,0.2)] rounded-lg shadow-lg">
       {/* Display user profiles */}
       <div className="grid gap-4">
         {usersData.map((item) => (
@@ -169,6 +170,7 @@ const SearchSection: React.FC = () => {
   const [usersData, setUsersData] = useState<User[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   // Updated the initial state to be an empty array
   const [option, setOption] = useState<string[]>(['Native Language']);
@@ -238,6 +240,9 @@ const SearchSection: React.FC = () => {
   useEffect(() => {
     if (currentPage !== 0) {
       fetchUsersData();
+      if (inputRef.current) {
+        inputRef.current.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   }, [currentPage]);
 
@@ -248,6 +253,7 @@ const SearchSection: React.FC = () => {
         handleKeyDown={handleKeyDown} 
         buttonClicked={buttonClicked} 
         handleSelectChange={handleSelectChange} 
+        inputRef = {inputRef}
       />
       {isSearchClicked ? (
         usersData.length > 0 ? (

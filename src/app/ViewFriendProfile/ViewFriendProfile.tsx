@@ -122,6 +122,7 @@ const ViewFriendProfile: React.FC<ViewProps>  = ({userId}) => {
                             width="650px"
                             starH="9"
                             num={4}
+                            cursor=''
                         />
                         <LanguageProficiency
                             title="Learning Languages"
@@ -135,6 +136,7 @@ const ViewFriendProfile: React.FC<ViewProps>  = ({userId}) => {
                             width="650px"
                             starH="9"
                             num={4}
+                            cursor=''
                         />
                     </div>
                 </div>
