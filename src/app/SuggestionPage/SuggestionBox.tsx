@@ -7,6 +7,7 @@ import { useProfile } from '../stores/UserStore';
 import styles from './SuggestionBox.module.css';
 import axios from 'axios';
 import { addFriend } from '../components/friendsComponents/FriendApiCalls';
+import Skeleton from 'react-loading-skeleton';
 
 interface Language {
     language: string;
@@ -40,6 +41,7 @@ const SuggestionBox: React.FC = () => {
     const [usersData, setUsersData] = useState<User[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [swipeDirection, setSwipeDirection] = useState<'left' | 'right' | null>(null);
+    const [loading, setLoading] = useState(true);
 
     const sendEmailNotification = async (toEmail: string, fromUserName: string) => {
         const emailText = `Ready to Connect with People?<br>${fromUserName} wants to be your New Language Buddy! Add them back and learn together.`;
@@ -71,6 +73,8 @@ const SuggestionBox: React.FC = () => {
                 }
 
                 const data = await response.json();
+                setLoading(false);
+
                 setUsersData(data.users);
             } catch (error) {
                 console.error('Error fetching user data:', error);

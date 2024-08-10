@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import axios from 'axios';
-import Header from '../components/headerComponents/HomeHeader';
+import Header from '@/app/components/headerComponents/HomeHeader';
 import Footer from '@/app/components/footerComponents/footer';
 import LeftBox from '../components/friendsComponents/friends';
 import Communities from '../components/friendsComponents/FriendRequests';
@@ -78,7 +78,7 @@ const UserChatsPage: React.FC = () => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <section className="flex flex-col min-h-screen ">
+    // <section className="flex flex-col min-h-screen ">
     <section className="flex flex-col min-h-screen bg-[#E7EEEA]">
       <Header />
       <div className="flex flex-grow" style={{ maxHeight: 'calc(150vh - 60px - 50px)' }}>
