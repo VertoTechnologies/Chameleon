@@ -1,11 +1,12 @@
 'use client';
+
 import React, { useEffect, useState, useRef } from 'react'; 
 import { IoSearchOutline } from "react-icons/io5";
 import { useProfile } from '@/app/stores/UserStore';
 import UserProfile from './searchbox';
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import RecResultsContainer from '../../components/suggestionComponents/recommendationComponent'
+import RecResultsContainer from '../../components/suggestionComponents/recommendationComponent';
 import { FaUser, FaLanguage, FaGlobe, FaBook, FaCheck } from 'react-icons/fa';
 
 // Define the User type
@@ -28,23 +29,28 @@ const SearchBar: React.FC<{
   handleSelectChange: (value: string) => void;
 }> = ({ handleInputChange, handleKeyDown, buttonClicked, handleSelectChange }) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [selectedFilter, setSelectedFilter] = useState<string>('Name'); // Default to 'Name'
+  const [selectedFilters, setSelectedFilters] = useState<string[]>(['Native Language']); // Allow multiple filters
 
+  // Handle filter selection, allowing multiple filters
   const handleFilterClick = (filter: string) => {
-    const newFilter = filter === selectedFilter ? null : filter;
-    setSelectedFilter(newFilter || 'Name'); // Default to 'Name' if filter is null
-    handleSelectChange(newFilter || 'Name');
+    setSelectedFilters((prevSelectedFilters) => {
+      if (prevSelectedFilters.includes(filter)) {
+        return prevSelectedFilters.filter((item) => item !== filter); // Remove if already selected
+      } else {
+        return [...prevSelectedFilters, filter]; // Add to selected filters
+      }
+    });
+    handleSelectChange(filter);
   };
-
   return (
-    <section id='searchbar' className="relative max-w-full scroll-smooth bg-[#65ad87] bg-opacity-50 py-12 md:py-14 h-auto flex flex-col items-center">
+    <section id="searchbar" className="relative max-w-full scroll-smooth bg-[#65ad87] bg-opacity-50 py-12 md:py-14 h-auto flex flex-col items-center">
       {/* Search Bar */}
       <div className="flex flex-col justify-center items-center text-center px-6 md:px-12 md:text-left w-full mb-8">
         <div className="relative w-full md:w-6/12 lg:w-2/3" ref={inputRef}>
           <input 
             type="text" 
             className="w-full px-4 py-3 pl-10 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-white rounded-lg" 
-            placeholder="Search on basis of language..." 
+            placeholder="Search on basis of language or name..." 
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
           />
@@ -57,22 +63,20 @@ const SearchBar: React.FC<{
           </button>
         </div>
         <div className="flex flex-wrap gap-2 mt-7">
-          {[  'Native Language', 'Fluent Language', 'Learning Language'].map((filter) => (
+          {['Native Language', 'Fluent Language', 'Learning Language'].map((filter) => (
             <button
               key={filter}
               onClick={() => handleFilterClick(filter)}
               className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold whitespace-nowrap transition-colors duration-200 ${
-                selectedFilter === filter
+                selectedFilters.includes(filter)
                   ? 'bg-[#B2EBF2] text-[#004D40] border border-[#004D40]'
                   : 'bg-[#E0F7FA] text-[#00796B]'
               }`}
             >
-              {selectedFilter === filter && <FaCheck className="text-[#004D40]" />}
-             
+              {selectedFilters.includes(filter) && <FaCheck className="text-[#004D40]" />}
               {filter === 'Native Language' && <FaGlobe />}
               {filter === 'Fluent Language' && <FaLanguage />}
               {filter === 'Learning Language' && <FaBook />}
-              
               {filter}
             </button>
           ))}
@@ -113,7 +117,6 @@ const SearchBar: React.FC<{
   );
 };
 
-// SearchResults Component
 // SearchResults Component
 const SearchResults: React.FC<{ 
   usersData: User[], 
@@ -166,7 +169,9 @@ const SearchSection: React.FC = () => {
   const [usersData, setUsersData] = useState<User[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
-  const [option, setOption] = useState<string>('Name');
+
+  // Updated the initial state to be an empty array
+  const [option, setOption] = useState<string[]>(['Native Language']);
   const [isSearchClicked, setIsSearchClicked] = useState<boolean>(false);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -174,8 +179,17 @@ const SearchSection: React.FC = () => {
   };
 
   const handleSelectChange = (value: string) => {
-    setOption(value);
-  };
+    
+    setOption((prevOptions) => {
+        if (prevOptions.includes(value)) {
+            // If the option is already selected, remove it (toggle behavior)
+            return prevOptions.filter((item) => item !== value);
+        } else {
+            // Otherwise, add the new option to the array
+            return [...prevOptions, value];
+        }
+    });
+};
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
     if (event.key === 'Enter') {
@@ -185,13 +199,14 @@ const SearchSection: React.FC = () => {
   };
 
   const fetchUsersData = async () => {
+    console.log(option)
     try {
       const response = await fetch(`/api/users/searchAndSuggestUsers?userId=${profile.userId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ input, option, currentPage })
+        body: JSON.stringify({ input, option, currentPage }), // Sending the option array
       });
 
       if (!response.ok) {
@@ -235,19 +250,24 @@ const SearchSection: React.FC = () => {
         handleSelectChange={handleSelectChange} 
       />
       {isSearchClicked ? (
-        <SearchResults 
-          usersData={usersData} 
-          handlePrevPage={handlePrevPage} 
-          handleNextPage={handleNextPage} 
-          currentPage={currentPage} 
-          totalCount={totalCount} 
-        />
+        usersData.length > 0 ? (
+          <SearchResults 
+            usersData={usersData} 
+            handlePrevPage={handlePrevPage} 
+            handleNextPage={handleNextPage} 
+            currentPage={currentPage} 
+            totalCount={totalCount} 
+          />
+        ) : (
+          <Skeleton count={4} />
+        )
       ) : (
         <div className="flex flex-col items-center p-4 bg-[rgb(101,173,135,0.2)] rounded-lg shadow-lg ">
-           <RecResultsContainer user={usersData} />
+           <RecResultsContainer />
         </div>
       )}
     </div>
   );
 };
+
 export default SearchSection;

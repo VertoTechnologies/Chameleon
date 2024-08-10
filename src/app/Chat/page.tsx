@@ -24,7 +24,7 @@ const ChatPage = () => {
   }
 
   return (
-    <section className="flex flex-col min-h-screen ">
+    <section className="flex flex-col min-h-screen bg-[#E7EEEA]">
       {/* Header Component */}
       <Header />
       <div className="flex flex-grow">

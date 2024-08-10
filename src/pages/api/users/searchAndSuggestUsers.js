@@ -1,94 +1,81 @@
 import dbConnect from '../../../middleware/mongodb';
 import User from '../../../models/user';
 import Friendship from '@/models/friendship';
+import { languages } from "../../../constants/enums";
+import { capitalize } from '@mui/material';
 
 export default async function searchAndSuggestUsers(req, res) {
-    let combinedUsers;
     if (req.method !== 'POST') {
         return res.status(405).json({ message: 'Method not allowed' });
     }
     
-    let { userId } = req.query;
-    const { input, option, currentPage } = req.body; // Extract data from the request body
-    let cp = Number(currentPage);
-    let ITEMS_PER_PAGE = 4;
+    const { userId } = req.query;
+    const { input, option, currentPage } = req.body;
+    const cp = Number(currentPage);
+    const ITEMS_PER_PAGE = 4;
     const skip = (cp - 1) * ITEMS_PER_PAGE;
+
     if (!userId) {
         return res.status(400).json({ message: 'User data is required' });
     }
+
     try {
         await dbConnect();
-        const user = await User.findOne({ userId: userId }).select('-password');
 
-        const friendships = await Friendship.find({
-            $or: [{ requester: user.userId }, { recipient: user.userId }]
-        });
+        const user = await User.findOne({ userId }).select('-password');
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
 
-        const friendIds = friendships.map(friendship =>
-            friendship.requester.toString() === user.userId ? friendship.recipient : friendship.requester
-        );
-        let searches1 = [], searches2 = [], searches3 = [], totalCount = 0;
+        // Build the query object based on the options selected
+        const query = {
+            userId: { $nin: [user.userId] }, // Exclude the current user
+        };
 
-        if (option.includes('Name')) {
-            searches1 = await User.find({
-                $and: [
-                    { userId: { $nin: [user.userId] } },
-                    { name: { $regex: input, $options: 'i' } }
-                ]
-            }).select('-password').skip(skip).limit(ITEMS_PER_PAGE);
-            totalCount = await User.countDocuments({
-                $and: [
-                    { userId: { $nin: [user.userId] } },
-                    { name: { $regex: input, $options: 'i' } }
-                ]
-            });
+        function capitalizeFirstLetter(input) {
+            if (!input) return '';
+            return input.charAt(0).toUpperCase() + input.slice(1).toLowerCase();
         }
-        if (option.includes('Native Language')) {
-            searches1 = await User.find({
-                $and: [
-                    { userId: { $nin: [user.userId] } },
-                    { nativeLanguage: input }
-                ]
-            }).select('-password').skip(skip).limit(ITEMS_PER_PAGE);
-            totalCount = await User.countDocuments({
-                $and: [
-                    { userId: { $nin: [user.userId] } },
-                    { nativeLanguage: input }
-                ]
-            });
-        }
-        if (option.includes('Learning Language')) {
-            searches2 = await User.find({
-                $and: [
-                    { userId: { $nin: [user.userId] } },
-                    { learningLanguagess: input }
-                ]
-            }).select('-password').skip(skip).limit(ITEMS_PER_PAGE);
-            totalCount = await User.countDocuments({
-                $and: [
-                    { userId: { $nin: [user.userId] } },
-                    { learningLanguagess: input }
-                ]
-            });
-        }
-        if (option.includes('Fluent Language')) {
-            searches3 = await User.find({
-                $and: [
-                    { userId: { $nin: [user.userId] } },
-                    { fluentLanguagess: input }
-                ]
-            }).select('-password').skip(skip).limit(ITEMS_PER_PAGE);
+
+        const checker = languages.includes(capitalizeFirstLetter(input))
         
-            totalCount = await User.countDocuments({
-                $and: [
-                    { userId: { $nin: [user.userId] } },
-                    { fluentLanguagess: input }
-                ]
-            });
+        if(!checker){
+            query.name = { $regex: input, $options: 'i' };
         }
-        combinedUsers = [...searches1, ...searches2, ...searches3];
-        const users = Array.from(new Set(combinedUsers.map(user => user._id.toString())))
-            .map(id => combinedUsers.find(user => user._id.toString() === id));
+        else{
+            if (option.includes('Native Language')) {
+                query.nativeLanguage = { $regex: input, $options: 'i' };
+            }
+            if (option.includes('Learning Language')) {
+                query.learningLanguagess = { $regex: input, $options: 'i' };
+            }
+            if (option.includes('Fluent Language')) {
+                query.fluentLanguagess = { $regex: input, $options: 'i' };
+            }
+        }
+
+        // if (option.length === 1 && option.includes('Name')) {
+        //     query.name = { $regex: input, $options: 'i' };
+        // } else {
+        //     // Handle other options or multiple options
+        //     if (option.includes('Native Language')) {
+        //         query.nativeLanguage = { $regex: input, $options: 'i' };
+        //     }
+        //     if (option.includes('Learning Language')) {
+        //         query.learningLanguagess = { $regex: input, $options: 'i' };
+        //     }
+        //     if (option.includes('Fluent Language')) {
+        //         query.fluentLanguagess = { $regex: input, $options: 'i' };
+        //     }
+        // }
+
+        // Execute the query
+        const users = await User.find(query)
+            .select('-password')
+            .skip(skip)
+            .limit(ITEMS_PER_PAGE);
+
+        const totalCount = await User.countDocuments(query);
 
         res.status(200).json({ users, totalCount });
     } catch (error) {

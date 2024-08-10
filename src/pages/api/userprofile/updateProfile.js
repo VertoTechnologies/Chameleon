@@ -78,7 +78,7 @@ export default async function updateProfile(req, res) {
   }
 
   const validationErrors = validateUpdateFields(updateData);
-  if (Object.keys(validationErrors).length > 0) {
+  if (Object.keys(validationErrors).length > 0) { 
     return res
       .status(400)
       .json({ message: "Validation failed", errors: validationErrors });
