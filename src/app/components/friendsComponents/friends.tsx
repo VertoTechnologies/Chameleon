@@ -226,7 +226,7 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
           }}
           onClick={() => toggleButton("friends")}
         >
-          Friends
+          Fellows
         </button>
         <button
           className={`px-9 py-2 rounded-full border-none ${
@@ -244,12 +244,12 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
           }}
           onClick={() => toggleButton("community")}
         >
-          Requests
+          Awaits
         </button>
       </div>
 {/* Community Section */}
 <div className="mt-4 ml-6 mr-3">
-        <h2 className="text-xl font-semibold">Communities</h2>
+        <h2 className="text-xl font-semibold">Hubs</h2>
         {communitiesList.length > 0
           ? communitiesList.map((community) => (
               <div
@@ -290,7 +290,7 @@ const LeftBox: React.FC<LeftBoxProps> = ({ activeButton, toggleButton }) => {
       </div>
       {/* Online Friends Section */}
       <div className="mt-4 ml-6 mr-3">
-      <h2 className="text-xl font-semibold">Friends</h2>
+      <h2 className="text-xl font-semibold">Fellows</h2>
         {onlineFriends.length > 0 ? (
           <>
             {onlineFriends.map((user) => (

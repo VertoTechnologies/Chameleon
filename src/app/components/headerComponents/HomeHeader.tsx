@@ -32,10 +32,10 @@ const Header: React.FC = () => {
           Home
         </Link>
         <Link href="/SuggestionPage" className="text-lg font text-black hover:text-gray-700">
-         Suggestions {/* Adjusted ml to match 92px spacing */}
+         Explore {/* Adjusted ml to match 92px spacing */}
         </Link>
         <Link href="/Explore" className="text-lg font text-black hover:text-gray-700">
-          Explore
+          Find
         </Link>
       </div>
 
