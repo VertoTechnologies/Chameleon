@@ -1,0 +1,39 @@
+.suggestionBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 30px;
+    background-color: #7EBA9A;
+  }
+
+
+
+@keyframes swipeLeft {
+    from {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+  }
+  
+  @keyframes swipeRight {
+    from {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+  }
+  
+  .swipeLeft {
+    animation: swipeLeft 0.5s forwards;
+  }
+  
+  .swipeRight {
+    animation: swipeRight 0.5s forwards;
+  }
