@@ -40,7 +40,7 @@ export default function Page() {
 
   if (token === "") {
     return <div>
-    <Skeleton count={5} />
+    <Skeleton count={1} width={1920} height={1080}/>
     </div>;
   }
 
