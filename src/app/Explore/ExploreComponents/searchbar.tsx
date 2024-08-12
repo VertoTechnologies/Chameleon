@@ -265,7 +265,7 @@ const SearchSection: React.FC = () => {
             totalCount={totalCount} 
           />
         ) : (
-          <Skeleton count={4} />
+          <Skeleton height={100} count={4} />
         )
       ) : (
         <div className="flex flex-col items-center p-4 bg-[rgb(101,173,135,0.2)] rounded-lg shadow-lg ">
