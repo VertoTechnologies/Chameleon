@@ -13,7 +13,7 @@ const FriendActionsDropdown: React.FC<FriendActionsDropdownProps> = ({ onLeave }
   const handleMouseLeave = () => setIsOpen(false);
 
   return (
-    <div className="relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <div className="relative" onClick={toggleDropdown}  onBlur={toggleDropdown}>
       <button 
         onClick={toggleDropdown} 
         className="text-[#65AD87] focus:outline-none"

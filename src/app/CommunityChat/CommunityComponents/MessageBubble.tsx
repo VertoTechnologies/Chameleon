@@ -40,7 +40,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
         <img
           src={senderPicture}
           alt={senderName}
-          className="w-6 h-11 rounded-full mr-2 cursor-pointer"
+          className="w-9 h-9 rounded-full mr-2 cursor-pointer object-cover"
           onClick={openUserProfile}
         />
       )}
