@@ -13,6 +13,7 @@ import { Track } from "livekit-client";
 import { useEffect, useState } from "react";
 import { useProfile } from "../stores/UserStore";
 import { useSearchParams } from "next/navigation";
+import Skeleton from "react-loading-skeleton";
 
 export default function Page() {
     const searchParams = useSearchParams();
@@ -38,7 +39,9 @@ export default function Page() {
   }, []);
 
   if (token === "") {
-    return <div>Getting token...</div>;
+    return <div>
+    <Skeleton count={5} />
+    </div>;
   }
 
   return (
