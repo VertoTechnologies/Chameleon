@@ -1,24 +1,34 @@
 'use client';
 import React from 'react';
+import { useRouter } from "next/navigation";
 
 interface MessageBubbleProps {
   message: string;
   isOwnMessage?: boolean;
   timestamp?: string;
+  senderId: string;
   senderName: string;
   senderPicture: string;
 }
+
 
 const MessageBubble: React.FC<MessageBubbleProps> = ({
   message,
   isOwnMessage,
   timestamp,
+  senderId,
   senderName,
   senderPicture,
 }) => {
   const formattedTimestamp = timestamp
     ? new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     : '';
+
+    const router = useRouter();
+    const openUserProfile = () => {
+      router.push(`/ViewFriendProfile?friend=${senderId}`);
+     }
+    
 
   return (
     <div
@@ -30,7 +40,8 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
         <img
           src={senderPicture}
           alt={senderName}
-          className="w-6 h-11 rounded-full mr-2"
+          className="w-6 h-11 rounded-full mr-2 cursor-pointer"
+          onClick={openUserProfile}
         />
       )}
       <div

@@ -28,7 +28,7 @@ interface Message {
     _id: string;
     profilePic: string;
   };
-  photo: string;
+  profilePic: string;
   createdAt: string;
 }
 
@@ -152,8 +152,9 @@ const ChatDetails: React.FC<{ chat: Chat; userId: string; objectId_user: string 
                 message={msg.text}
                 isOwnMessage={msg.sender.userId === userId || msg.sender._id === objectId_user || msg.sender._id === userId || msg.sender.userId === objectId_user || msg.sender.name === profile.name}
                 timestamp={msg.createdAt}
+                senderId={msg.sender.userId || ''}
                 senderName={msg.sender.name}
-                senderPicture={msg.sender.profilePic}
+                senderPicture={msg.profilePic}
               />
             ))}
             <div ref={bottomRef} />

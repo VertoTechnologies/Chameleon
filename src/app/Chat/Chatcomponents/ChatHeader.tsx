@@ -1,7 +1,7 @@
 // app/chatComponents/ChatHeader.tsx
 
 "use client";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { HiDotsHorizontal } from "react-icons/hi";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -13,6 +13,8 @@ interface ChatHeaderProps {
 }
 
 const ChatHeader: React.FC<ChatHeaderProps> = ({ friendId }) => {
+  const searchParams = useSearchParams();
+  const room =  searchParams?.get("chatroom") ?? null;
   const router = useRouter();
   const [friendName, setFriendName] = useState<string | null>(null);
   const [profilePic, setProfilePic] = useState<string | null>(
@@ -21,7 +23,7 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ friendId }) => {
   const handleCallClick = () => {
     console.log("Initiating call...");
     if (friendId) {
-      router.push(`/Call?friend=${friendId}`); // Pass friendId as a query parameter
+      router.push(`/room?room=${room}`); // Pass friendId as a query parameter
     } else {
       console.error("Friend ID is not available");
     }

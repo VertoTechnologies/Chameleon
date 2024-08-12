@@ -32,10 +32,10 @@ export default async function getGroupMessage(req, res) {
       const sender = await User.findById(message.sender);
       return {
         ...message.toObject(),
+        profilePic: sender.profilePic,
         sender: {
           userId: sender.userId,
           name: sender.name,
-          profilePic: sender.profilePic
         }
       };
     }));

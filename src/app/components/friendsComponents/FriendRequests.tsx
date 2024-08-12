@@ -23,7 +23,7 @@ const FriendRequests: React.FC<RequestsProps> = ({ activeButton, toggleButton })
           }}
           onClick={() => toggleButton('friends')}
         >
-          Friends
+          Fellows
         </button>
         <button
           className={`px-9 py-2 rounded-full border-none ${activeButton === 'community' ? 'bg-custom-green text-white shadow-2xl' : 'bg-white text-black shadow'}`}
@@ -37,7 +37,7 @@ const FriendRequests: React.FC<RequestsProps> = ({ activeButton, toggleButton })
           }}
           onClick={() => toggleButton('community')}
         >
-          Requests
+          Awaits
         </button>
       </div>
 

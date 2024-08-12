@@ -12,7 +12,7 @@ const page = () => {
   const userId = searchParams?.get("friend") ?? null;
 
   return (
-    <div className="rounded-4xl relative overflow-hidden bg-[#E7EEEA]">
+    <div className="rounded-4xl relative h-screen overflow-hidden bg-[#E7EEEA]">
       <Header />
       <div className="relative ">
         <div className=" mt-18 flex justify-center">
