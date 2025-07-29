@@ -87,68 +87,104 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="sign-up-form bg-white rounded-2xl px-10 py-10 w-full max-w-lg h-auto lg:w-1/2 lg:h-3/4 mx-auto my-10">
-      <h1 className="mb-4 font-source-code text-3xl font-bold">Sign In</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="px-10">
-          <label className="block mb-2 font-light text-gray-400 text-sm">
-            Email
-            <input
-              className="w-full p-2 mb-4 border-b border-green-200 focus:bg-green-100 outline-none"
-              type="email"
-              name="email"
-              onChange={onChange}
-              required
-            />
-          </label>
-          <label className="block mb-2 font-light text-gray-400 text-sm">
-            Password
-            <div className="relative">
+    <div className="w-full bg-white rounded-lg lg:rounded-l-2xl lg:rounded-r-none p-6 sm:p-8 lg:p-10 flex flex-col justify-center">
+      {/* Mobile Logo - Only visible on mobile */}
+      <div className="lg:hidden flex flex-col items-center mb-6 sm:mb-8">
+        <div className="w-24 h-24 sm:w-32 sm:h-32 mb-4">
+          <img
+            src="/assets/images/logo.png"
+            alt="Chameleon Logo"
+            className="w-full h-full object-contain rounded-xl"
+          />
+        </div>
+        <h2 className="font-source-code-pro font-bold text-lg sm:text-xl tracking-wider text-black">
+          CHAMELEON
+        </h2>
+      </div>
+
+      <div className="w-full max-w-md mx-auto">
+        <h1 className="mb-6 sm:mb-8 font-source-code-pro text-2xl sm:text-3xl font-bold text-center lg:text-left">
+          Sign In
+        </h1>
+        
+        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+          <div className="space-y-4 sm:space-y-5">
+            <label className="block font-light text-gray-400 text-sm">
+              Email
               <input
-                className="w-full p-2 mb-4 border-b border-green-200 focus:bg-green-100 outline-none"
-                type={isPasswordVisible ? "text" : "password"}
-                name="password"
-                onChange={handleChange}
+                className="w-full p-3 sm:p-4 mt-1 border-b border-green-200 focus:bg-green-50 focus:border-green-400 outline-none transition-colors duration-200 text-black"
+                type="email"
+                name="email"
+                onChange={onChange}
                 required
+                placeholder="Enter your email address"
               />
-              <i
-                className={`bi ${
-                  isPasswordVisible ? "bi-eye" : "bi-eye-slash"
-                } custom-class absolute right-2 top-2 cursor-pointer`}
-                onClick={togglePasswordVisibility}
-              ></i>
-            </div>
-          </label>
-          <div className="flex-col justify-between items-center mb-4">
-            <div className="text-red-500 text-sm">{errorMessage && errorMessage}</div>
-            <Link
-              href="/Login"
-              onClick={() => navigateToOtp()}
-              className="text-purple-500 text-xxs"
-            >
-              Forgot Password?
-            </Link>
+            </label>
+            
+            <label className="block font-light text-gray-400 text-sm">
+              Password
+              <div className="relative">
+                <input
+                  className="w-full p-3 sm:p-4 mt-1 pr-12 border-b border-green-200 focus:bg-green-50 focus:border-green-400 outline-none transition-colors duration-200 text-black"
+                  type={isPasswordVisible ? "text" : "password"}
+                  name="password"
+                  onChange={handleChange}
+                  required
+                  placeholder="Enter your password"
+                />
+                <i
+                  className={`bi ${
+                    isPasswordVisible ? "bi-eye" : "bi-eye-slash"
+                  } absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500 hover:text-gray-700 transition-colors`}
+                  onClick={togglePasswordVisibility}
+                ></i>
+              </div>
+            </label>
           </div>
+
+          {/* Error Message and Forgot Password */}
+          <div className="space-y-2">
+            {errorMessage && (
+              <div className="text-red-500 text-sm bg-red-50 p-3 rounded-lg border border-red-200">
+                {errorMessage}
+              </div>
+            )}
+            <div className="text-right">
+              <Link
+                href="/Login"
+                onClick={() => navigateToOtp()}
+                className="text-[#65AD87] hover:text-[#5a9b79] text-xs sm:text-sm font-medium transition-colors duration-200"
+              >
+                Forgot Password?
+              </Link>
+            </div>
+          </div>
+
+          {/* Submit Button */}
           <button
-            className="w-full p-3 rounded-3xl bg-[#65AD87] hover:bg-[#65AD87] text-white px-1 py-2 text-xs"
+            className="w-full p-3 sm:p-4 rounded-2xl bg-[#65AD87] hover:bg-[#5a9b79] text-white font-medium text-sm sm:text-base transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed mt-6"
             type="submit"
-            disabled={isSubmitting} // Disable button when submitting
+            disabled={isSubmitting}
           >
             {isSubmitting ? (
-              <i className="bi bi-arrow-repeat animate-spin"></i> // Show spinner
+              <div className="flex items-center justify-center">
+                <i className="bi bi-arrow-repeat animate-spin mr-2"></i>
+                Signing In...
+              </div>
             ) : (
               "Sign In"
             )}
           </button>
-        </div>
-      </form>
+        </form>
 
-      <p className="text-center mt-4 text-xs">
-        Don't have an account?{" "}
-        <Link href="/SignUp" className="text-purple-500">
-          Sign Up
-        </Link>
-      </p>
+        {/* Sign Up Link */}
+        <p className="text-center mt-6 sm:mt-8 text-xs sm:text-sm text-gray-600">
+          Don't have an account?{" "}
+          <Link href="/SignUp" className="text-[#65AD87] hover:text-[#5a9b79] font-medium transition-colors duration-200">
+            Sign Up
+          </Link>
+        </p>
+      </div>
     </div>
   );
 };

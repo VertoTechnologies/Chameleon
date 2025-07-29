@@ -207,6 +207,71 @@ container: {
 - Component documentation with breakpoint behavior
 - Example usage for different screen sizes
 
+## 6. Features Section (`features.tsx`)
+
+### **Before:**
+- Fixed `195px` gaps causing overlapping on mobile
+- Absolute positioning with `mt-24` breaking layout
+- Fixed width constraints (`w-1/6`) not adapting
+- Two-row layout breaking on smaller screens
+
+### **After:**
+- **Mobile-First Grid**: Single column on mobile, 2 columns on tablet, 3 on desktop
+- **Flexible Layout**: CSS Grid with responsive gaps
+- **Adaptive Images**: Proper aspect ratios and scaling
+- **Hover Effects**: Smooth scaling transitions for better UX
+- **Content Structure**: Organized data structure for maintainability
+
+## 7. Authentication Pages (Sign Up & Login)
+
+### **Sign Up Page (`SignUp/page.tsx` & `SignUp.tsx`)**
+
+### **Before:**
+- Fixed side-by-side layout breaking on mobile
+- Non-responsive form sizing and spacing
+- Logo section always visible taking up space
+- Poor mobile form experience
+
+### **After:**
+- **Mobile-First Layout**: Single column on mobile, two columns on desktop
+- **Adaptive Logo Display**: Mobile logo integrated into form, separate section on desktop
+- **Responsive Form Fields**: 
+  - Touch-friendly input sizing (p-3 to p-4)
+  - Proper spacing between elements
+  - Enhanced focus states with color transitions
+  - Improved password visibility toggles
+- **Enhanced UX**:
+  - Better error message styling with background colors
+  - Loading states with descriptive text
+  - Smooth hover and focus transitions
+  - Consistent color scheme using brand colors
+
+### **Login Page (`Login/page.tsx` & `Login.tsx`)**
+
+### **Responsive Improvements:**
+- **Consistent Layout**: Same mobile-first approach as sign up
+- **Form Optimization**: Enhanced input styling and spacing
+- **Error Handling**: Better visual feedback for errors
+- **Progressive Enhancement**: Desktop-specific features
+
+### **Shared Auth Components:**
+
+**FormBorder Component (`FormBorder.tsx`)**
+- **Mobile Adaptation**: Hidden on mobile to save space
+- **Desktop Enhancement**: Improved logo sizing and tagline
+- **Brand Consistency**: Better typography and spacing
+
+**Background Component (`Background.tsx`)**
+- **Responsive Decorations**: Adaptive sizing for decorative elements
+- **Mobile Optimization**: Smaller, more subtle decorations
+- **Performance**: Optimized image loading and positioning
+
+### **Breakpoint Behavior:**
+- **Mobile (< 1024px)**: Single column layout with integrated logo
+- **Desktop (≥ 1024px)**: Two-column layout with dedicated branding section
+- **Form Fields**: Responsive padding and sizing across all breakpoints
+- **Visual Elements**: Adaptive decorative elements that don't interfere with content
+
 ## Conclusion
 
 These responsiveness improvements transform the Chameleon app from a desktop-centric application to a truly responsive, mobile-first platform. The changes ensure:
