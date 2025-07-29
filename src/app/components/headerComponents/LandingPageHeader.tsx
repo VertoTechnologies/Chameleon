@@ -28,8 +28,8 @@ const Header = () => {
                 src="/assets/extras/Logo Mark.png" 
                 alt="logo" 
                 width={60} 
-                height={30} 
-                className="sm:w-20 sm:h-10 md:w-24 md:h-12"
+                height={60} 
+                className="sm:w-20 sm:h-10 md:w-24 md:h-12 object-contain"
               />
               <span className="ml-2 sm:ml-4 font-source-code-pro text-lg sm:text-xl md:text-2xl font-medium tracking-wider text-black">
                 CHAMELEON

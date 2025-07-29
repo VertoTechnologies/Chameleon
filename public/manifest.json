@@ -1,0 +1,100 @@
+{
+  "name": "Chameleon - Language Exchange Platform",
+  "short_name": "Chameleon",
+  "description": "Connect with language partners worldwide. Practice languages through video, voice, and text conversations.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#A7CDB9",
+  "theme_color": "#65AD87",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["education", "social", "communication"],
+  "icons": [
+    {
+      "src": "/assets/extras/Logo Mark.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/extras/Logo Mark.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/extras/Logo Mark.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/extras/Logo Mark.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/extras/Logo Mark.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/extras/Logo Mark.png",
+      "sizes": "48x48",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/assets/extras/aboutus.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "platform": "wide",
+      "label": "Chameleon Language Exchange Platform"
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "description": "Access your dashboard",
+      "url": "/Dashboard",
+      "icons": [
+        {
+          "src": "/assets/extras/Logo Mark.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Find Partners",
+      "short_name": "Find",
+      "description": "Find language partners",
+      "url": "/Explore",
+      "icons": [
+        {
+          "src": "/assets/extras/Logo Mark.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Chat",
+      "short_name": "Chat",
+      "description": "Start a conversation",
+      "url": "/Chat",
+      "icons": [
+        {
+          "src": "/assets/extras/Logo Mark.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ]
+}

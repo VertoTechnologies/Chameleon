@@ -1,0 +1,24 @@
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://chameleon-app.com/sitemap.xml
+
+# Disallow crawling of private/auth areas
+Disallow: /api/
+Disallow: /Dashboard
+Disallow: /Chat
+Disallow: /Call
+Disallow: /ViewProfile
+Disallow: /EditProfile
+Disallow: /SetupProfile
+Disallow: /PersonalizationForm
+
+# Allow crawling of public pages
+Allow: /
+Allow: /Login
+Allow: /SignUp
+Allow: /LandingPage
+
+# Crawl delay (optional)
+Crawl-delay: 1
