@@ -56,11 +56,11 @@ const Explore: React.FC = () => {
   }, [profile.userId]);
 
   return (
-    <section className="scroll-smooth overflow-y-auto h-screen scrollbar scrollbar-thumb-custom-green scrollbar-track-gray ">
+    <section className="scroll-smooth overflow-y-auto h-screen scrollbar scrollbar-thumb-custom-green scrollbar-track-gray">
       <Header />
-      <Searchbar></Searchbar>
-      
-      
+      <div className="px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+        <Searchbar />
+      </div>
     </section>
   );
 }; 

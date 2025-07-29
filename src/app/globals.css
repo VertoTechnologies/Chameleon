@@ -11,14 +11,102 @@
   font-style: normal;
 }
 
-.chat-messages-container {
-  max-height: 100%; /* Adjust based on your layout */
-  overflow-y: auto; /* Enable vertical scrolling */
+/* Responsive base utilities */
+@layer base {
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    overflow-x: hidden; /* Prevent horizontal scroll on mobile */
+  }
+
+  * {
+    box-sizing: border-box;
+  }
 }
 
-body {
-  font-family:  Arial, sans-serif;
+@layer components {
+  /* Responsive text utilities */
+  .text-responsive-xs {
+    @apply text-xs sm:text-sm;
+  }
+  
+  .text-responsive-sm {
+    @apply text-sm sm:text-base;
+  }
+  
+  .text-responsive-base {
+    @apply text-sm sm:text-base md:text-lg;
+  }
+  
+  .text-responsive-lg {
+    @apply text-base sm:text-lg md:text-xl;
+  }
+  
+  .text-responsive-xl {
+    @apply text-lg sm:text-xl md:text-2xl;
+  }
+  
+  .text-responsive-2xl {
+    @apply text-xl sm:text-2xl md:text-3xl;
+  }
+  
+  .text-responsive-3xl {
+    @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl;
+  }
+  
+  /* Responsive padding utilities */
+  .padding-responsive-sm {
+    @apply p-2 sm:p-4;
+  }
+  
+  .padding-responsive-md {
+    @apply p-4 sm:p-6 md:p-8;
+  }
+  
+  .padding-responsive-lg {
+    @apply p-6 sm:p-8 md:p-12 lg:p-16;
+  }
+  
+  /* Responsive margin utilities */
+  .margin-responsive-sm {
+    @apply m-2 sm:m-4;
+  }
+  
+  .margin-responsive-md {
+    @apply m-4 sm:m-6 md:m-8;
+  }
+  
+  /* Responsive spacing utilities */
+  .spacing-responsive-sm {
+    @apply space-x-2 sm:space-x-4;
+  }
+  
+  .spacing-responsive-md {
+    @apply space-x-4 sm:space-x-6 md:space-x-8;
+  }
 
+  /* Mobile-first visibility utilities */
+  .mobile-only {
+    @apply block md:hidden;
+  }
+
+  .desktop-only {
+    @apply hidden md:block;
+  }
+
+  .tablet-up {
+    @apply hidden sm:block;
+  }
+
+  /* Responsive container */
+  .container-responsive {
+    @apply w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+}
+
+.chat-messages-container {
+  max-height: 100%;
+  overflow-y: auto;
 }
 
 

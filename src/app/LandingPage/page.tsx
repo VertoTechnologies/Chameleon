@@ -9,15 +9,17 @@ export default function LandingPage() {
   return (
     <section className="scroll-smooth overflow-y-auto h-screen scroll-px-14 scrollbar scrollbar-thumb-custom-green scrollbar-track-gray">
       <Header />
-      <div className="p-4">
-        <Aboutus />
-      </div>
-      <div className="p-4">
-        <Flags />
-      </div>
-      <div className="p-4">
-        <Features />
-      </div>
+      <main>
+        <div className="px-2 sm:px-4 lg:px-6">
+          <Aboutus />
+        </div>
+        <div className="px-2 sm:px-4 lg:px-6">
+          <Flags />
+        </div>
+        <div className="px-2 sm:px-4 lg:px-6">
+          <Features />
+        </div>
+      </main>
       <Footer />
     </section>
   )
